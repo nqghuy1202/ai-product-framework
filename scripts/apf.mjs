@@ -12,7 +12,7 @@ import crypto from 'node:crypto';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
-const VERSION = '0.1.1';
+const VERSION = '0.1.2';
 const SELF = fileURLToPath(import.meta.url);
 // Khi chạy từ plugin: <plugin>/scripts/apf.mjs → plugin root là thư mục cha.
 // Khi chạy từ dự án: <repo>/.apf/bin/apf.mjs → không có templates, các lệnh cần plugin sẽ báo lỗi.
@@ -785,7 +785,7 @@ function cmdRisk(args) {
     if (matchAny(f, extraPaths)) sensitive.add(`config.risk.thoroughPaths: ${f}`);
   }
   for (const [f, lines] of Object.entries(added)) {
-    if (isTestFile(f, cfg) || isFrameworkFile(f)) continue;
+    if (isTestFile(f, cfg) || isFrameworkFile(f) || matchAny(f, cfg.risk.nonePaths) || !CODE_EXT.test(f)) continue; // từ khoá chỉ tính trong code
     for (const { t } of lines) {
       for (const s of SENSITIVE) { const w = s.words.find((re) => re.test(t)); if (w) sensitive.add(`${s.key}: ${w} ở ${f}`); }
       const w = extraWords.find((re) => re.test(t)); if (w) sensitive.add(`config.risk.thoroughKeywords: ${w} ở ${f}`);
@@ -1135,6 +1135,9 @@ function cmdSelfTest() {
     w('.apf/bin/tool.mjs', 'const jwt = 1; // stripe bcrypt\n');
     r = sh(['risk', '--json']); t('file của framework (.apf/) không tính rủi ro', JSON.parse(r.stdout).level !== 'thorough', r.stdout);
     fs.rmSync(path.join(tmp, '.apf/bin'), { recursive: true });
+    w('NOTES.md', 'dùng decimal.js và jwt\n');
+    r = sh(['risk', '--json']); t('từ khoá trong tài liệu .md không tính rủi ro', JSON.parse(r.stdout).level === 'none', r.stdout);
+    fs.unlinkSync(path.join(tmp, 'NOTES.md'));
     w('README.md', '# x\n');
     r = sh(['risk', '--json']); t('chỉ đổi .md → none', JSON.parse(r.stdout).level === 'none', r.stdout);
     fs.unlinkSync(path.join(tmp, 'README.md'));

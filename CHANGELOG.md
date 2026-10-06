@@ -1,5 +1,8 @@
 # Thay đổi
 
+## 0.1.2 — 2026-10-06
+- Sửa: `apf risk` chỉ quét từ khoá nhạy cảm trong file code, không quét tài liệu (`CLAUDE.md` nhắc `decimal.js` từng bị chấm nhầm thorough).
+
 ## 0.1.1 — 2026-10-06
 - Sửa: `apf.mjs` sạch lỗi ESLint phổ biến (`no-unused-expressions`, `no-useless-assignment`), để dự án lint cả thư mục không chặn commit (phát hiện khi cài vào Tapetco).
 - Sửa: file của framework (`.apf/`, `.githooks/`) không còn bị tính vào chấm rủi ro, cảnh báo thiếu test, export trùng, marker nợ.
