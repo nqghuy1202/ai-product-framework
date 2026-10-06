@@ -1,0 +1,9 @@
+{
+  "name": "node",
+  "description": "Node.js thuần (API, worker, bot, CLI) với TypeScript.",
+  "config": {
+    "paths": { "src": ["src/**", "lib/**", "bin/**"], "tests": ["test/**", "tests/**", "**/*.test.*", "**/*.spec.*"] },
+    "commands": { "lint": "npm run lint", "typecheck": "npx tsc --noEmit", "testFast": "npm test", "test": "npm test", "e2e": "" },
+    "features": { "ops": true }
+  }
+}

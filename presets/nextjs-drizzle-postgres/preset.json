@@ -1,0 +1,35 @@
+{
+  "name": "nextjs-drizzle-postgres",
+  "description": "Next.js App Router + React + Tailwind v4 + shadcn/ui + Drizzle + Postgres; Vitest + Playwright. Biến thể DB: supabase | neon.",
+  "config": {
+    "paths": {
+      "src": [
+        "app/**",
+        "src/**"
+      ],
+      "tests": [
+        "tests/**",
+        "e2e/**",
+        "**/*.test.*",
+        "**/*.spec.*"
+      ]
+    },
+    "commands": {
+      "lint": "npm run lint",
+      "typecheck": "npm run typecheck",
+      "testFast": "npm run test:unit",
+      "test": "npm test",
+      "e2e": "npm run e2e"
+    },
+    "risk": {
+      "thoroughPaths": [
+        "drizzle/**",
+        "src/modules/*/schema/**",
+        "src/workflows/**",
+        "src/kernel/**",
+        "app/**/actions.ts"
+      ]
+    }
+  },
+  "tokensPath": "app/tokens.css"
+}

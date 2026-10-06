@@ -1,0 +1,12 @@
+{
+  "name": "ai-product-framework",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Plugin Claude Code: khai thác nghiệp vụ → PRD → kiến trúc + UX → story → Opus dựng khung + test đỏ → Sonnet code → review theo rủi ro.",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "test": "node scripts/apf.mjs self-test && node scripts/validate-plugin.mjs",
+    "validate": "node scripts/validate-plugin.mjs"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "config": {
+    "risk": { "thoroughKeywords": ["neon_branch", "DATABASE_URL_UNPOOLED"] }
+  }
+}

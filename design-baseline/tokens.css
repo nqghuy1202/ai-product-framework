@@ -1,0 +1,250 @@
+/* ai-product-framework — token nền [MẶC ĐỊNH].
+   Ba chế độ: không data-theme = Sáng · data-theme="hc" = Sáng chói · data-theme="dark" = Tối.
+   Đổi màu thương hiệu: chỉ thay nhóm --ds-color-primary* (đủ 3 chế độ). Không viết mã màu ở nơi khác.
+   Dùng với Tailwind v4: @import "tailwindcss"; @import "./tokens.css"; */
+
+:root {
+  /* Màu — Sáng */
+  --ds-color-background: #FFFFFF;
+  --ds-color-surface: #FFFFFF;
+  --ds-color-surface-muted: #F4F5F7;
+  --ds-color-surface-sunken: #E9EBEE;
+  --ds-color-border: #E6E8EB;
+  --ds-color-border-strong: #80858E;
+  --ds-color-input-edge: #C2C7CE;
+  --ds-color-text: #111418;
+  --ds-color-text-muted: #4B4F55;
+  --ds-color-text-disabled: #6B7078;
+  --ds-color-primary: #0752A4;            /* thương hiệu — thay theo dự án */
+  --ds-color-primary-hover: #064283;
+  --ds-color-on-primary: #FFFFFF;
+  --ds-color-primary-container: #DCE9F8;
+  --ds-color-on-primary-container: #063A73;
+  --ds-color-focus-ring: #0752A4;
+  --ds-color-success: #166534;
+  --ds-color-success-container: #DCFCE7;
+  --ds-color-warning: #854D0E;
+  --ds-color-warning-container: #FEF3C7;
+  --ds-color-danger: #B91C1C;
+  --ds-color-danger-container: #FEE2E2;
+  --ds-color-danger-solid: #B91C1C;
+  --ds-color-on-danger-solid: #FFFFFF;
+  --ds-color-info: #0E7490;
+  --ds-color-info-container: #CFFAFE;
+  --ds-color-grid-cell-edit: #FFFBEB;
+  --ds-color-chart-1: #0752A4;
+  --ds-color-chart-2: #EB6834;
+  --ds-color-chart-3: #1BAF7A;
+  --ds-color-chart-4: #EDA100;
+
+  /* Bo góc */
+  --ds-rounded-sm: 4px;   /* tag, checkbox, ô lọc cột */
+  --ds-rounded-md: 6px;   /* ô nhập, ô chọn, nút icon thanh đầu */
+  --ds-rounded-lg: 8px;   /* nút, mục menu, chip lọc */
+  --ds-rounded-xl: 12px;  /* hộp thoại, popover, khung danh sách */
+  --ds-rounded-card: 16px;/* thẻ, KPI */
+  --ds-rounded-full: 9999px;
+
+  /* Khoảng cách: thang 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 */
+  --ds-size-1: 4px; --ds-size-2: 8px; --ds-size-3: 12px; --ds-size-4: 16px;
+  --ds-size-5: 24px; --ds-size-6: 32px; --ds-size-7: 48px; --ds-size-8: 64px;
+
+  /* Điều khiển */
+  --ds-size-control-height-desktop: 32px;
+  --ds-size-control-height-touch: 44px;
+  --ds-size-touch-primary-height: 48px;
+  --ds-size-touch-target: 44px;
+  --ds-size-field-height: 36px;
+  --ds-size-list-row: 44px;
+  --ds-size-grid-row: 36px;
+  --ds-size-grid-header: 44px;
+  --ds-size-grid-visible-rows: 8;
+
+  /* Vỏ ứng dụng */
+  --ds-size-app-header: 52px;
+  --ds-size-sidebar-width: 240px;
+  --ds-size-sidebar-collapsed: 64px;
+  --ds-size-rail-width: 72px;
+  --ds-size-tabbar: 48px;
+  --ds-size-drawer-width: 480px;
+  --ds-size-dialog-width: 440px;
+  --ds-size-dialog-large-width: 600px;
+  --ds-size-phone-nav: 80px;
+
+  /* Lề trang thực tế: máy tính 14/24/32 (trên/ngang/dưới) · tablet 16 · điện thoại 12/16/(nav+24) */
+  --page-pad-top: 14px;
+  --page-pad-x: 24px;
+  --page-pad-bottom: 32px;
+
+  /* Chữ */
+  --ds-font-sans: Inter, 'Segoe UI', Roboto, Arial, sans-serif;
+  --ds-font-mono: 'Roboto Mono', ui-monospace, Consolas, monospace;
+  --ds-type-body-size: 14px;
+  --ds-type-body-touch-size: 16px;
+  --ds-type-label-size: 13px;
+  --ds-type-label-touch-size: 15px;
+  --ds-type-table-size: 13px;
+  --ds-type-table-header-size: 13.5px;
+  --ds-type-caption-size: 12px;     /* không nhỏ hơn 12 px */
+  --ds-type-page-title-size: 18px;  /* đầu trang máy tính; điện thoại 19, chi tiết điện thoại 22/700 */
+  --ds-type-section-title-size: 15px;
+  --ds-type-kpi-size: 24px;
+
+  /* Biến dùng trong CSS */
+  --border-w: 1px;
+  --focus-w: 2px;
+  --elevation-1: 0 1px 2px color-mix(in srgb, var(--ds-color-text) 6%, transparent);
+  --elevation-2: 0 8px 24px color-mix(in srgb, var(--ds-color-text) 16%, transparent);
+  --soft-shadow: 0 6px 22px color-mix(in srgb, var(--ds-color-primary) 15%, transparent);
+  --control-h: var(--ds-size-control-height-desktop);
+  --primary-h: var(--ds-size-control-height-desktop);
+  --body-size: var(--ds-type-body-size);
+  --label-size: var(--ds-type-label-size);
+  color-scheme: light;
+}
+
+[data-theme="hc"] {
+  --ds-color-surface-muted: #F1F5F9;
+  --ds-color-surface-sunken: #E2E8F0;
+  --ds-color-border: #0F172A;
+  --ds-color-border-strong: #000000;
+  --ds-color-input-edge: #000000;
+  --ds-color-text: #000000;
+  --ds-color-text-muted: #1E293B;
+  --ds-color-text-disabled: #4B5A70;
+  --ds-color-primary: #053B78;
+  --ds-color-primary-hover: #03274F;
+  --ds-color-on-primary-container: #053B78;
+  --ds-color-focus-ring: #000000;
+  --ds-color-success: #14532D;
+  --ds-color-warning: #713F12;
+  --ds-color-danger: #7F1D1D;
+  --ds-color-danger-solid: #991B1B;
+  --ds-color-info: #164E63;
+  --ds-color-grid-cell-edit: #FFFFFF;
+  --border-w: 1.5px;
+  --focus-w: 3px;
+  --elevation-1: none;
+  --elevation-2: none;
+  --soft-shadow: none;
+  --body-size: var(--ds-type-body-touch-size);
+  --label-size: var(--ds-type-label-touch-size);
+}
+
+[data-theme="dark"] {
+  --ds-color-background: #0B1220;
+  --ds-color-surface: #111A2C;
+  --ds-color-surface-muted: #16213A;
+  --ds-color-surface-sunken: #1E2A45;
+  --ds-color-border: #2C3A57;
+  --ds-color-border-strong: #8492AB;
+  --ds-color-input-edge: #8492AB;
+  --ds-color-text: #E5EAF3;
+  --ds-color-text-muted: #A9B6CC;
+  --ds-color-text-disabled: #7C8BA5;
+  --ds-color-primary: #7FB0EE;
+  --ds-color-primary-hover: #A6C9F4;
+  --ds-color-on-primary: #04172E;
+  --ds-color-primary-container: #12386B;
+  --ds-color-on-primary-container: #D3E4FA;
+  --ds-color-focus-ring: #F4EB28;
+  --ds-color-success: #86EFAC;
+  --ds-color-success-container: #0F3D22;
+  --ds-color-warning: #FCD34D;
+  --ds-color-warning-container: #3D2E08;
+  --ds-color-danger: #FCA5A5;
+  --ds-color-danger-container: #4A1414;
+  --ds-color-danger-solid: #EF4444;
+  --ds-color-on-danger-solid: #0B1220;
+  --ds-color-info: #67E8F9;
+  --ds-color-info-container: #0B3A47;
+  --ds-color-grid-cell-edit: #2A2410;
+  --ds-color-chart-1: #3987E5;
+  --ds-color-chart-2: #D95926;
+  --ds-color-chart-3: #199E70;
+  --ds-color-chart-4: #C98500;
+  color-scheme: dark;
+}
+
+/* Kích thước chạm theo con trỏ, không theo bề rộng */
+@media (pointer: coarse) {
+  :root {
+    --control-h: var(--ds-size-control-height-touch);
+    --primary-h: var(--ds-size-touch-primary-height);
+    --body-size: var(--ds-type-body-touch-size);
+    --label-size: var(--ds-type-label-touch-size);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) { :root { --page-pad-top: 16px; --page-pad-x: 16px; --page-pad-bottom: 16px; } }
+@media (max-width: 767px) { :root { --page-pad-top: 12px; --page-pad-x: 16px; --page-pad-bottom: calc(var(--ds-size-phone-nav) + 24px); } }
+
+/* Ánh xạ sang Tailwind v4 + tên shadcn/ui */
+@theme inline {
+  --font-sans: var(--ds-font-sans);
+  --font-mono: var(--ds-font-mono);
+  --breakpoint-tablet: 768px;   /* dùng tablet: / desktop: để khớp đúng 768 / 1200 */
+  --breakpoint-desktop: 1200px;
+  --color-background: var(--ds-color-background);
+  --color-foreground: var(--ds-color-text);
+  --color-card: var(--ds-color-surface);
+  --color-card-foreground: var(--ds-color-text);
+  --color-popover: var(--ds-color-surface);
+  --color-popover-foreground: var(--ds-color-text);
+  --color-primary: var(--ds-color-primary);
+  --color-primary-foreground: var(--ds-color-on-primary);
+  --color-primary-hover: var(--ds-color-primary-hover);
+  --color-primary-container: var(--ds-color-primary-container);
+  --color-on-primary-container: var(--ds-color-on-primary-container);
+  --color-secondary: var(--ds-color-surface);
+  --color-secondary-foreground: var(--ds-color-primary);
+  --color-muted: var(--ds-color-surface-muted);
+  --color-muted-foreground: var(--ds-color-text-muted);
+  --color-accent: var(--ds-color-surface-muted);
+  --color-accent-foreground: var(--ds-color-text);
+  --color-destructive: var(--ds-color-danger-solid);
+  --color-destructive-foreground: var(--ds-color-on-danger-solid);
+  --color-border: var(--ds-color-border);
+  --color-border-strong: var(--ds-color-border-strong);
+  --color-input: var(--ds-color-input-edge);
+  --color-ring: var(--ds-color-focus-ring);
+  --color-surface: var(--ds-color-surface);
+  --color-surface-muted: var(--ds-color-surface-muted);
+  --color-surface-sunken: var(--ds-color-surface-sunken);
+  --color-text: var(--ds-color-text);
+  --color-text-muted: var(--ds-color-text-muted);
+  --color-text-disabled: var(--ds-color-text-disabled);
+  --color-success: var(--ds-color-success);
+  --color-success-container: var(--ds-color-success-container);
+  --color-warning: var(--ds-color-warning);
+  --color-warning-container: var(--ds-color-warning-container);
+  --color-danger: var(--ds-color-danger);
+  --color-danger-container: var(--ds-color-danger-container);
+  --color-info: var(--ds-color-info);
+  --color-info-container: var(--ds-color-info-container);
+  --radius-sm: var(--ds-rounded-sm);
+  --radius-md: var(--ds-rounded-md);
+  --radius-lg: var(--ds-rounded-lg);
+  --radius-xl: var(--ds-rounded-xl);
+  --radius-card: var(--ds-rounded-card);
+  --shadow-level-1: var(--elevation-1);
+  --shadow-level-2: var(--elevation-2);
+  --shadow-soft: var(--soft-shadow);
+}
+
+/* Nền chung */
+html, body { background: var(--ds-color-background); color: var(--ds-color-text); }
+body { font-family: var(--ds-font-sans); font-size: var(--body-size); line-height: 1.5; }
+:focus-visible { outline: var(--focus-w) solid var(--ds-color-focus-ring); outline-offset: 2px; }
+/* Số: bật chữ số đều ở cột số, ô số, KPI — không bật cho toàn trang (mã chứng từ sẽ trông giãn) */
+.tabular, td[data-numeric], [data-kind="number"] { font-variant-numeric: tabular-nums; }
+
+/* Điện thoại: không bao giờ tràn ngang */
+@media (max-width: 767px) {
+  body { overflow-x: hidden; }
+  input, select, textarea { max-width: 100%; min-width: 0; font-size: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}

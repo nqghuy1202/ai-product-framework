@@ -1,0 +1,5 @@
+{
+  "name": "core",
+  "description": "Không gắn công nghệ. Lệnh kiểm do /apf:init dò từ dự án (package.json, Makefile, pyproject...).",
+  "config": {}
+}

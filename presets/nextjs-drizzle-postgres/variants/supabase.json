@@ -1,0 +1,6 @@
+{
+  "config": {
+    "risk": { "thoroughPaths": ["supabase/migrations/**", "supabase/functions/**", "**/rls/**"], "thoroughKeywords": ["CREATE POLICY", "ALTER POLICY", "DROP POLICY", "SECURITY DEFINER", "service_role"] },
+    "features": { "security": true }
+  }
+}
