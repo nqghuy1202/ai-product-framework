@@ -1,5 +1,10 @@
 # Thay đổi
 
+## 0.1.1 — 2026-10-06
+- Sửa: `apf.mjs` sạch lỗi ESLint phổ biến (`no-unused-expressions`, `no-useless-assignment`), để dự án lint cả thư mục không chặn commit (phát hiện khi cài vào Tapetco).
+- Sửa: file của framework (`.apf/`, `.githooks/`) không còn bị tính vào chấm rủi ro, cảnh báo thiếu test, export trùng, marker nợ.
+- Sửa: `contract check` chỉ xét thay đổi sau khi khung được duyệt (file khung chưa commit không bị báo nhầm).
+
 ## 0.1.0 — 2026-10-06
 Bản đầu tiên.
 - 16 skill: help, init, prd, architecture, ux, stories, build, review, fix, elicit, retro, security, ops, parallel, learn, audit.

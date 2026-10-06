@@ -12,7 +12,7 @@ import crypto from 'node:crypto';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
-const VERSION = '0.1.0';
+const VERSION = '0.1.1';
 const SELF = fileURLToPath(import.meta.url);
 // Khi chạy từ plugin: <plugin>/scripts/apf.mjs → plugin root là thư mục cha.
 // Khi chạy từ dự án: <repo>/.apf/bin/apf.mjs → không có templates, các lệnh cần plugin sẽ báo lỗi.
@@ -381,7 +381,9 @@ function fencedLines(root, f) {
 }
 
 function isTestFile(f, cfg) { return matchAny(f, cfg.paths.tests); }
-function isSourceFile(f, cfg) { return CODE_EXT.test(f) && matchAny(f, cfg.paths.src) && !isTestFile(f, cfg); }
+// File của chính framework (.apf/, .githooks/) không phải code nghiệp vụ: không tính vào thiếu test, export trùng, chấm rủi ro.
+const isFrameworkFile = (f) => /^(\.apf|\.githooks)\//.test(f);
+function isSourceFile(f, cfg) { return CODE_EXT.test(f) && !isFrameworkFile(f) && matchAny(f, cfg.paths.src) && !isTestFile(f, cfg); }
 
 function trackedFiles(root) { return (git(['ls-files'], { cwd: root }) || '').split('\n').filter(Boolean); }
 
@@ -479,7 +481,7 @@ function cmdGate(args) {
   }
   // W4. marker nợ thiếu vế, TODO trần
   for (const [f, lines] of Object.entries(added)) {
-    if (!CODE_EXT.test(f)) continue;
+    if (!CODE_EXT.test(f) || isFrameworkFile(f)) continue;
     for (const { n, t } of lines) {
       const debt = t.match(/(?:\/\/|#|\/\*|\*)\s*(?:nợ|debt):\s*(.*)$/i);
       if (debt && !/[^,]+,\s*\S{3,}/.test(debt[1])) warns.push(`${f}:${n}: marker "nợ:" cần 2 vế "<trần là gì>, <điều kiện nâng cấp>".`);
@@ -778,11 +780,12 @@ function cmdRisk(args) {
   const extraPaths = cfg.risk.thoroughPaths || [];
   const extraWords = (cfg.risk.thoroughKeywords || []).map((w) => new RegExp(w, 'i'));
   for (const f of files) {
+    if (isFrameworkFile(f)) continue;
     for (const s of SENSITIVE) if (matchAny(f, s.paths)) sensitive.add(`${s.key}: ${f}`);
     if (matchAny(f, extraPaths)) sensitive.add(`config.risk.thoroughPaths: ${f}`);
   }
   for (const [f, lines] of Object.entries(added)) {
-    if (isTestFile(f, cfg)) continue;
+    if (isTestFile(f, cfg) || isFrameworkFile(f)) continue;
     for (const { t } of lines) {
       for (const s of SENSITIVE) { const w = s.words.find((re) => re.test(t)); if (w) sensitive.add(`${s.key}: ${w} ở ${f}`); }
       const w = extraWords.find((re) => re.test(t)); if (w) sensitive.add(`config.risk.thoroughKeywords: ${w} ở ${f}`);
@@ -938,17 +941,17 @@ function cmdDoctor() {
   const ok = (s) => console.log(C.green('  ✓ ') + s), bad = (s) => console.log(C.red('  ✗ ') + s), tip = (s) => console.log(C.yellow('  → ') + s);
   console.log(C.bold(`apf doctor — ${cfg.project?.name || path.basename(root)}`));
   const [maj] = process.versions.node.split('.').map(Number);
-  maj >= 18 ? ok(`Node ${process.versions.node}`) : bad(`Node ${process.versions.node} < 18`);
+  if (maj >= 18) ok(`Node ${process.versions.node}`); else bad(`Node ${process.versions.node} < 18`);
   if (cfg._missing) { bad('chưa có .apf/config.json → /apf:init'); return 1; }
   ok(`config: preset ${cfg.preset}${cfg.db ? '/' + cfg.db : ''}, profile ${cfg.profile}`);
   const hp = git(['config', '--get', 'core.hooksPath'], { cwd: root, allowFail: true }) || '.git/hooks';
   const hook = path.join(root, hp, 'pre-commit');
-  fs.existsSync(hook) && fs.readFileSync(hook, 'utf8').includes('.apf/bin/apf.mjs') ? ok(`git hook ${hp}/pre-commit gọi apf gate`) : bad('git hook chưa gọi apf gate → chạy lại init/update');
+  if (fs.existsSync(hook) && fs.readFileSync(hook, 'utf8').includes('.apf/bin/apf.mjs')) ok(`git hook ${hp}/pre-commit gọi apf gate`); else bad('git hook chưa gọi apf gate → chạy lại init/update');
   const copy = path.join(root, '.apf/bin/apf.mjs');
   if (!fs.existsSync(copy)) bad('thiếu .apf/bin/apf.mjs');
-  else { const v = (fs.readFileSync(copy, 'utf8').match(/const VERSION = '([^']+)'/) || [])[1]; v === VERSION ? ok(`.apf/bin/apf.mjs ${v}`) : tip(`.apf/bin/apf.mjs ${v} ≠ ${VERSION} → apf update`); }
-  for (const k of cfg.gate.commands) cfg.commands[k] ? ok(`lệnh ${k}: ${cfg.commands[k]}`) : tip(`chưa khai commands.${k} — gate sẽ bỏ qua`);
-  fs.existsSync(path.join(root, 'CLAUDE.md')) ? ok('CLAUDE.md') : bad('thiếu CLAUDE.md');
+  else { const v = (fs.readFileSync(copy, 'utf8').match(/const VERSION = '([^']+)'/) || [])[1]; if (v === VERSION) ok(`.apf/bin/apf.mjs ${v}`); else tip(`.apf/bin/apf.mjs ${v} ≠ ${VERSION} → apf update`); }
+  for (const k of cfg.gate.commands) { if (cfg.commands[k]) ok(`lệnh ${k}: ${cfg.commands[k]}`); else tip(`chưa khai commands.${k} — gate sẽ bỏ qua`); }
+  if (fs.existsSync(path.join(root, 'CLAUDE.md'))) ok('CLAUDE.md'); else bad('thiếu CLAUDE.md');
   const claude = fs.existsSync(path.join(root, 'CLAUDE.md')) ? fs.readFileSync(path.join(root, 'CLAUDE.md'), 'utf8') : '';
   if (claude.split('\n').length > 200) tip(`CLAUDE.md ${claude.split('\n').length} dòng — nên < 150, chuyển chi tiết xuống docs/`);
   if (/\{\{[A-Z_]+\}\}/.test(claude)) tip('CLAUDE.md còn placeholder {{...}} chưa điền');
@@ -961,7 +964,8 @@ function cmdDoctor() {
   if (/(auth|stripe|passport|jose|jsonwebtoken|bcrypt|supabase)/.test(deps) && !cfg.features.security) tip('có thư viện auth/thanh toán → nên bật features.security');
   const ds = docStatus(root, cfg);
   const sus = ds.filter((r) => r.status !== 'VERIFIED').length;
-  ds.length ? (sus ? tip(`${sus}/${ds.length} doc SUSPECT/BROKEN → apf docs`) : ok(`${ds.length} doc VERIFIED`)) : null;
+  if (ds.length && sus) tip(`${sus}/${ds.length} doc SUSPECT/BROKEN → apf docs`);
+  else if (ds.length) ok(`${ds.length} doc VERIFIED`);
   return 0;
 }
 
@@ -1020,7 +1024,7 @@ async function cmdHook(args) {
     if (process.env.APF_GIT_GUARD === 'off') return 0;
     let input = '';
     for await (const chunk of process.stdin) input += chunk;
-    let cmd = '';
+    let cmd;
     try { cmd = JSON.parse(input).tool_input?.command || ''; } catch { return 0; }
     const hit = checkDestructive(cmd);
     if (hit) {
@@ -1128,6 +1132,9 @@ function cmdSelfTest() {
     w('src/auth/session.ts', 'export const s = 1;\n');
     r = sh(['risk', '--json']); t('đường dẫn auth → thorough', JSON.parse(r.stdout).level === 'thorough', r.stdout);
     fs.rmSync(path.join(tmp, 'src/auth'), { recursive: true });
+    w('.apf/bin/tool.mjs', 'const jwt = 1; // stripe bcrypt\n');
+    r = sh(['risk', '--json']); t('file của framework (.apf/) không tính rủi ro', JSON.parse(r.stdout).level !== 'thorough', r.stdout);
+    fs.rmSync(path.join(tmp, '.apf/bin'), { recursive: true });
     w('README.md', '# x\n');
     r = sh(['risk', '--json']); t('chỉ đổi .md → none', JSON.parse(r.stdout).level === 'none', r.stdout);
     fs.unlinkSync(path.join(tmp, 'README.md'));

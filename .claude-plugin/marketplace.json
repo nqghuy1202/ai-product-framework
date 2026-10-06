@@ -1,13 +1,15 @@
 {
   "name": "ai-product-framework",
   "description": "Marketplace riêng chứa plugin apf (ai-product-framework).",
-  "owner": { "name": "nqghuy1202" },
+  "owner": {
+    "name": "nqghuy1202"
+  },
   "plugins": [
     {
       "name": "apf",
       "source": "./",
       "description": "ai-product-framework: quy trình khai thác → kế hoạch → Opus dựng khung → Sonnet code → review theo rủi ro.",
-      "version": "0.1.0"
+      "version": "0.1.1"
     }
   ]
 }
