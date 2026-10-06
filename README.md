@@ -25,7 +25,7 @@ Repo này vừa là plugin vừa là marketplace.
 
 **Từ GitHub (repo riêng tư; máy cần có quyền truy cập git tới repo):**
 ```
-/plugin marketplace add <owner>/ai-product-framework
+/plugin marketplace add nqghuy1202/ai-product-framework
 /plugin install apf@ai-product-framework
 ```
 **Từ thư mục trên máy (thử hoặc phát triển):**
