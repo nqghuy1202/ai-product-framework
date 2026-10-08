@@ -9,18 +9,19 @@ argument-hint: "[update | doctor]"
 Thư mục gốc plugin là `../..`. Script **của plugin**: `node <plugin>/scripts/apf.mjs`. Sau khi init, dự án có bản sao ở `.apf/bin/apf.mjs`.
 
 ## update / doctor
-- `update`: `node <plugin>/scripts/apf.mjs update` (làm mới bản sao script và hook, bổ sung khoá cấu hình mới mà không đè giá trị cũ), sau đó chạy `doctor`.
+- `update`: `node <plugin>/scripts/apf.mjs update` (làm mới bản sao script và hook, bổ sung khoá cấu hình mới mà không đè giá trị cũ), sau đó chạy `doctor`. Nếu `project.domain` đang là `null` thì hỏi người dùng có muốn đặt `erp` hoặc `business` không.
 - `doctor`: `node .apf/bin/apf.mjs doctor`, rồi giải thích các dòng ✗ và → cho người dùng.
 
 ## Cài mới
 1. **Đọc hiện trạng**: `git status` (phải là git repo; nếu chưa thì hỏi người dùng có muốn `git init` không), `package.json`, cấu trúc thư mục, xem đã có `CLAUDE.md`, `AGENTS.md`, `.githooks`, `core.hooksPath` hay chưa. Repo đang có thay đổi chưa commit thì báo cho người dùng biết; init chỉ **thêm** file, không đè lên file nào.
-2. **Hỏi (một lượt AskUserQuestion, tối đa 3 câu, kèm phương án đã đoán sẵn)**:
+2. **Hỏi (một lượt AskUserQuestion, tối đa 4 câu, kèm phương án đã đoán sẵn)**:
    - Preset: tự đoán từ package.json (có `next` và `drizzle-orm` thì là `nextjs-drizzle-postgres`; có `@supabase/*` thì biến thể `supabase`; có `@neondatabase/*` thì `neon`; Node thuần thì `node`; còn lại là `core`).
    - Profile: `core` (mặc định), `tiny` (thử nghiệm hoặc dưới 10 file), hay `full` (bật cả bản đồ tài liệu, bảo mật, vận hành, song song). Giải thích mỗi profile bằng một dòng.
+   - Miền nghiệp vụ (`--domain`): `erp` (có kho, mua, bán, tài chính), `business` (hệ thống quản lý nghiệp vụ có chứng từ và duyệt nhưng không có kho hay tiền, ví dụ hồ sơ hành chính), hoặc bỏ trống. Giải thích: chọn thì `prd`, `architecture`, `stories`, `elicit` tự đọc bộ nghiệp vụ ở `references/business/`.
    - Dự án mới và preset là Next.js thì hỏi có chép file mẫu không (`--with-files`: test canh giao diện, helper khung, `app/tokens.css`).
 3. **Chạy**:
    ```bash
-   node <plugin>/scripts/apf.mjs init --preset <p> [--db supabase|neon] --profile <pf> [--with-files]
+   node <plugin>/scripts/apf.mjs init --preset <p> [--db supabase|neon] --profile <pf> [--domain erp|business] [--with-files]
    ```
 4. **Điền `.apf/config.json`**: đối chiếu `commands` với các script có thật trong package.json (hoặc Makefile...). Script không tồn tại thì sửa thành lệnh đúng, hoặc để chuỗi rỗng và báo người dùng. **Không** để lệnh trỏ tới script không tồn tại, vì cổng commit sẽ chặn mọi commit. Sửa `paths.src` và `paths.tests` nếu cấu trúc khác mặc định. Lệnh `testFast` phải chạy được dưới khoảng 1–2 phút; bộ đầy đủ chậm hơn thì không đưa vào `gate.commands`.
 5. **Điền `CLAUDE.md`** (giữ dưới 150 dòng): thay mọi `{{…}}` bằng thông tin thật đọc từ repo (stack và phiên bản, cây thư mục tối thiểu, lệnh). Nếu repo **đã có** `CLAUDE.md` thì init không đè; khi đó đề nghị **gộp** các mục của framework (cách làm việc với AI, quy tắc viết code, doc và test đi cùng code) vào file cũ, trình phần diff cho người dùng duyệt trước khi ghi. Đã có `AGENTS.md` thì thêm một dòng trỏ sang `CLAUDE.md` (hoặc ngược lại), không chép nội dung hai lần.

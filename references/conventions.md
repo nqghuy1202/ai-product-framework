@@ -8,6 +8,7 @@
 2. Trạng thái dự án **suy ra từ file** (docs/, frontmatter story, `node .apf/bin/apf.mjs board`), không giữ file trạng thái riêng.
 3. Đọc tài liệu khác bằng cách tìm theo ID hoặc heading (grep) trước. Chỉ đọc toàn văn khi thật cần. Tài liệu lớn hơn khoảng 400 dòng thì giao một subagent trích phần liên quan, chỉ nhận lại bản tóm tắt.
 4. Doc mà `apf status` hoặc `apf docs` báo **SUSPECT** thì phải đối chiếu với code trước khi tin.
+5. **Bộ nghiệp vụ theo miền** (`project.domain` trong `.apf/config.json`): `business` thì đọc `references/business/loi-chung-tu.md`; `erp` thì đọc thêm `references/business/erp.md` và bản đồ menu `references/business/menu/README.md` (phân hệ, luồng, menu theo mã trang; chỉ mở file phân hệ khi cần). Dự án thuộc ngành nhiên liệu thì đọc thêm phụ lục `references/business/phu-luc-nhien-lieu-hang-khong.md`. Luật trong các file này là mặc định `[CHỐT]`: không hỏi lại, chỉ hỏi các câu trong mục "Bộ câu hỏi làm rõ" của chúng; khách chọn khác thì ghi ngoại lệ vào Nhật ký quyết định. Chỉ skill `prd`, `architecture`, `stories`, `elicit` đọc; file dài thì grep theo mã luật (`L-n`, `E-…`, `F-n`).
 
 ## 2. Tư thế khai thác (8 luật)
 

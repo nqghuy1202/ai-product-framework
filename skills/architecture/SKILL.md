@@ -13,6 +13,7 @@ Thư mục gốc plugin là `../..`. Đọc `references/conventions.md` một l�
 
 ## Các bước
 1. **Đọc**: PRD (theo ID và mục, không đọc toàn văn nếu dài) và preset. Với dự án đã có code (brownfield): đọc code để **phê chuẩn** quy ước đang có; không kể lại những gì code đã thể hiện rõ.
+   - `project.domain` là `business` hoặc `erp` thì lấy mục "Gợi ý cho kiến trúc" của `references/business/loi-chung-tu.md` làm danh sách AD ứng viên (kiểu 5 trạng thái chung, điểm gắn duyệt, bảng liên kết chứng từ, nhật ký và bảng lý do vượt cảnh báo, ghi sổ lúc Y có khoá theo nguồn, test kiến trúc cấm cờ và họ trạng thái riêng).
 2. **Hỏi mục đích và tầm**: tài liệu này để làm nền build (mặc định), để thảo luận, hay để báo cáo lãnh đạo? Tầm là cả hệ thống hay một epic? Kiến trúc cấp epic kế thừa các AD của tầng trên như ràng buộc chỉ đọc.
 3. **Các quyết định lớn** (paradigm, stack hoặc starter, ranh giới module, nơi đặt dữ liệu): với mỗi quyết định, bày 2–3 phương án, nói mình nghiêng về phương án nào và vì sao, rồi để người dùng chọn. Lấy preset làm điểm khởi đầu. **Kiểm phiên bản công nghệ trên web** trước khi ghi, và ghi ngày kiểm.
 4. **Phép thử cho từng điểm có thể lệch**: *hai người build hai phần độc lập có thể chọn khác nhau và làm vỡ nhau không?* Có, không hiển nhiên, và là đánh đổi thật → ghi một AD (Ràng buộc · Ngăn · Luật kiểm được, kèm công cụ kiểm). Không → để code tự quyết, hoặc đưa vào mục Hoãn.

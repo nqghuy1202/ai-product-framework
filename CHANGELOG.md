@@ -1,5 +1,10 @@
 # Thay đổi
 
+## 0.1.3 — 2026-10-08
+- Mới: bộ nghiệp vụ dùng lại `references/business/`, rút từ Tapetco: `loi-chung-tu.md` (5 trạng thái, duyệt khai báo, cảnh báo thay cờ, ghi sổ khi Y, liên kết chứng từ, nhật ký, tổ chức và phân quyền, Nạp Excel, rủi ro đã chấp nhận, câu hỏi làm rõ, gợi ý kiến trúc), `erp.md` (kho, chất lượng, bán, mua, tài chính, nhân sự, báo cáo, chuyển đổi, bảo trì, AI; phần bổ sung chưa kiểm chứng gắn `[BỔ SUNG]`), `phu-luc-nhien-lieu-hang-khong.md`.
+- Mới: bản đồ menu ERP `references/business/menu/`: 1.485 menu GreenSys xếp vào 18 phân hệ, 101 luồng (sơ đồ + bảng bước có mã trang, vai chủ, kết quả theo luật lõi), danh mục đủ menu và báo cáo theo luồng, 6 chuỗi xuyên phân hệ, cách hiểu menu xung đột với luật lõi, 10 menu [MỚI], danh sách 134 menu đã loại.
+- Mới: khoá `project.domain` (`erp` | `business`), cờ `init --domain`. Skill `prd`, `architecture`, `stories`, `elicit` đọc bộ nghiệp vụ khi khoá được đặt.
+
 ## 0.1.2 — 2026-10-06
 - Sửa: `apf risk` chỉ quét từ khoá nhạy cảm trong file code, không quét tài liệu (`CLAUDE.md` nhắc `decimal.js` từng bị chấm nhầm thorough).
 

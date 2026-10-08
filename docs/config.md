@@ -3,6 +3,7 @@
 | Khoá | Mặc định | Ý nghĩa |
 |---|---|---|
 | `project.name`, `project.language` | tên thư mục, `vi` | Ngôn ngữ của tài liệu sinh ra |
+| `project.domain` | `null` | `erp` · `business` · `null`. Bật bộ nghiệp vụ ở `references/business/`: `business` đọc lõi chứng từ, `erp` đọc thêm các phân hệ ERP. Skill `prd`, `architecture`, `stories`, `elicit` dùng |
 | `preset`, `db` | `core`, `null` | Preset công nghệ, biến thể database |
 | `profile` | `core` | `tiny` · `core` · `full` — bộ tính năng khởi đầu |
 | `features.docSync` | true (core) | Cảnh báo khi đổi code mà doc có `covers` vùng đó không được cập nhật; trạng thái SUSPECT |

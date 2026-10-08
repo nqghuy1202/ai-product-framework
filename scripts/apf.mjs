@@ -12,7 +12,7 @@ import crypto from 'node:crypto';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
-const VERSION = '0.1.2';
+const VERSION = '0.1.3';
 const SELF = fileURLToPath(import.meta.url);
 // Khi chạy từ plugin: <plugin>/scripts/apf.mjs → plugin root là thư mục cha.
 // Khi chạy từ dự án: <repo>/.apf/bin/apf.mjs → không có templates, các lệnh cần plugin sẽ báo lỗi.
@@ -158,7 +158,7 @@ const rel = (root, p) => path.relative(root, p).split(path.sep).join('/');
 const DEFAULT_CONFIG = {
   $schema: 'apf-config-v1',
   version: VERSION,
-  project: { name: '', language: 'vi' },
+  project: { name: '', language: 'vi', domain: null },
   preset: 'core',
   db: null,
   profile: 'core',
@@ -225,6 +225,7 @@ function cmdInit(args) {
   const db = args.db || null;
   const profile = args.profile || 'core';
   if (!PROFILES[profile]) die(`profile không hợp lệ: ${profile} (tiny | core | full)`);
+  if (args.domain && !['erp', 'business'].includes(args.domain)) die(`domain không hợp lệ: ${args.domain} (erp | business)`);
   const presetDir = path.join(PLUGIN_ROOT, 'presets', preset);
   if (!fs.existsSync(presetDir)) die(`không có preset: ${preset}. Có: ${fs.readdirSync(path.join(PLUGIN_ROOT, 'presets')).join(', ')}`);
   const presetJson = readJSON(path.join(presetDir, 'preset.json'), {});
@@ -234,7 +235,7 @@ function cmdInit(args) {
   const put = (relPath, content, opts) => (writeFileSafe(path.join(root, relPath), content, opts) ? created : skipped).push(relPath);
 
   // 1. config
-  let cfg = deepMerge(DEFAULT_CONFIG, { preset, db, profile, features: PROFILES[profile], project: { name: args.name || path.basename(root) } });
+  let cfg = deepMerge(DEFAULT_CONFIG, { preset, db, profile, features: PROFILES[profile], project: { name: args.name || path.basename(root), domain: args.domain || null } });
   // Preset và biến thể CỘNG danh sách (ví dụ risk.thoroughPaths), không ghi đè.
   cfg = mergeAppend(cfg, presetJson.config || {});
   cfg = mergeAppend(cfg, dbJson.config || {});
@@ -1175,7 +1176,7 @@ function cmdSelfTest() {
 // ───────────────────────────── main ─────────────────────────────
 
 const HELP = `apf ${VERSION} — ai-product-framework
-  init [--preset core|nextjs-drizzle-postgres|node] [--db supabase|neon] [--profile tiny|core|full] [--name tên] [--with-files] [--force]
+  init [--preset core|nextjs-drizzle-postgres|node] [--db supabase|neon] [--profile tiny|core|full] [--name tên] [--domain erp|business] [--with-files] [--force]
   update                         làm mới bản sao script, hook, khoá cấu hình mới
   gate [--staged] [--no-commands] cổng trước commit (git hook gọi)
   docs [--write] [--json] [--strict] | docs verify <file.md...>

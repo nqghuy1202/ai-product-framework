@@ -13,6 +13,7 @@ Nói rõ đi đường nào và vì sao: **một story lẻ** (đặt vào epic 
 
 ## Các bước
 1. **Đọc chuỗi cha** theo ID: PRD (FR), kiến trúc (AD), UX (màn hình). Đọc code để biết greenfield hay brownfield, ranh giới module, vùng các story sẽ chạm vào. Báo đã đọc những gì, hỏi còn thiếu gì. Gặp chỗ nguồn mâu thuẫn với code thì ghi dòng `Mâu thuẫn nguồn:` trong Ghi chú.
+   - `project.domain` là `business` hoặc `erp`: epic nền tảng gồm cả lõi chứng từ (5 trạng thái, điểm gắn duyệt, liên kết chứng từ, nhật ký, Xem lịch sử, Nạp Excel trên danh sách). AC của story không được thêm cờ trên chứng từ hay họ trạng thái riêng; gặp chỗ cần thì nêu ra, dẫn mã luật. Với `erp`, mỗi luồng đã chọn trong PRD (ví dụ `KHO-2`) thường là một epic hoặc một nhóm story; story ghi mã luồng và mã trang menu gốc nó làm.
 2. **Hỏi các câu quyết định cách chia** (gom vào 1–2 lượt AskUserQuestion, kèm phương án mình nghiêng về): cái gì đáng demo đầu tiên · cái gì kém chắc chắn nhất · mảnh đầu tiên sẽ dạy được gì cho phần còn lại · người dùng có sẵn cách chia trong đầu chưa.
 3. **Chia epic**:
    - Một epic = một năng lực giao được tới tay người dùng, có một người chủ.

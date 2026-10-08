@@ -10,5 +10,6 @@ Thư mục gốc plugin là `../..`. Danh sách kỹ thuật ở `references/con
 
 1. Xác định **đích**: tài liệu hoặc mục nào, quyết định nào. Không rõ thì lấy nội dung vừa làm xong gần nhất.
 2. Chọn **5 kỹ thuật hợp với đích**: rủi ro trước khi ra mắt thì Pre-mortem, Đội đỏ, Kiểm kê giả định; nghiệp vụ nhiều vai thì Xoay vai người liên quan; nội dung phẳng thì Phép trừ, Đảo ngược; code hay luồng thì Quét ca biên. Trình qua AskUserQuestion, mỗi kỹ thuật kèm một dòng giải thích.
+   - `project.domain` là `business` hoặc `erp`: thêm một lượt soi đích theo bộ nghiệp vụ (conventions mục 1.5), chỉ ra chỗ lệch khỏi luật mặc định kèm mã luật.
 3. Chạy kỹ thuật được chọn, đúng độ sâu của đích. Trình **phát hiện kèm đề xuất sửa cụ thể** (đoạn cũ → đoạn mới).
 4. Người dùng **Áp dụng** thì sửa tài liệu và ghi Nhật ký quyết định. **Bỏ** thì không sửa. Người dùng có thể chọn chạy thêm một kỹ thuật khác.

@@ -9,7 +9,7 @@
       "name": "apf",
       "source": "./",
       "description": "ai-product-framework: quy trình khai thác → kế hoạch → Opus dựng khung → Sonnet code → review theo rủi ro.",
-      "version": "0.1.2"
+      "version": "0.1.3"
     }
   ]
 }

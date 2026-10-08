@@ -61,7 +61,7 @@ Không cần nhớ lệnh: cứ nói tự nhiên ("làm story 02-03", "màn này
 | `agents/` | `planner` (Opus), `coder` (Sonnet), `reviewer` (Sonnet), `reviewer-deep` (Opus) |
 | `hooks/hooks.json` | Đầu phiên in trạng thái dự án; chặn `git stash`, `reset --hard`, `checkout --`, `clean -f`, `push --force` |
 | `scripts/apf.mjs` | CLI Node không phụ thuộc thư viện ngoài: init, gate, docs, contract, board, story, risk, parallel, doctor, self-test |
-| `references/` | Quy ước chung; hướng dẫn dựng khung, hợp đồng coder, prompt review, triage, mẫu báo cáo |
+| `references/` | Quy ước chung; hướng dẫn dựng khung, hợp đồng coder, prompt review, triage, mẫu báo cáo; bộ nghiệp vụ dùng lại `business/` (bật bằng `project.domain`) |
 | `templates/` | Mẫu tài liệu (PRD, kiến trúc, DESIGN, EXPERIENCE, epic, story, runbook, security review…) và mẫu cài vào dự án |
 | `design-baseline/` | Bộ quy tắc thiết kế nền: nguyên tắc, token (`tokens.css`), 3 cỡ màn hình, trạng thái, mẫu màn hình, bẫy kỹ thuật, checklist |
 | `presets/` | `core`, `nextjs-drizzle-postgres` (biến thể `supabase`, `neon`), `node` |
