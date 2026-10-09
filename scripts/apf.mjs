@@ -12,7 +12,7 @@ import crypto from 'node:crypto';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
-const VERSION = '0.1.3';
+const VERSION = '0.1.4';
 const SELF = fileURLToPath(import.meta.url);
 // Khi chạy từ plugin: <plugin>/scripts/apf.mjs → plugin root là thư mục cha.
 // Khi chạy từ dự án: <repo>/.apf/bin/apf.mjs → không có templates, các lệnh cần plugin sẽ báo lỗi.

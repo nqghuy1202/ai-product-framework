@@ -5,5 +5,8 @@
 - **Toast** `[CHỐT]`: góc trên trái vùng nội dung (dưới thanh đầu 12 px, cách sidebar 16 px). Màu xanh lá khi thành công, đỏ khi lỗi. Tự tắt sau 4 giây (5 giây nếu có Hoàn tác, 6 giây nếu là lỗi), dừng đếm khi rê chuột hoặc focus. Không thay thế lỗi tại ô, không chứa thông tin an toàn quan trọng.
 - **Hộp xác nhận**: tối đa 2 nút, nút Huỷ bên trái. Nút hành động được đặt tên theo hành động (động từ + đối tượng, ví dụ "Xoá 3 dòng"), không dùng chữ "OK".
 - **Trạng thái trang** (`PageState kind="empty|error|forbidden|loading"`): một thành phần cho mọi trạng thái cả trang; dùng `h2` mặc định, chỉ dùng `h1` khi trang chỉ có trạng thái đó.
-- **Logo ở chế độ Tối**: bỏ ô nền trắng, tăng sáng logo (`brightness(1.7) saturate(1.15)`).
+- **Logo ở chế độ Tối** (v2): đặt thẳng, không ô, không viền, giữ nguyên màu nếu phần màu tối của logo nằm trên nền sáng của chính logo; chỉ khi phần tối chìm trên nền tối mới tăng sáng (`brightness(1.7) saturate(1.15)`). Không bọc ô trắng.
+- **Nút** (v2): một lớp nút dùng chung (`lv2-btn` cao 36 bo 10; `lv2-btn primary` nền màu chủ đạo), icon 16 px bên trái chữ. Nút phụ nhỏ ở trang chủ và ngăn kéo là viên tròn cao 32–40. Không tự viết lớp nút riêng ở từng trang.
+- **Nhóm chọn** (lọc trạng thái kiểu Đang mở / Đã đóng / Tất cả): viên tròn nền surface-muted, mục đang chọn là viên trắng chữ màu chủ đạo.
+- **Bảng tĩnh** (`lv2-static` trong khung `lv2-static-wrap`): bảng chỉ đọc nhỏ trong trang; chỉ áp từ 768 px để điện thoại giữ dạng thẻ của `PhoneTable`.
 - **Mở bằng rê chuột** phải luôn có đường thay thế bằng bấm hoặc Enter; màn cảm ứng không mở bằng rê. Rời khỏi nút và menu quá 250 ms mới đóng, để người dùng đi chéo chuột không làm mất menu.

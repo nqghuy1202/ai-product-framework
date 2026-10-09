@@ -4,19 +4,20 @@ Mẫu gốc là trang "Đơn vị tính" của Tapetco. **Mọi danh sách danh 
 
 ## Cấu trúc
 1. `<main>` chỉ chứa **đầu trang** (breadcrumb, tiêu đề, vùng nút) rồi tới **khung danh sách**. Không có dòng mô tả.
-2. Khung danh sách: thẻ `rounded-xl border bg-surface`, mặc định **tràn sát mép** (`data-bleed`) ở máy tính và tablet.
-3. Thanh công cụ nằm trong khung (đệm 8 × 12 px, khe 8): ô tìm giãn hết bên trái; bên phải có nút `?` (hướng dẫn phím tắt), `Xoá n dòng` (chỉ hiện khi có dòng được tích) và `Lưu (n dòng)` (sáng lên khi có thay đổi).
+2. Khung danh sách: v2 là **thẻ bo 20, không viền, bóng thẻ** (`.lv2`), bảng tràn sát mép bên trong thẻ. (Kiểu cũ: `rounded-xl border`, tràn sát mép trang bằng `data-bleed`.)
+3. Thanh công cụ nằm trong khung (đệm 8 × 12 px, khe 8): **ô tìm lớn tìm mọi cột, không phân biệt dấu** (phím `/` để focus) giãn hết bên trái, số dòng; bên phải có nút `?` (hướng dẫn phím tắt), `Xoá n dòng` (chỉ hiện khi có dòng được tích) và `Lưu (n dòng)` (**hiện ngay khi bắt đầu gõ**). Mọi nút dùng chung lớp nút danh sách (`lv2-btn`, nút chính `lv2-btn primary`).
 4. Nút **Thêm {đối tượng}** đặt ở vùng nút đầu trang, chèn một dòng trống lên đầu lưới.
-5. Lưới: tiêu đề cột dính, cao 44; bấm tiêu đề mở ô lọc của cột đó (gõ để lọc ngay, Sắp xếp tăng/giảm, Bỏ lọc cột). Hàng cao 36, chỉ kẻ ngang. Cột bút chì 40 px chỉ có khi trang có chi tiết riêng. Cột ⋮ 44 px ở cuối dòng (Nhân bản, Chèn dòng phía trên, Xoá).
+5. Lưới: tiêu đề cột dính, chữ hoa nhỏ 11 px nền nhạt; bấm tiêu đề để sắp xếp; **hàng ô lọc dưới tiêu đề** (kiểu ô tìm, cột trạng thái là ô chọn) thu gọn hoặc mở bằng nút phễu. Hàng cao 36, chỉ kẻ ngang. Cột bút chì 40 px chỉ có khi trang có chi tiết riêng. Cột ⋮ 44 px ở cuối dòng (Nhân bản, Chèn dòng phía trên, Xoá).
 6. Tương tác: bấm một lần là chọn dòng (cả dòng tô nền primary-container); bấm đúp, Enter hoặc F2 mới sửa ô; Esc huỷ; mũi tên và Tab để di chuyển; Shift để chọn vùng; Ctrl+C/V dán khối từ Excel; Delete xoá nội dung ô.
-7. **Lưu thủ công** bằng nút Lưu hoặc Ctrl+S. Ô đã sửa có chấm vàng 6 px; ô sai kiểu dữ liệu có nền danger-container; dòng mới có nền grid-cell-edit; dòng đã bị người khác sửa có gạch đỏ dưới và báo "Tải lại trang".
+7. **Lưu thủ công** bằng nút Lưu hoặc Ctrl+S (cả khi đang gõ). Ô đang sửa hiện **khung kiểu ô lọc** (chỉ lúc sửa); bấm trong ô đang sửa không thoát sửa; F2 đặt con trỏ cuối chữ. Ô đã sửa chỉ có **chấm** 6 px, **không tô nền**; ô sai kiểu dữ liệu có nền danger-container; dòng mới có nền grid-cell-edit; dòng đã bị người khác sửa có gạch đỏ dưới và báo "Tải lại trang".
 8. Chiều cao: từ 768 px rộng và 560 px cao, khung giãn hết phần màn còn lại, bảng cuộn bên trong, tối thiểu 18rem. Lưới không nằm một mình trên trang thì cao cố định 8 dòng.
 9. Trường phức tạp không nhập trên lưới mà mở trang hoặc hộp chi tiết bằng **bút chì**. Bấm vào dòng hay vào số phiếu **không** chuyển trang.
 10. Trang có nhiều danh sách (ví dụ lưới trên lọc lưới dưới): mỗi lưới bọc trong một `section` có tiêu đề `h2` 15 px; lưới dưới có chip "Đang xem … · Bỏ lọc". Trang có phần thông tin chung phía trên thì tắt tràn mép.
-11. Điện thoại: dùng thẻ thay cho bảng, thanh tìm 48 px, nút nổi ＋, sửa bằng tấm trượt từ đáy.
+11. Điện thoại: dùng thẻ thay cho bảng, thanh tìm 48 px, nút nổi ＋, sửa bằng tấm trượt từ đáy; nút Lọc mở tấm lọc từ đáy.
+12. v2: chân khung có **dòng chú thích phím tắt** theo loại danh sách (chứng từ: chọn, mở; danh mục: F2 sửa, Tab ô kế, Esc bỏ, Ctrl+S lưu; chỉ xem: chọn, sao chép), cách viền dưới ≥ 8 px.
 
 ## Danh sách chỉ xem (hàng đợi, báo cáo, tồn kho) [CHỐT]
-Kiểu dáng như trên, nhưng không nhập trực tiếp. Gồm ô tìm và nút **Lọc** (Từ ngày, Đến ngày, Trạng thái chọn nhiều có số đếm, Điều kiện khác; bấm Áp dụng mới lọc). Có các bộ lọc Đã lưu, dòng "Hiển thị [20] trên N", chip lọc có ✕ và nút "Xoá tất cả". Hàng 44 px, chỉ một mật độ Gọn. Bút chì ở đầu dòng, ⋮ ở cuối dòng, phân trang ở giữa chân.
+Kiểu dáng như trên, nhưng không nhập trực tiếp. v2: chứng từ cũng là danh sách chỉ xem — bấm chọn dòng, bấm đúp (hoặc Enter, bút chì) mở chi tiết; menu ⋮ của dòng mở cả bằng chuột phải. Gồm ô tìm và nút **Lọc** (Từ ngày, Đến ngày, Trạng thái chọn nhiều có số đếm, Điều kiện khác; bấm Áp dụng mới lọc). Có các bộ lọc Đã lưu, dòng "Hiển thị [20] trên N", chip lọc có ✕ và nút "Xoá tất cả". Hàng 44 px, chỉ một mật độ Gọn. Bút chì ở đầu dòng, ⋮ ở cuối dòng, phân trang ở giữa chân.
 
 ## Phác code (Next.js + React)
 ```tsx

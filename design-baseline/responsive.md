@@ -21,14 +21,14 @@
 | Thanh đầu | Ô tìm toàn cục ≤ 460 px, các chip ngữ cảnh, nút đổi chế độ màu, chuông, thẻ người dùng | Ô tìm ≤ 320; thẻ người dùng chỉ còn avatar | Ẩn ô tìm và chip; menu nổi rộng bằng màn hình trừ 12 px mỗi bên |
 | Lề trang | 14 / 24 / 32 (trên / ngang / dưới) | 16 | 12 / 16 / (thanh dưới + 24) |
 | Đầu trang | Dính dưới thanh tab: breadcrumb, tiêu đề 18 px, các nút bên phải | như máy tính | Ẩn breadcrumb, tiêu đề 19 px. Trang chi tiết: đầu trang không dính, tiêu đề 22 px/700, nút quay lại tròn 44 px |
-| Danh sách | **Tràn sát mép**, cao hết màn hình, bảng cuộn bên trong, phân trang ở đáy | Tràn mép, cao hết màn hình | Bảng thành **thẻ**: cột đầu đậm làm tiêu đề, dòng phụ, viên trạng thái, ≤ 3 cặp nhãn–giá trị. Thanh tìm trắng 48 px có nút lọc bên trong. Thẻ cách nhau 8 px, lề 16 px |
+| Danh sách | v2: **thẻ** bo 20 trong lề trang (kiểu cũ: tràn sát mép), cao hết màn hình khi là vùng duy nhất, bảng cuộn bên trong, phân trang ở đáy, dòng chú thích phím tắt | như máy tính | Bảng thành **thẻ**: cột đầu đậm làm tiêu đề, dòng phụ, viên trạng thái, ≤ 3 cặp nhãn–giá trị. Thanh tìm trắng 48 px có nút lọc bên trong. Thẻ cách nhau 8 px, lề 16 px |
 | Lưới nhập | Kiểu bảng tính, chữ 13, hàng 36, chỉ kẻ ngang, cao 8 dòng | Hàng 44 khi ≤ 1023 px | Thẻ; bấm thẻ mở **tấm sửa từ đáy** (mỗi cột một ô, nút Lưu dòng và Xoá); nút nổi ＋ 56 px |
 | Bảng chỉ xem | Bảng | Bảng | Mỗi dòng một thẻ bo 16; mỗi ô là cặp nhãn bên trái (≤ 45%, text-muted) và giá trị bên phải |
 | Biểu mẫu chi tiết | Lưới 12 cột; mỗi trường chiếm 2, 3, 4, 6 hoặc 12 cột | 2 trường một hàng | **Một trường một hàng** |
 | Hộp thoại | Giữa màn hình, 440 px, bo 12; hộp chi tiết 80% màn hình | như máy tính | **Tấm trượt từ đáy**: bo góc trên 24, cao tối đa 92dvh, tay nắm 40×6, các nút ở chân xếp dọc và rộng hết tấm |
-| Ngăn kéo | Bên phải, 480 px | Cao hết màn | Tấm trượt từ đáy |
+| Ngăn kéo | Bên phải, 480–512 px; đầu có ✕, chân Khôi phục · Đóng · Xong | Cao hết màn | Tấm trượt từ đáy, chân dính đáy có safe-area |
 | Nút chính | 32 px. Ở danh sách đặt góc phải đầu trang; ở trang chi tiết là nút cuối của đầu phiếu dính | 44 px khi chạm | **Nút nổi** góc dưới phải (nút Thêm là nút tròn 56 px chỉ có dấu +). Trang chi tiết có **thanh Lưu/Hoàn thành cố định** trên thanh dưới |
-| Thẻ, KPI | Viền, không bóng, bo 16; KPI dùng `auto-fit minmax(180px,1fr)` | | Thẻ không viền, bo 20, bóng mềm; KPI 2 cột |
+| Thẻ, KPI | v2: không viền, bóng thẻ nhẹ, bo 20 (kiểu cũ: viền, không bóng, bo 16); KPI 4 cột cạnh lời chào | KPI 4 cột hoặc 2×2 | Thẻ không viền, bo 20, bóng mềm; KPI 2×2 |
 | Tràn | Ô bảng `nowrap`, cắt `…` ở 280 px | | Không cuộn ngang trang; mọi lưới thẻ `minmax(0,1fr)` + `min-w-0` |
 | Mật độ | Tối đa 6 khối, 4 KPI mỗi màn | Giảm còn 4 khối | Mỗi thẻ: tiêu đề, dòng phụ, viên trạng thái, ≤ 3 cặp nhãn–giá trị |
 

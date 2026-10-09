@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đăng nhập v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!--
+  Bản thử A1 Đăng nhập v2 (BA 09/10/2026). Ảnh mẫu: thẻ lớn nổi, nửa trái minh hoạ, nửa phải form.
+  Quyết định đã chốt với BA:
+  - Thẻ lớn nổi trên nền xanh Tapetco; minh hoạ isometric cảnh tra nạp (xe tra nạp, máy bay, bồn, nhân viên, thẻ số liệu nổi), có chuyển động.
+  - Sáng = cảnh ban ngày; Tối = cảnh ban đêm (sao, cửa sổ sáng đèn, đèn sân đỗ).
+  - Không thêm "Ghi nhớ đăng nhập" (phiên tự hết sau 30 phút không thao tác, giữ nguyên).
+  - Thêm "Chưa có tài khoản? Xin cấp tài khoản" → A3 với loại mới ARK_REQUEST (cần thêm giá trị danh mục).
+  - Điện thoại: thẻ hết bề ngang, minh hoạ thu thành dải cao khoảng 180 px phía trên form.
+  - Logo: cả Sáng và Tối đặt trực tiếp, không ô, không viền, giữ nguyên màu; thay quy tắc B4, áp cả sidebar.
+  - Hộp thoại Danh sách tài khoản (bản demo) v2: tìm không dấu, viên lọc theo nhóm, thẻ tài khoản 2 cột, xem chức năng theo phân hệ (Ghi/Xem), phím ↑↓ Enter Esc; điện thoại là tấm trượt từ đáy.
+  Thanh "Bản thử" góc dưới trái chỉ có trong bản thử.
+-->
+<style>
+:root {
+  --page-1: #0752A4; --page-2: #0A6AD0; --page-3: #063F80; --page-shape: rgba(255, 255, 255, .10); --page-shape-2: rgba(255, 255, 255, .06);
+  --surface: #FFFFFF; --surface-muted: #F2F5FA; --border: #E3E8EF; --text: #0F1B2D; --text-muted: #4B5768; --text-subtle: #6B7686;
+  --primary: #0752A4; --primary-hover: #064283; --on-primary: #FFFFFF; --primary-container: #DCE9F8; --focus: #0752A4;
+  --danger: #B91C1C; --danger-container: #FEE2E2; --warning: #854D0E; --warning-container: #FEF3C7;
+  --card-shadow: 0 30px 80px rgba(3, 30, 70, .35), 0 8px 24px rgba(3, 30, 70, .18);
+  --chip: rgba(255, 255, 255, .16); --chip-text: #FFFFFF; --chip-active: #FFFFFF; --chip-active-text: #0752A4;
+
+  /* Cảnh minh hoạ: ban ngày */
+  --sc-bg-1: #F5F9FF; --sc-bg-2: #DCE9F8; --sc-sun: #FFE7A3; --sc-sun-op: .9; --sc-star-op: 0; --sc-cloud: #FFFFFF; --sc-cloud-op: .9;
+  --sc-ground: #CFE0F6; --sc-ground-2: #E4EEFB; --sc-mark: #FFFFFF; --sc-tile: rgba(7, 82, 164, .08);
+  --pl-top: #FFFFFF; --pl-side: #E4ECF6; --pl-dark: #B8C8DD; --pl-line: #9DB2CE; --pl-stripe: #0752A4; --pl-tail: #F4EB28; --pl-tail-2: #D9CF10; --pl-win: #4F74A6;
+  --tr-top: #2F78CC; --tr-side: #0752A4; --tr-dark: #053B78; --tk-top: #F7FAFE; --tk-side: #DCE6F2; --tk-dark: #B9C9DD; --wheel: #1B2537; --rim: #8A9AB2;
+  --fuel: #F59E0B; --hose: #1F2A3D; --beacon: #F59E0B; --beacon-glow: 0;
+  --st-top: #F4F7FB; --st-side: #DDE6F1; --st-dark: #BCCADB; --st-level: #0752A4;
+  --vest: #F97316; --vest-2: #FDE047; --pants: #1E3A5F; --skin: #F1C19A; --hair: #2B2118; --tab: #0F1B2D; --tab-screen: #7FB0EE;
+  --cd-bg: rgba(255, 255, 255, .92); --cd-line: rgba(7, 82, 164, .14); --cd-text: #0F1B2D; --cd-muted: #5B6779; --cd-ok: #15803D; --cd-bar: #0752A4; --cd-bar-2: #BBD3F1;
+  --edge-op: 0;
+}
+:root[data-theme="dark"] {
+  --page-1: #071733; --page-2: #0B2550; --page-3: #050E22; --page-shape: rgba(127, 176, 238, .08); --page-shape-2: rgba(127, 176, 238, .05);
+  --surface: #0F1A2E; --surface-muted: #16233D; --border: #26365A; --text: #E7ECF5; --text-muted: #A9B6CC; --text-subtle: #7F8DA6;
+  --primary: #7FB0EE; --primary-hover: #A6C9F4; --on-primary: #04172E; --primary-container: #12386B; --focus: #7FB0EE;
+  --danger: #FCA5A5; --danger-container: #4A1414; --warning: #FCD34D; --warning-container: #3D2E08;
+  --card-shadow: 0 30px 80px rgba(0, 0, 0, .55), 0 8px 24px rgba(0, 0, 0, .35);
+  --chip: rgba(127, 176, 238, .14); --chip-text: #D3E4FA; --chip-active: #7FB0EE; --chip-active-text: #04172E;
+
+  /* Cảnh minh hoạ: ban đêm */
+  --sc-bg-1: #12224A; --sc-bg-2: #0A1530; --sc-sun: #E8EEF9; --sc-sun-op: .85; --sc-star-op: 1; --sc-cloud: #2A3E6B; --sc-cloud-op: .55;
+  --sc-ground: #18294F; --sc-ground-2: #1F3361; --sc-mark: #F4EB28; --sc-tile: rgba(127, 176, 238, .07);
+  --pl-top: #C9D6E8; --pl-side: #93A6C3; --pl-dark: #6B7FA0; --pl-line: #5C7096; --pl-stripe: #3B7DD8; --pl-tail: #D9CF10; --pl-tail-2: #B5AC0B; --pl-win: #FDE68A;
+  --tr-top: #2A6CC0; --tr-side: #1A4F96; --tr-dark: #113A70; --tk-top: #B7C5DA; --tk-side: #8EA1BE; --tk-dark: #6E82A2; --wheel: #0B1222; --rim: #4E5F7C;
+  --fuel: #FBBF24; --hose: #0B1222; --beacon: #FBBF24; --beacon-glow: 1;
+  --st-top: #A9B9D1; --st-side: #8396B5; --st-dark: #65799A; --st-level: #7FB0EE;
+  --vest: #FB923C; --vest-2: #FDE047; --pants: #0F213D; --skin: #D9A882; --hair: #120D09; --tab: #050A14; --tab-screen: #7FB0EE;
+  --cd-bg: rgba(16, 28, 52, .92); --cd-line: rgba(127, 176, 238, .2); --cd-text: #E7ECF5; --cd-muted: #A9B6CC; --cd-ok: #4ADE80; --cd-bar: #7FB0EE; --cd-bar-2: #2B4C7A;
+  --edge-op: 1;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { font: 14px/1.5 Inter, system-ui, sans-serif; color: var(--text); background: var(--page-3); -webkit-font-smoothing: antialiased; }
+button, input { font: inherit; color: inherit; }
+
+/* ---------- Sân khấu: toàn trang hoặc khung điện thoại của bản thử ---------- */
+.stage { container: stage / inline-size; position: relative; min-height: 100dvh; overflow: hidden;
+  background: radial-gradient(1200px 700px at 15% 10%, var(--page-2), transparent 60%), linear-gradient(140deg, var(--page-1), var(--page-3)); }
+body.as-phone { display: grid; place-items: center; background: #1C2433; padding: 24px; }
+body.as-phone .stage { width: 390px; min-height: 0; height: 844px; border-radius: 44px; box-shadow: 0 0 0 10px #0B0F17, 0 30px 80px rgba(0, 0, 0, .5); overflow-y: auto; }
+
+/* Hình trang trí nền: các tấm bo góc mờ trôi chậm (như ảnh mẫu) */
+.deco { position: absolute; inset: 0; pointer-events: none; }
+.deco i { position: absolute; display: block; border-radius: 28px; background: var(--page-shape); transform: rotate(-24deg) skewX(12deg); animation: drift 18s ease-in-out infinite; }
+.deco i:nth-child(2n) { background: var(--page-shape-2); animation-duration: 24s; animation-delay: -6s; }
+@keyframes drift { 50% { translate: 0 -18px; } }
+
+/* Góc phải trên: chế độ hiển thị + VI | EN (như app) */
+.atop { position: absolute; top: 20px; right: 24px; z-index: 3; display: flex; gap: 8px; }
+.seg { display: inline-flex; padding: 3px; border-radius: 999px; background: var(--chip); backdrop-filter: blur(8px); }
+.seg button { border: 0; background: none; color: var(--chip-text); height: 30px; min-width: 36px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.seg button[aria-pressed="true"] { background: var(--chip-active); color: var(--chip-active-text); }
+.seg button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.seg svg { width: 15px; height: 15px; }
+
+/* ---------- Thẻ lớn ---------- */
+.wrap { position: relative; z-index: 2; min-height: 100dvh; display: grid; place-items: center; padding: 72px 32px 56px; }
+body.as-phone .wrap { min-height: 100%; }
+.card { width: min(1120px, 100%); min-height: 620px; display: grid; grid-template-columns: 1.15fr 1fr; background: var(--surface); border-radius: 32px; box-shadow: var(--card-shadow); overflow: hidden; }
+.art { position: relative; overflow: hidden; background: linear-gradient(180deg, var(--sc-bg-1), var(--sc-bg-2)); }
+.art svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.form-side { display: flex; flex-direction: column; justify-content: center; padding: 56px 64px; min-width: 0; }
+
+.brand { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+.logo { width: 48px; height: 48px; display: grid; place-items: center; flex: none; }
+.logo img { width: 40px; height: auto; }
+/* Logo (BA 09/10/2026, thay B4): cả Sáng và Tối đều đặt logo trực tiếp, không ô, không viền, giữ nguyên màu (mọi phần xanh nằm trên nền vàng). */
+.brand b { display: block; font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
+.brand small { display: block; font-size: 13px; color: var(--text-muted); }
+h1 { margin: 0; font-size: 40px; line-height: 1.12; font-weight: 800; letter-spacing: -.025em; }
+h1 span { display: block; color: var(--primary); }
+.lead { margin: 12px 0 32px; color: var(--text-muted); }
+
+.field { display: grid; gap: 6px; margin-bottom: 16px; }
+.field label { font-size: 13px; font-weight: 600; color: var(--text-muted); }
+.input { position: relative; display: flex; align-items: center; height: 48px; border-radius: 14px; background: var(--surface-muted); box-shadow: inset 0 0 0 1px transparent; transition: box-shadow .15s, background .15s; }
+.input:hover { box-shadow: inset 0 0 0 1px var(--border); }
+.input:focus-within { background: var(--surface); box-shadow: inset 0 0 0 2px var(--focus), 0 0 0 4px var(--primary-container); }
+.input.err { box-shadow: inset 0 0 0 2px var(--danger); background: var(--surface); }
+.input > svg { width: 18px; height: 18px; margin-left: 14px; color: var(--text-subtle); flex: none; }
+.input input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: none; padding: 0 12px; font-size: 15px; }
+.input input::placeholder { color: var(--text-subtle); }
+.eye { width: 40px; height: 40px; margin-right: 4px; border: 0; background: none; border-radius: 10px; display: grid; place-items: center; color: var(--text-subtle); cursor: pointer; }
+.eye:hover { background: var(--border); color: var(--text); }
+.eye svg { width: 18px; height: 18px; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: -4px 0 20px; min-height: 22px; }
+.caps { font-size: 12px; font-weight: 600; color: var(--warning); visibility: hidden; display: inline-flex; align-items: center; gap: 4px; }
+.caps.on { visibility: visible; }
+.link { color: var(--primary); font-weight: 600; text-decoration: none; border-radius: 6px; }
+.link:hover { text-decoration: underline; }
+.link:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.btn { width: 100%; height: 50px; border: 0; border-radius: 14px; background: var(--primary); color: var(--on-primary); font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 8px 20px color-mix(in srgb, var(--primary) 30%, transparent); transition: background .15s, transform .1s; }
+.btn:hover { background: var(--primary-hover); }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.btn[aria-busy="true"] { opacity: .85; cursor: progress; }
+.spin { width: 18px; height: 18px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.btn-2 { width: 100%; height: 46px; margin-top: 10px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); color: var(--text); font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-2:hover { background: var(--surface-muted); }
+.btn-2 svg { width: 17px; height: 17px; color: var(--text-muted); }
+
+.alert { display: none; gap: 10px; align-items: flex-start; padding: 12px 14px; margin-bottom: 18px; border-radius: 14px; font-size: 13px; }
+.alert.on { display: flex; }
+.alert svg { width: 18px; height: 18px; flex: none; margin-top: 1px; }
+.alert.danger { background: var(--danger-container); color: var(--danger); }
+.alert.warn { background: var(--warning-container); color: var(--warning); }
+.alert a { color: inherit; font-weight: 700; }
+
+.signup { margin: 22px 0 0; text-align: center; color: var(--text-muted); }
+.note { margin: 14px 0 0; text-align: center; font-size: 12px; color: var(--text-subtle); }
+.copy { position: absolute; left: 0; right: 0; bottom: 18px; z-index: 2; text-align: center; font-size: 12px; color: rgba(255, 255, 255, .7); margin: 0; }
+
+/* ---------- Điện thoại / màn hẹp ---------- */
+@container stage (max-width: 980px) {
+  .form-side { padding: 48px 40px; }
+  h1 { font-size: 34px; }
+}
+@container stage (max-width: 767px) {
+  .atop { top: 14px; right: 14px; }
+  .wrap { padding: 64px 16px 48px; place-items: start center; }
+  .card { grid-template-columns: 1fr; min-height: 0; border-radius: 28px; }
+  .art { height: 180px; }
+  .form-side { padding: 24px 20px 28px; }
+  .brand { margin-bottom: 20px; }
+  h1 { font-size: 28px; }
+  .lead { margin: 8px 0 22px; }
+  .copy { position: static; padding: 0 16px 20px; }
+}
+
+/* ---------- Chuyển động của cảnh ---------- */
+.float { animation: float 6s ease-in-out infinite; transform-box: fill-box; }
+.float.f2 { animation-duration: 7s; animation-delay: -2s; }
+.float.f3 { animation-duration: 5.5s; animation-delay: -4s; }
+.float.f4 { animation-duration: 8s; animation-delay: -1s; }
+@keyframes float { 50% { transform: translateY(-10px); } }
+.flow { fill: none; stroke: var(--fuel); stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 6 12; animation: flow 1.4s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -36; } }
+.beacon { fill: var(--beacon); animation: blink 1.4s steps(2, jump-none) infinite; }
+.beacon-glow { fill: var(--beacon); opacity: calc(var(--beacon-glow) * .35); animation: blink 1.4s steps(2, jump-none) infinite; }
+@keyframes blink { 50% { opacity: .15; } }
+.level { animation: level 9s ease-in-out infinite; transform-box: fill-box; transform-origin: bottom; }
+@keyframes level { 0%, 100% { transform: scaleY(.62); } 50% { transform: scaleY(.84); } }
+.bar { transform-box: fill-box; transform-origin: bottom; animation: bar 4s ease-in-out infinite; }
+.bar.b2 { animation-delay: -1s; } .bar.b3 { animation-delay: -2s; } .bar.b4 { animation-delay: -3s; }
+@keyframes bar { 50% { transform: scaleY(.55); } }
+.cloud { animation: cloud 60s linear infinite; }
+.cloud.c2 { animation-duration: 85s; animation-delay: -40s; }
+@keyframes cloud { from { transform: translateX(-160px); } to { transform: translateX(820px); } }
+.stars circle { fill: #fff; opacity: var(--sc-star-op); animation: twinkle 3s ease-in-out infinite; }
+.stars circle:nth-child(3n) { animation-delay: -1s; } .stars circle:nth-child(3n+1) { animation-delay: -2s; }
+@keyframes twinkle { 50% { opacity: calc(var(--sc-star-op) * .3); } }
+.edge { fill: var(--sc-mark); opacity: var(--edge-op); animation: twinkle 2.4s ease-in-out infinite; }
+.check-pop { transform-box: fill-box; transform-origin: center; animation: pop 4s ease-in-out infinite; }
+@keyframes pop { 0%, 60%, 100% { transform: scale(1); } 70% { transform: scale(1.25); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+
+/* ---------- Hộp thoại Danh sách tài khoản (bản demo) v2 ----------
+   Máy tính: hộp giữa màn rộng 860 px, bo 28 px; đầu hộp (tiêu đề, ô tìm, viên lọc nhóm) đứng yên, danh sách cuộn bên trong.
+   Mỗi tài khoản là một thẻ: vùng trên (ảnh chữ cái, tên, mã, nhóm) là nút đăng nhập ngay; hàng dưới là nút xem chức năng
+   (mở rộng thẻ hết bề ngang, phân hệ và menu kèm mức Ghi/Xem). Điện thoại: tấm trượt từ đáy, một cột. */
+.qa-back { position: fixed; inset: 0; z-index: 40; display: none; place-items: center; padding: 24px; background: rgba(4, 12, 28, .55); backdrop-filter: blur(6px); }
+.qa-back.on { display: grid; animation: qa-fade .18s ease-out; }
+@keyframes qa-fade { from { opacity: 0; } }
+.qa { width: min(860px, 100%); max-height: min(86dvh, 860px); display: flex; flex-direction: column; background: var(--surface); color: var(--text); border-radius: 28px; box-shadow: var(--card-shadow); overflow: hidden; animation: qa-pop .22s cubic-bezier(.2, .9, .3, 1.2); }
+@keyframes qa-pop { from { transform: translateY(12px) scale(.98); opacity: 0; } }
+.qa-head { padding: 24px 24px 0; }
+.qa-handle { display: none; width: 40px; height: 4px; border-radius: 4px; background: var(--border); margin: -12px auto 12px; }
+.qa-title { display: flex; align-items: flex-start; gap: 14px; }
+.qa-ico { width: 44px; height: 44px; flex: none; border-radius: 14px; display: grid; place-items: center; background: var(--primary-container); color: var(--primary); }
+.qa-ico svg { width: 22px; height: 22px; }
+.qa-title h2 { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.qa-title p { margin: 2px 0 0; color: var(--text-muted); font-size: 13px; }
+.qa-badge { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: #F4EB28; color: #3A3600; letter-spacing: .02em; }
+.qa-x { margin-left: auto; width: 38px; height: 38px; flex: none; border: 0; border-radius: 12px; background: var(--surface-muted); color: var(--text-muted); display: grid; place-items: center; cursor: pointer; }
+.qa-x:hover { color: var(--text); background: var(--border); }
+.qa-x svg { width: 18px; height: 18px; }
+.qa-tools { display: flex; align-items: center; gap: 10px; margin-top: 18px; }
+.qa-q { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 8px 0 14px; border-radius: 14px; background: var(--surface-muted); color: var(--text-subtle); box-shadow: inset 0 0 0 1px transparent; }
+.qa-q:focus-within { background: var(--surface); box-shadow: inset 0 0 0 2px var(--focus), 0 0 0 4px var(--primary-container); }
+.qa-q svg { width: 18px; height: 18px; flex: none; }
+.qa-q input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: none; font-size: 14px; color: var(--text); }
+.qa-count { white-space: nowrap; color: var(--text-muted); font-size: 13px; }
+.qa-pills { display: flex; gap: 8px; overflow-x: auto; padding: 14px 0 16px; scrollbar-width: none; }
+.qa-pills::-webkit-scrollbar { display: none; }
+.qa-pill { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 13px; font-weight: 500; cursor: pointer; }
+.qa-pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.qa-pill span { color: var(--text-subtle); font-variant-numeric: tabular-nums; }
+.qa-pill[aria-pressed="true"] { border-color: var(--primary); background: var(--primary-container); color: var(--text); }
+.qa-pill:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.qa-body { flex: 1; min-height: 0; overflow-y: auto; padding: 4px 24px 8px; border-top: 1px solid var(--border); }
+.qa-list { list-style: none; margin: 0; padding: 16px 0 8px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.qa-card { position: relative; border-radius: 20px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--border); transition: box-shadow .15s, transform .15s; }
+.qa-card:hover { box-shadow: inset 0 0 0 1px var(--primary), 0 6px 18px rgba(7, 82, 164, .10); }
+.qa-card.open { grid-column: 1 / -1; }
+.qa-card.busy { box-shadow: inset 0 0 0 2px var(--primary); }
+.qa-list.signing .qa-card:not(.busy) { opacity: .45; pointer-events: none; }
+.qa-go { width: 100%; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 14px 14px 12px; border: 0; background: none; text-align: left; border-radius: 20px 20px 0 0; cursor: pointer; color: inherit; }
+.qa-go:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.qa-av { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; font-weight: 700; font-size: 15px; color: var(--c); background: color-mix(in srgb, var(--c) 14%, var(--surface)); }
+.qa-who { min-width: 0; display: grid; gap: 3px; }
+.qa-who b { font-size: 15px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.qa-who b code { font: 500 12px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text-subtle); margin-left: 6px; }
+.qa-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.qa-tag { font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; color: var(--c); background: color-mix(in srgb, var(--c) 12%, var(--surface)); }
+.qa-tag.warn { --c: var(--warning); background: var(--warning-container); }
+.qa-tag.none { --c: var(--text-subtle); }
+.qa-arrow { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: var(--primary); opacity: 0; transform: translateX(-4px); transition: opacity .15s, transform .15s; }
+.qa-arrow svg { width: 16px; height: 16px; }
+.qa-card:hover .qa-arrow, .qa-go:focus-visible .qa-arrow, .qa-card.busy .qa-arrow { opacity: 1; transform: none; }
+.qa-more { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 14px; border: 0; border-top: 1px dashed var(--border); background: none; color: var(--text-muted); font-size: 12px; cursor: pointer; border-radius: 0 0 20px 20px; }
+.qa-more:hover { color: var(--text); background: var(--surface-muted); }
+.qa-more svg { width: 16px; height: 16px; transition: transform .2s; }
+.qa-card.open .qa-more svg { transform: rotate(180deg); }
+.qa-mods { display: none; padding: 4px 14px 14px; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.qa-card.open .qa-mods { display: grid; }
+.qa-mod { padding: 10px 12px; border-radius: 14px; background: var(--surface-muted); }
+.qa-mod h4 { margin: 0 0 6px; font-size: 13px; display: flex; justify-content: space-between; gap: 8px; }
+.qa-mod h4 span { color: var(--text-subtle); font-weight: 500; }
+.qa-mod ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
+.qa-mod li { display: flex; align-items: flex-start; gap: 6px; font-size: 12px; color: var(--text-muted); }
+.qa-mod li svg { width: 13px; height: 13px; flex: none; margin-top: 2px; }
+.qa-mod li.w svg { color: var(--primary); }
+.qa-mod li.r svg { color: var(--text-subtle); }
+.qa-empty { grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 12px; }
+.qa-empty b { display: block; color: var(--text); margin-bottom: 4px; }
+.qa-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 12px 24px 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-subtle); }
+.qa-foot kbd { font: 600 11px Inter, sans-serif; border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 5px; padding: 0 6px; color: var(--text-muted); background: var(--surface); }
+.qa-legend { display: inline-flex; gap: 12px; }
+.qa-legend span { display: inline-flex; align-items: center; gap: 4px; }
+.qa-legend svg { width: 13px; height: 13px; }
+@container stage (max-width: 767px) {
+  .qa-back { place-items: end stretch; padding: 0; }
+  .qa { width: 100%; max-height: 90dvh; border-radius: 28px 28px 0 0; animation: qa-up .25s ease-out; }
+  @keyframes qa-up { from { transform: translateY(40px); opacity: 0; } }
+  .qa-handle { display: block; }
+  .qa-head { padding: 20px 16px 0; }
+  .qa-title h2 { font-size: 18px; }
+  .qa-ico { display: none; }
+  .qa-body { padding: 0 16px 8px; }
+  .qa-list { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .qa-arrow { opacity: 1; transform: none; } .qa-arrow em { display: none; }
+  .qa-foot { padding: 10px 16px max(14px, env(safe-area-inset-bottom)); }
+  .qa-foot .keys { display: none; }
+}
+
+/* ---------- Thanh bản thử (không thuộc thiết kế) ---------- */
+.proto { position: fixed; left: 12px; bottom: 12px; z-index: 50; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; max-width: calc(100vw - 24px); padding: 8px 10px; border-radius: 14px; background: rgba(10, 16, 28, .88); color: #E5EAF3; font-size: 12px; box-shadow: 0 8px 24px rgba(0, 0, 0, .3); }
+.proto b { font-weight: 700; color: #F4EB28; margin-right: 2px; }
+.proto .pseg { display: inline-flex; border: 1px solid #334155; border-radius: 9px; overflow: hidden; }
+.proto button { border: 0; background: none; color: #CBD5E1; padding: 5px 9px; cursor: pointer; font-size: 12px; }
+.proto button[aria-pressed="true"] { background: #F4EB28; color: #0B0F17; font-weight: 700; }
+@media (max-width: 600px) { body:has(.qa-back.on) .proto { display: none; } }
+@media (max-width: 600px) { .proto { top: 8px; bottom: auto; left: 8px; max-width: calc(100vw - 196px); flex-wrap: nowrap; overflow-x: auto; padding: 6px 8px; } }
+.toast { position: fixed; left: 50%; top: 20px; z-index: 60; translate: -50% -80px; padding: 10px 16px; border-radius: 12px; background: #0B0F17; color: #fff; font-size: 13px; transition: translate .25s; }
+.toast.on { translate: -50% 0; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="deco" aria-hidden="true">
+    <i style="width:220px;height:140px;left:-60px;top:12%"></i>
+    <i style="width:160px;height:110px;right:6%;top:-30px"></i>
+    <i style="width:260px;height:170px;right:-80px;bottom:10%"></i>
+    <i style="width:140px;height:90px;left:8%;bottom:-20px"></i>
+    <i style="width:110px;height:70px;left:46%;top:4%"></i>
+  </div>
+
+  <div class="atop">
+    <div class="seg" role="group" aria-label="Chế độ hiển thị" id="themeSeg">
+      <button type="button" data-theme-btn="light" aria-label="Sáng"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button type="button" data-theme-btn="dark" aria-label="Tối"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+    </div>
+    <div class="seg" role="group" aria-label="Ngôn ngữ" id="langSeg">
+      <button type="button" data-lang-btn="vi">VI</button>
+      <button type="button" data-lang-btn="en">EN</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="card" aria-labelledby="hello">
+      <div class="art" aria-hidden="true"><svg id="scene" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"></svg></div>
+
+      <div class="form-side">
+        <div class="brand">
+          <span class="logo"><img src="tapetco-logo.svg" alt=""></span>
+          <span><b>ERP Tapetco</b><small data-t="tag"></small></span>
+        </div>
+        <h1 id="hello"><span data-t="hi" style="color:inherit;display:block"></span><span data-t="welcome"></span></h1>
+        <p class="lead" data-t="lead"></p>
+
+        <div class="alert danger" id="alertWrong" role="alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+          <span data-t="wrong"></span>
+        </div>
+        <div class="alert warn" id="alertLocked" role="alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+          <span><span data-t="locked"></span> <a href="#" data-help="ARK_LOCKED" data-t="unlock"></a></span>
+        </div>
+
+        <form id="form" novalidate>
+          <div class="field">
+            <label for="login" data-t="user"></label>
+            <div class="input" id="loginBox">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+              <input id="login" name="login" autocomplete="username" autocapitalize="none" spellcheck="false" data-ph="userPh">
+            </div>
+          </div>
+          <div class="field">
+            <label for="pass" data-t="pass"></label>
+            <div class="input" id="passBox">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+              <input id="pass" name="pass" type="password" autocomplete="current-password" data-ph="passPh">
+              <button type="button" class="eye" id="eye" data-aria="show"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+            </div>
+          </div>
+          <div class="row">
+            <span class="caps" id="caps"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 4l7 8h-4v6H9v-6H5z"/></svg><span data-t="caps"></span></span>
+            <a href="#" class="link" data-help="" data-t="forgot"></a>
+          </div>
+          <button type="submit" class="btn" id="submit"><span data-t="submit"></span></button>
+          <button type="button" class="btn-2" id="demo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></svg><span data-t="demo"></span></button>
+        </form>
+
+        <p class="signup"><span data-t="noAcc"></span> <a href="#" class="link" data-help="ARK_REQUEST" data-t="request"></a></p>
+        <p class="note" data-t="note"></p>
+      </div>
+    </section>
+  </div>
+  <p class="copy" data-t="copy"></p>
+
+  <div class="qa-back" id="qaBack">
+    <div class="qa" role="dialog" aria-modal="true" aria-labelledby="qaTitle" aria-describedby="qaDesc">
+      <div class="qa-head">
+        <div class="qa-handle" aria-hidden="true"></div>
+        <div class="qa-title">
+          <span class="qa-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></svg></span>
+          <div><h2 id="qaTitle"><span data-t="qaTitle"></span><span class="qa-badge" data-t="qaBadge"></span></h2><p id="qaDesc" data-t="qaDesc"></p></div>
+          <button type="button" class="qa-x" id="qaClose" data-aria="qaClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </div>
+        <div class="qa-tools">
+          <label class="qa-q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="qaSearch" type="search" data-ph="qaSearch" autocomplete="off"></label>
+          <span class="qa-count" id="qaCount"></span>
+        </div>
+        <div class="qa-pills" id="qaPills" role="group"></div>
+      </div>
+      <div class="qa-body"><ul class="qa-list" id="qaList"></ul></div>
+      <div class="qa-foot">
+        <span class="keys"><kbd>↑</kbd><kbd>↓</kbd> <span data-t="qaKeyMove"></span> · <kbd>Enter</kbd> <span data-t="qaKeyGo"></span> · <kbd>Esc</kbd> <span data-t="qaKeyClose"></span></span>
+        <span class="qa-legend">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.2" stroke-linecap="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg><span data-t="qaWrite"></span></span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span data-t="qaRead"></span></span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="proto" aria-label="Điều khiển bản thử">
+  <b>Bản thử</b>
+  <span class="pseg" id="pDevice"><button type="button" data-v="desk" aria-pressed="true">Máy tính</button><button type="button" data-v="phone" aria-pressed="false">Điện thoại</button></span>
+  <span class="pseg" id="pState"><button type="button" data-v="idle" aria-pressed="true">Bình thường</button><button type="button" data-v="wrong" aria-pressed="false">Sai mật khẩu</button><button type="button" data-v="locked" aria-pressed="false">Bị khoá</button><button type="button" data-v="busy" aria-pressed="false">Đang đăng nhập</button></span>
+  <span class="pseg"><button type="button" onclick="openQa()">Mở hộp thoại tài khoản</button></span>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ---------------- Chữ hai ngôn ngữ ---------------- */
+const T = {
+  vi: { tag: 'Tra nạp nhiên liệu hàng không', hi: 'Xin chào,', welcome: 'Chào mừng trở lại', lead: 'Dùng mã đăng nhập do quản trị viên cấp.',
+    user: 'Mã đăng nhập', userPh: 'Ví dụ: ha.dp', pass: 'Mật khẩu', passPh: 'Nhập mật khẩu', show: 'Hiện mật khẩu', hide: 'Ẩn mật khẩu', caps: 'Đang bật Caps Lock',
+    forgot: 'Quên mật khẩu?', submit: 'Đăng nhập', busy: 'Đang đăng nhập…', demo: 'Danh sách tài khoản (bản demo)',
+    noAcc: 'Chưa có tài khoản?', request: 'Xin cấp tài khoản', note: 'Không có "Ghi nhớ đăng nhập": phiên tự hết sau 30 phút không thao tác.',
+    wrong: 'Sai mã đăng nhập hoặc mật khẩu. Còn 3 lần thử trước khi tài khoản bị khoá.', locked: 'Tài khoản đang bị khoá do nhập sai nhiều lần.', unlock: 'Gửi yêu cầu mở khoá',
+    copy: '© 2026 Tapetco · ERP v0.10 · bản demo, dữ liệu mẫu',
+    cTank: 'Bồn T-01', cTankSub: 'Jet A-1 · đang đầy', cQc: 'Phiếu QC', cQcSub: 'Đạt · nhả bồn', cFuel: 'Đã tra nạp', cFlight: 'VN 1182 · CXR',
+    qaTitle: 'Chọn tài khoản', qaBadge: 'Bản demo', qaDesc: 'Bấm một tài khoản để vào ngay, không cần mật khẩu.', qaClose: 'Đóng', qaSearch: 'Tìm theo tên, mã hoặc nhóm quyền',
+    qaAll: 'Tất cả', qaCountN: (n) => `${n} tài khoản`, qaGo: 'Vào ngay', qaBusy: 'Đang vào…', qaMore: (m, n) => `${m} phân hệ · ${n} chức năng`, qaShow: 'Xem chức năng', qaHide: 'Thu gọn',
+    qaNoGroup: 'Chưa có nhóm quyền', qaMustChange: 'Chờ đổi mật khẩu', qaEmptyT: 'Không có tài khoản phù hợp', qaEmptyD: 'Thử từ khoá khác hoặc chọn "Tất cả".', qaNoMenu: 'Chưa có chức năng nào.',
+    qaKeyMove: 'chọn', qaKeyGo: 'vào', qaKeyClose: 'đóng', qaWrite: 'Ghi', qaRead: 'Xem',
+    help: { '': 'Mở trang trợ giúp A3 (loại mặc định)', ARK_LOCKED: 'Mở A3 với loại "Tài khoản bị khoá"', ARK_REQUEST: 'Mở A3 với loại mới "Xin cấp tài khoản"' }, demoToast: 'Mở hộp thoại Danh sách tài khoản (như hiện tại)' },
+  en: { tag: 'Aviation fuelling', hi: 'Hello,', welcome: 'Welcome back', lead: 'Use the login code issued by your administrator.',
+    user: 'Login code', userPh: 'e.g. ha.dp', pass: 'Password', passPh: 'Enter password', show: 'Show password', hide: 'Hide password', caps: 'Caps Lock is on',
+    forgot: 'Forgot password?', submit: 'Sign in', busy: 'Signing in…', demo: 'Account list (demo)',
+    noAcc: 'No account yet?', request: 'Request an account', note: 'No "remember me": sessions end after 30 minutes of inactivity.',
+    wrong: 'Wrong login code or password. 3 attempts left before the account is locked.', locked: 'This account is locked after too many failed attempts.', unlock: 'Request unlock',
+    copy: '© 2026 Tapetco · ERP v0.10 · demo, sample data',
+    cTank: 'Tank T-01', cTankSub: 'Jet A-1 · filling', cQc: 'QC note', cQcSub: 'Passed · released', cFuel: 'Fuelled', cFlight: 'VN 1182 · CXR',
+    qaTitle: 'Choose an account', qaBadge: 'DEMO', qaDesc: 'Click an account to sign in straight away, no password needed.', qaClose: 'Close', qaSearch: 'Search by name, code or group',
+    qaAll: 'All', qaCountN: (n) => `${n} accounts`, qaGo: 'Sign in', qaBusy: 'Signing in…', qaMore: (m, n) => `${m} modules · ${n} functions`, qaShow: 'Show functions', qaHide: 'Collapse',
+    qaNoGroup: 'No group yet', qaMustChange: 'Must change password', qaEmptyT: 'No matching account', qaEmptyD: 'Try another keyword or pick "All".', qaNoMenu: 'No functions yet.',
+    qaKeyMove: 'move', qaKeyGo: 'sign in', qaKeyClose: 'close', qaWrite: 'Write', qaRead: 'Read',
+    help: { '': 'Open help page A3 (default type)', ARK_LOCKED: 'Open A3 with type "Account locked"', ARK_REQUEST: 'Open A3 with new type "Request an account"' }, demoToast: 'Open the Account list dialog (as today)' },
+};
+let lang = 'vi';
+let showPass = false;
+function applyLang() {
+  const t = T[lang];
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = t[el.dataset.t]; });
+  document.querySelectorAll('[data-ph]').forEach((el) => { el.placeholder = t[el.dataset.ph]; });
+  document.getElementById('eye').setAttribute('aria-label', showPass ? t.hide : t.show);
+  document.getElementById('qaClose').setAttribute('aria-label', t.qaClose);
+  if (typeof renderQa === 'function') renderQa();
+  document.querySelectorAll('[data-lang-btn]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.langBtn === lang)));
+  if (state === 'busy') document.querySelector('#submit').innerHTML = `<span class="spin"></span>${t.busy}`;
+  document.querySelectorAll('[data-sc]').forEach((el) => { el.textContent = t[el.dataset.sc]; });
+}
+document.querySelectorAll('[data-lang-btn]').forEach((b) => b.addEventListener('click', () => { lang = b.dataset.langBtn; applyLang(); }));
+
+/* ---------------- Chế độ Sáng / Tối ---------------- */
+function setTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  document.querySelectorAll('[data-theme-btn]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themeBtn === theme)));
+}
+document.querySelectorAll('[data-theme-btn]').forEach((b) => b.addEventListener('click', () => setTheme(b.dataset.themeBtn)));
+setTheme(matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+/* ---------------- Form ---------------- */
+const toast = (msg) => { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2200); };
+document.getElementById('eye').addEventListener('click', () => { showPass = !showPass; document.getElementById('pass').type = showPass ? 'text' : 'password'; applyLang(); });
+document.getElementById('pass').addEventListener('keyup', (e) => document.getElementById('caps').classList.toggle('on', e.getModifierState && e.getModifierState('CapsLock')));
+document.querySelectorAll('[data-help]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); toast(T[lang].help[a.dataset.help]); }));
+document.getElementById('demo').addEventListener('click', () => openQa());
+document.getElementById('form').addEventListener('submit', (e) => { e.preventDefault(); setState('busy'); setTimeout(() => setState('wrong'), 1200); });
+
+let state = 'idle';
+function setState(next) {
+  state = next;
+  document.querySelectorAll('#pState button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === next)));
+  document.getElementById('alertWrong').classList.toggle('on', next === 'wrong');
+  document.getElementById('alertLocked').classList.toggle('on', next === 'locked');
+  document.getElementById('passBox').classList.toggle('err', next === 'wrong');
+  const btn = document.getElementById('submit');
+  btn.setAttribute('aria-busy', String(next === 'busy'));
+  btn.innerHTML = next === 'busy' ? `<span class="spin"></span>${T[lang].busy}` : `<span data-t="submit">${T[lang].submit}</span>`;
+}
+document.querySelectorAll('#pState button').forEach((b) => b.addEventListener('click', () => setState(b.dataset.v)));
+document.querySelectorAll('#pDevice button').forEach((b) => b.addEventListener('click', () => {
+  document.querySelectorAll('#pDevice button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+  document.body.classList.toggle('as-phone', b.dataset.v === 'phone');
+}));
+
+/* ---------------- Cảnh isometric ----------------
+   Toạ độ thế giới (x, y, z): x chạy xuống phải, y chạy xuống trái, z lên trên. Mặt nhìn thấy của khối: trên, +y (trái trước), +x (phải trước).
+   Khi áp vào code: dựng sẵn thành SVG tĩnh (hoặc tính trong TS lúc build), chỉ giữ CSS chuyển động. */
+const C = Math.cos(Math.PI / 6), S = 0.5;
+const P = (x, y, z = 0) => [(x - y) * C, (x + y) * S - z];
+const NS = 'http://www.w3.org/2000/svg';
+const svg = document.getElementById('scene');
+const el = (tag, attrs, parent = svg) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); parent.appendChild(n); return n; };
+const pts = (list) => list.map((p) => p.map((v) => v.toFixed(1)).join(',')).join(' ');
+const poly = (list, fill, parent, extra = {}) => el('polygon', { points: pts(list), fill, ...extra }, parent);
+const all = []; // gom điểm để tự canh khung nhìn
+const track = (list) => { all.push(...list); return list; };
+
+function box(g, x, y, z, w, d, h, c) {
+  const top = track([P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x, y + d, z + h)]);
+  const left = track([P(x, y + d, z), P(x + w, y + d, z), P(x + w, y + d, z + h), P(x, y + d, z + h)]);
+  const right = track([P(x + w, y, z), P(x + w, y + d, z), P(x + w, y + d, z + h), P(x + w, y, z + h)]);
+  poly(left, c[1], g); poly(right, c[2], g); poly(top, c[0], g);
+}
+function hull(points) {
+  const p = points.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+  const lo = [], up = [];
+  for (const q of p) { while (lo.length >= 2 && cross(lo[lo.length - 2], lo[lo.length - 1], q) <= 0) lo.pop(); lo.push(q); }
+  for (const q of p.reverse()) { while (up.length >= 2 && cross(up[up.length - 2], up[up.length - 1], q) <= 0) up.pop(); up.push(q); }
+  return lo.slice(0, -1).concat(up.slice(0, -1));
+}
+const ringX = (x, y, z, r, n = 28) => Array.from({ length: n }, (_, i) => { const t = (i / n) * Math.PI * 2; return P(x, y + r * Math.cos(t), z + r * Math.sin(t)); });
+const ringZ = (x, y, z, r, n = 32) => Array.from({ length: n }, (_, i) => { const t = (i / n) * Math.PI * 2; return P(x + r * Math.cos(t), y + r * Math.sin(t), z); });
+const ringY = (x, y, z, r, n = 24) => Array.from({ length: n }, (_, i) => { const t = (i / n) * Math.PI * 2; return P(x + r * Math.cos(t), y, z + r * Math.sin(t)); });
+/** Trụ nằm dọc trục x (thân máy bay, bồn xe, động cơ): thân là bao lồi hai vòng đầu, nắp +x nhìn thấy. */
+function cylX(g, x0, x1, y, z, r, c, cap = true) {
+  const a = ringX(x0, y, z, r), b = ringX(x1, y, z, r);
+  poly(track(hull(a.concat(b))), c[1], g);
+  // dải sáng phía trên thân
+  const hi = hull(ringX(x0, y - r * 0.15, z + r * 0.45, r * 0.5, 16).concat(ringX(x1, y - r * 0.15, z + r * 0.45, r * 0.5, 16)));
+  poly(hi, c[0], g, { opacity: 0.75 });
+  if (cap) poly(b, c[2], g);
+}
+/** Trụ đứng (bồn chứa): đáy, thân, nắp. */
+function cylZ(g, x, y, z0, z1, r, c) {
+  const bot = ringZ(x, y, z0, r), top = ringZ(x, y, z1, r);
+  poly(track(hull(bot.concat(top))), c[1], g);
+  const shade = hull(ringZ(x + r * 0.35, y - r * 0.35, z0, r * 0.62).concat(ringZ(x + r * 0.35, y - r * 0.35, z1, r * 0.62)));
+  poly(shade, c[2], g, { opacity: 0.55 });
+  poly(track(top), c[0], g);
+}
+
+const V = (name) => `var(--${name})`;
+const sky = el('g', {});
+const scene = el('g', {});
+
+/* Nền đất: các đĩa tròn mờ như ảnh mẫu */
+const ground = el('g', {}, scene);
+poly(track(ringZ(30, 0, 0, 255, 48)), V('sc-ground-2'), ground);
+poly(track(ringZ(70, 40, 0, 170, 40)), V('sc-ground'), ground);
+poly(track(ringZ(-230, 60, 0, 85, 32)), V('sc-ground'), ground);
+poly(track(ringZ(-70, 230, 0, 60, 28)), V('sc-ground'), ground);
+// vạch dẫn đường trên sân đỗ
+for (let i = 0; i < 7; i += 1) poly([P(-150 + i * 46, 150, 0), P(-126 + i * 46, 150, 0), P(-126 + i * 46, 156, 0), P(-150 + i * 46, 156, 0)], V('sc-mark'), ground, { opacity: 0.8 });
+// đèn mép sân (sáng khi tối)
+for (let i = 0; i < 9; i += 1) { const [cx, cy] = P(-260 + i * 60, -230, 0); el('circle', { cx, cy, r: 2.6, class: 'edge', style: `animation-delay:${-i * 0.3}s` }, ground); }
+
+/* Bồn chứa nhiên liệu (trái sau) + vạch mức */
+const tank = el('g', {}, scene);
+cylZ(tank, -230, 60, 0, 100, 52, [V('st-top'), V('st-side'), V('st-dark')]);
+{ // ống đo mức trên mặt bồn
+  const gx = -230 + 10, gy = 60 + 50;
+  poly([P(gx, gy, 14), P(gx + 12, gy, 14), P(gx + 12, gy, 86), P(gx, gy, 86)], V('st-dark'), tank);
+  const lv = el('g', { class: 'level' }, tank);
+  poly([P(gx + 2, gy, 16), P(gx + 10, gy, 16), P(gx + 10, gy, 84), P(gx + 2, gy, 84)], V('st-level'), lv);
+  // cầu thang vòng
+  for (let i = 0; i < 6; i += 1) poly([P(-230 + 46, 60 - 20 + i * 6, i * 16), P(-230 + 54, 60 - 20 + i * 6, i * 16), P(-230 + 54, 60 - 14 + i * 6, i * 16 + 3), P(-230 + 46, 60 - 14 + i * 6, i * 16 + 3)], V('st-dark'), tank);
+}
+
+/* Máy bay */
+const plane = el('g', {}, scene);
+const fx0 = -70, fx1 = 210, fy = -150, fz = 118, fr = 30;
+const PL = [V('pl-top'), V('pl-side'), V('pl-dark')];
+// cánh xa + đuôi ngang xa (sau thân)
+poly(track([P(120, fy, fz - 12), P(50, fy, fz - 12), P(15, fy - 190, fz - 8), P(45, fy - 190, fz - 8)]), V('pl-dark'), plane);
+poly(track([P(fx0 - 30, fy, fz + 18), P(fx0 - 62, fy, fz + 18), P(fx0 - 78, fy - 62, fz + 22), P(fx0 - 62, fy - 62, fz + 22)]), V('pl-dark'), plane);
+// nón đuôi, thân, mũi
+poly(track(hull(ringX(fx0, fy, fz, fr).concat(ringX(fx0 - 70, fy, fz + 16, 9)))), V('pl-side'), plane);
+cylX(plane, fx0, fx1, fy, fz, fr, PL, false);
+poly(track(hull(ringX(fx1, fy, fz, fr).concat([P(fx1 + 62, fy, fz - 10), P(fx1 + 60, fy + 4, fz - 6)]))), V('pl-side'), plane);
+poly(hull(ringX(fx1, fy - 4, fz + 10, fr * 0.55, 14).concat([P(fx1 + 52, fy - 2, fz - 4)])), V('pl-top'), plane, { opacity: 0.8 });
+// kính buồng lái
+poly([P(fx1 + 26, fy + 22, fz + 10), P(fx1 + 40, fy + 15, fz + 4), P(fx1 + 40, fy + 15, fz + 12), P(fx1 + 28, fy + 21, fz + 18)], V('pl-win'), plane);
+// vạch thân xanh Tapetco + hàng cửa sổ (mặt +y)
+poly([P(fx0 - 40, fy + fr, fz - 6), P(fx1 + 30, fy + fr, fz - 6), P(fx1 + 30, fy + fr - 1, fz - 12), P(fx0 - 40, fy + fr - 1, fz - 12)], V('pl-stripe'), plane);
+for (let x = fx0 + 10; x < fx1 - 6; x += 15) poly([P(x, fy + fr, fz + 4), P(x + 6, fy + fr, fz + 4), P(x + 6, fy + fr, fz + 11), P(x, fy + fr, fz + 11)], V('pl-win'), plane, { class: 'win' });
+// cửa
+poly([P(fx1 - 18, fy + fr, fz - 4), P(fx1 - 6, fy + fr, fz - 4), P(fx1 - 6, fy + fr, fz + 16), P(fx1 - 18, fy + fr, fz + 16)], V('pl-line'), plane, { opacity: 0.6 });
+// đuôi đứng (vàng logo)
+poly(track([P(fx0 - 66, fy, fz + 18), P(fx0 - 20, fy, fz + 26), P(fx0 - 48, fy, fz + 100), P(fx0 - 78, fy, fz + 100)]), V('pl-tail'), plane);
+poly([P(fx0 - 66, fy, fz + 18), P(fx0 - 46, fy, fz + 22), P(fx0 - 70, fy, fz + 100), P(fx0 - 78, fy, fz + 100)], V('pl-tail-2'), plane);
+// động cơ dưới cánh gần + trụ treo
+cylX(plane, 60, 128, -70, 82, 16, [V('pl-top'), V('pl-dark'), V('pl-line')]);
+poly(ringX(128, -70, 82, 10, 20), V('wheel'), plane);
+// cánh gần (trước thân)
+poly(track([P(122, fy + fr * 0.7, fz - 14), P(48, fy + fr * 0.7, fz - 14), P(12, 70, fz - 22), P(40, 70, fz - 22)]), V('pl-top'), plane);
+poly([P(48, fy + fr * 0.7, fz - 14), P(12, 70, fz - 22), P(12, 70, fz - 26), P(48, fy + fr * 0.7, fz - 18)], V('pl-dark'), plane);
+poly([P(40, 70, fz - 22), P(12, 70, fz - 22), P(12, 70, fz - 26), P(40, 70, fz - 26)], V('pl-line'), plane);
+// càng trước + càng chính (hai bên thân, dưới gốc cánh)
+box(plane, fx1 - 10, fy - 3, 0, 6, 6, fz - fr, [V('pl-dark'), V('pl-line'), V('pl-dark')]);
+for (const gy of [fy - 22, fy + 22]) {
+  box(plane, 70, gy - 3, 12, 7, 6, fz - fr - 10, [V('pl-dark'), V('pl-line'), V('pl-dark')]);
+  for (const wx of [64, 82]) poly(track(ringY(wx, gy + 4, 12, 12, 20)), V('wheel'), plane);
+}
+poly(ringY(fx1 - 7, fy + 5, 9, 9, 18), V('wheel'), plane);
+
+/* Xe tra nạp */
+const truck = el('g', {}, scene);
+const TR = [V('tr-top'), V('tr-side'), V('tr-dark')];
+box(truck, -10, 46, 8, 140, 34, 12, [V('tr-dark'), V('tr-dark'), V('wheel')]);
+cylX(truck, -6, 90, 63, 44, 25, [V('tk-top'), V('tk-side'), V('tk-dark')]);
+// vạch xanh trên bồn xe + chữ TAPETCO
+poly([P(-4, 63 + 25, 40), P(88, 63 + 25, 40), P(88, 63 + 24.5, 32), P(-4, 63 + 24.5, 32)], V('tr-side'), truck);
+box(truck, 92, 46, 18, 38, 34, 40, TR);
+// kính cabin
+poly([P(130, 50, 40), P(130, 76, 40), P(130, 76, 54), P(130, 50, 54)], V('pl-win'), truck);
+poly([P(98, 80, 40), P(124, 80, 40), P(124, 80, 54), P(98, 80, 54)], V('pl-win'), truck, { opacity: 0.85 });
+// đèn hiệu trên nóc cabin
+{ const [bx, by] = P(111, 63, 60); el('circle', { cx: bx, cy: by - 2, r: 11, class: 'beacon-glow' }, truck); el('ellipse', { cx: bx, cy: by - 2, rx: 5, ry: 3.4, class: 'beacon' }, truck); }
+// bánh xe (mặt +y)
+for (const wx of [8, 52, 112]) { poly(track(ringY(wx, 80, 11, 11)), V('wheel'), truck); poly(ringY(wx, 80.5, 11, 4.5, 14), V('rim'), truck); }
+// cuộn vòi phía sau
+poly(ringY(-8, 64, 30, 11, 18), V('hose'), truck);
+
+/* Vòi nạp: từ xe lên điểm nạp dưới cánh, dòng nhiên liệu chạy */
+{ const a = P(-8, 64, 30), b = P(28, 22, 88), m1 = P(-40, 40, 70), m2 = P(10, 20, 120);
+  const d = `M${a} C${m1} ${m2} ${b}`;
+  el('path', { d, fill: 'none', stroke: V('hose'), 'stroke-width': 6, 'stroke-linecap': 'round' }, scene);
+  el('path', { d, class: 'flow' }, scene);
+  const [nx, ny] = b; el('circle', { cx: nx, cy: ny, r: 5, fill: V('fuel') }, scene); }
+
+/* Nhân viên cầm máy tính bảng (áo phản quang) */
+const man = el('g', {}, scene);
+{ const x = -80, y = 225;
+  box(man, x, y, 0, 7, 7, 34, [V('pants'), V('pants'), V('tr-dark')]);
+  box(man, x + 11, y, 0, 7, 7, 34, [V('pants'), V('pants'), V('tr-dark')]);
+  box(man, x - 2, y - 2, 34, 22, 11, 32, [V('vest-2'), V('vest'), V('vest')]);
+  poly([P(x - 2, y + 9, 50), P(x + 20, y + 9, 50), P(x + 20, y + 9, 54), P(x - 2, y + 9, 54)], V('vest-2'), man);
+  // tay cầm máy tính bảng
+  box(man, x + 18, y + 3, 46, 16, 5, 5, [V('vest'), V('vest'), V('vest')]);
+  poly([P(x + 32, y - 4, 44), P(x + 32, y + 14, 44), P(x + 32, y + 14, 66), P(x + 32, y - 4, 66)], V('tab'), man);
+  poly([P(x + 32.5, y - 2, 47), P(x + 32.5, y + 12, 47), P(x + 32.5, y + 12, 63), P(x + 32.5, y - 2, 63)], V('tab-screen'), man);
+  const [hx, hy] = P(x + 9, y + 3, 76);
+  el('circle', { cx: hx, cy: hy, r: 9, fill: V('skin') }, man);
+  el('path', { d: `M${hx - 9},${hy - 1} a9,9 0 0 1 18,0 l0,-3 a9,9 0 0 0 -18,0 z`, fill: V('hair') }, man);
+  el('ellipse', { cx: hx, cy: hy - 5, rx: 10.5, ry: 4.5, fill: V('vest-2') }, man); // mũ bảo hộ
+  all.push([hx, hy - 12]);
+}
+
+/* Thẻ số liệu nổi (mặt phẳng nghiêng isometric như ảnh mẫu) */
+function card(x, y, z, w, h, cls, draw, k = 1.75) {
+  const [sx, sy] = P(x, y, z);
+  const outer = el('g', { class: `float ${cls}` }, svg);
+  const g = el('g', { transform: `translate(${sx} ${sy}) scale(${k}) matrix(${C} ${-S} 0 1 0 0)` }, outer);
+  el('rect', { x: 0, y: 0, width: w, height: h, rx: 12, fill: V('cd-bg'), stroke: V('cd-line') }, g);
+  draw(g, w, h);
+}
+const txt = (g, x, y, size, weight, fill, key, extra = {}) => { const n = el('text', { x, y, 'font-size': size, 'font-weight': weight, fill, 'font-family': 'Inter, sans-serif', ...extra }, g); if (key) n.dataset.sc = key; return n; };
+// Bồn: cột mức
+card(-330, -40, 250, 118, 74, 'f2', (g) => {
+  txt(g, 12, 22, 11, 700, V('cd-text'), 'cTank'); txt(g, 12, 36, 9, 500, V('cd-muted'), 'cTankSub');
+  [[14, 30], [32, 22], [50, 34], [68, 26], [86, 38]].forEach(([bx, bh], i) => el('rect', { x: bx, y: 64 - bh / 1.6, width: 12, height: bh / 1.6, rx: 3, fill: i === 4 ? V('cd-bar') : V('cd-bar-2'), class: `bar b${(i % 4) + 1}` }, g));
+});
+// Phiếu QC đạt
+card(10, -330, 330, 120, 52, 'f3', (g) => {
+  el('circle', { cx: 24, cy: 26, r: 13, fill: V('cd-ok'), opacity: 0.15 }, g);
+  const ck = el('g', { class: 'check-pop' }, g);
+  el('path', { d: 'M18,26 l4,4 l8,-9', fill: 'none', stroke: V('cd-ok'), 'stroke-width': 2.6, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, ck);
+  txt(g, 44, 23, 11, 700, V('cd-text'), 'cQc'); txt(g, 44, 37, 9, 600, V('cd-ok'), 'cQcSub');
+});
+// Số lít đã tra nạp (đếm tăng)
+card(250, 40, 120, 140, 62, 'f1', (g) => {
+  txt(g, 12, 20, 9, 600, V('cd-muted'), 'cFuel');
+  const n = txt(g, 12, 42, 18, 800, V('cd-text'), null, { id: 'liters' }); n.textContent = '12.450 L';
+  txt(g, 12, 55, 8.5, 500, V('cd-muted'), 'cFlight');
+  el('path', { d: 'M108,40 l6,-10 l6,10 a6,6 0 1 1 -12,0 z', fill: V('fuel') }, g);
+});
+// Viên tròn nhỏ: biểu tượng máy bay
+{ const [sx, sy] = P(-200, -200, 260); const g = el('g', { class: 'float f4' }, svg);
+  el('circle', { cx: sx, cy: sy, r: 26, fill: V('cd-bg'), stroke: V('cd-line') }, g);
+  el('path', { d: `M${sx - 12},${sy + 3} l24,-9 l-4.5,12 z M${sx - 3},${sy} l-3,10 l4.5,-1.5 z`, fill: V('cd-bar') }, g); }
+
+/* Khung nhìn tự canh theo nội dung */
+// Đo hộp bao của mọi thứ đã vẽ (cảnh + thẻ nổi), chừa chỗ phía trên cho trời và biên độ nổi của thẻ.
+const bb = svg.getBBox();
+const pad = 28;
+const vb = { x: bb.x - pad, y: bb.y - 60, w: bb.width + pad * 2, h: bb.height + 60 + pad };
+svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
+svg.insertBefore(sky, scene);
+
+/* Trời: mặt trời / mặt trăng, mây, sao, tấm trang trí */
+el('circle', { cx: vb.x + vb.w * 0.84, cy: vb.y + vb.h * 0.12, r: 26, fill: V('sc-sun'), opacity: 'var(--sc-sun-op)' }, sky);
+el('circle', { cx: vb.x + vb.w * 0.84, cy: vb.y + vb.h * 0.12, r: 44, fill: V('sc-sun'), opacity: 0.18 }, sky);
+const stars = el('g', { class: 'stars' }, sky);
+for (let i = 0; i < 34; i += 1) el('circle', { cx: vb.x + ((i * 97) % 100) / 100 * vb.w, cy: vb.y + ((i * 53) % 100) / 100 * vb.h * 0.42, r: i % 4 === 0 ? 1.6 : 1 }, stars);
+for (const [cx, cy, s, cls] of [[0.15, 0.1, 1, 'cloud'], [0.5, 0.2, 0.75, 'cloud c2']]) {
+  const g = el('g', { class: cls }, sky); const x = vb.x + cx * vb.w, y = vb.y + cy * vb.h;
+  el('path', { d: `M${x},${y} h${70 * s} a${14 * s},${14 * s} 0 0 0 -${16 * s},-${18 * s} a${20 * s},${20 * s} 0 0 0 -${36 * s},-${4 * s} a${14 * s},${14 * s} 0 0 0 -${18 * s},${22 * s} z`, fill: V('sc-cloud'), opacity: 'var(--sc-cloud-op)' }, g);
+}
+for (const [cx, cy, w, h] of [[0.06, 0.62, 60, 40], [0.9, 0.55, 46, 30], [0.72, 0.9, 70, 44]]) {
+  const x = vb.x + cx * vb.w, y = vb.y + cy * vb.h;
+  el('rect', { x, y, width: w, height: h, rx: 10, fill: V('sc-tile'), transform: `rotate(-30 ${x} ${y}) skewX(20)` }, sky);
+}
+
+
+/* Dải điện thoại (thấp, rộng): cắt sát vào xe tra nạp và máy bay thay vì thu nhỏ cả cảnh. */
+const art = svg.parentElement;
+const fullBox = `${vb.x} ${vb.y} ${vb.w} ${vb.h}`;
+const focusFor = (ratio) => { // rộng 88% cảnh, cao theo tỉ lệ dải, tâm dọc ở xe tra nạp
+  const w = vb.w * 0.88, h = w * ratio, [, cy] = P(60, 40, 70);
+  return `${vb.x + (vb.w - w) / 2} ${cy - h * 0.55} ${w} ${h}`;
+};
+new ResizeObserver(() => {
+  const band = art.clientHeight <= 220;
+  svg.setAttribute('viewBox', band ? focusFor(art.clientHeight / art.clientWidth) : fullBox);
+  svg.setAttribute('preserveAspectRatio', band ? 'xMidYMid slice' : 'xMidYMid meet');
+}).observe(art);
+
+/* Đếm số lít khi vòi đang chạy */
+let liters = 12450;
+setInterval(() => { liters += 7 + Math.floor(Math.random() * 6); if (liters > 18800) liters = 12450; const n = document.getElementById('liters'); if (n) n.textContent = `${liters.toLocaleString('vi-VN')} L`; }, 450);
+
+
+/* ---------------- Hộp thoại Danh sách tài khoản (dữ liệu thật của DB demo tapetco_dev_0101, 09/10/2026) ---------------- */
+const QA_GROUPS = {"Điều độ viên": [["Bán hàng", [["Bán lô nhiên liệu bằng chào giá", "R"], ["Hợp đồng hãng bay", "R"], ["Yêu cầu báo giá bán", "R"], ["Đơn hàng bán trả lại và duyệt", "R"], ["Biên bản điều chỉnh giá bán", "R"], ["Cập nhật tình trạng đơn", "R"]]], ["Bảo trì", [["Checklist trước ca, kiểm tra định kỳ", "R"], ["Lập kế hoạch bảo trì", "R"], ["Tra cứu thiết bị", "R"], ["Báo hỏng thiết bị (kíp, lái xe)", "W"], ["Dashboard bảo trì thiết bị", "R"], ["Thực hiện và theo dõi bảo trì", "R"], ["Tiếp nhận và xử lý đề nghị sửa chữa", "R"], ["Trả bảo trì và release QC", "R"]]], ["Điều độ và tra nạp", [["Nhập nhanh lệnh tra nạp", "W"], ["Bảng điều độ ngày và ca", "W"], ["Dự báo nhu cầu", "W"], ["Bắt đầu bơm và ghi nhận tra nạp", "W"], ["Danh sách ghi nhận", "W"], ["Danh sách lệnh tra nạp", "W"], ["Phân công bị ảnh hưởng", "W"], ["Giao khẩn và đơn tạm (duyệt hậu kiểm)", "W"], ["In kế hoạch ngày", "W"], ["Ghi nhận cần xử lý (cờ dữ liệu)", "W"], ["Nhập bù và chế độ sự cố", "W"]]], ["Hệ thống", [["Điều độ", "R"], ["Việc cần làm", "W"], ["Hàng đợi duyệt", "W"]]], ["Khai báo", [["Khai báo kỳ", "R"], ["Khai báo thuế suất", "R"], ["Khai báo công ty", "R"], ["Khai báo nhóm mặt hàng", "R"], ["Khai báo nhân viên", "R"], ["Khai báo khách hàng, hãng bay", "R"], ["Khai báo thiết bị và hiệu chuẩn", "R"], ["Khai báo kho", "R"], ["Khai báo ca làm việc", "R"], ["Khai báo bồn và xe tra nạp", "R"], ["Khai báo nhà cung cấp", "R"], ["Khai báo chứng chỉ nhân viên", "R"], ["Khai báo cơ cấu tổ chức và điểm vận hành", "R"], ["Khai báo lịch làm việc", "R"], ["Khai báo mặt hàng", "R"], ["Khai báo vị trí địa lý (sân bay, vị trí đỗ)", "R"], ["Khai báo chức danh", "R"], ["Khai báo lô", "R"], ["Khai báo đơn vị tính và quy đổi", "R"], ["Tạo điểm vận hành", "R"]]], ["Kho", [["Yêu cầu cung ứng", "R"], ["Phiếu nhập mua hàng", "R"], ["Thẻ kho", "R"], ["Tra cứu tồn kho", "R"], ["Phiếu xuất luân chuyển", "R"], ["Truy xuất nguồn gốc lô", "R"], ["Bảng tổng hợp nhập xuất tồn", "R"], ["Phiếu nhập luân chuyển", "R"], ["Phiếu xuất kho sử dụng (mẫu QC, xả đáy)", "R"], ["Yêu cầu luân chuyển", "R"], ["Phiếu nhập khác (nhập bồn rút, hoàn xe)", "R"], ["Biên bản kiểm kê, đối soát tồn bồn", "R"], ["Tuổi tồn kho, tồn tối thiểu", "R"], ["Phiếu xuất bán", "R"], ["Phiếu điều chỉnh tồn", "R"], ["Xác nhận xuất kho", "R"], ["Phiếu nhập hàng bán bị trả lại (rút nhiên liệu)", "R"], ["Duyệt phiếu xuất kho", "R"], ["Xác nhận nhập kho", "R"], ["Phiếu xuất trả nhà cung cấp", "R"], ["Duyệt phiếu nhập kho", "R"]]], ["QC", [["Sự cố an toàn/QC và đóng cờ", "R"], ["Kiểm tra trước tra nạp", "R"], ["Release và Hold (bồn, xe, lô)", "R"], ["Truy vết hai chiều", "R"], ["Chuỗi mẫu, thiết bị, phương pháp; CAPA", "R"], ["Đối soát độc lập", "R"], ["Kiểm soát chất lượng phiếu nhập và phiếu xuất", "R"], ["Kết quả thử và giấy chứng nhận (CoA)", "R"], ["Phiếu QC", "R"]]], ["Tài liệu", [["Khai báo thư mục lưu trữ", "R"], ["Tải tài liệu lên", "R"], ["Khai báo nhóm tài liệu", "R"], ["Tra cứu tài liệu (CoA, chứng chỉ, biên bản)", "R"], ["Quản lý tập tin mẫu (biểu mẫu in, xuất)", "R"]]]], "HSE": [["Bảo trì", [["Lập kế hoạch bảo trì", "R"], ["Checklist trước ca, kiểm tra định kỳ", "R"], ["Báo hỏng thiết bị (kíp, lái xe)", "R"], ["Tra cứu thiết bị", "R"], ["Dashboard bảo trì thiết bị", "R"], ["Tiếp nhận và xử lý đề nghị sửa chữa", "R"], ["Thực hiện và theo dõi bảo trì", "R"], ["Trả bảo trì và release QC", "R"]]], ["Điều độ và tra nạp", [["Bắt đầu bơm và ghi nhận tra nạp", "R"], ["Bảng điều độ ngày và ca", "R"], ["Dự báo nhu cầu", "R"], ["Nhập nhanh lệnh tra nạp", "R"], ["Phân công bị ảnh hưởng", "R"], ["Danh sách ghi nhận", "R"], ["Danh sách lệnh tra nạp", "R"], ["Ghi nhận cần xử lý (cờ dữ liệu)", "R"], ["In kế hoạch ngày", "R"], ["Giao khẩn và đơn tạm (duyệt hậu kiểm)", "R"], ["Nhập bù và chế độ sự cố", "R"]]], ["Hệ thống", [["Việc cần làm", "W"], ["Hàng đợi duyệt", "W"], ["QC và HSE", "R"]]], ["Nhân sự", [["Chứng chỉ và hạn (cảnh báo)", "W"]]], ["QC", [["Sự cố an toàn/QC và đóng cờ", "W"]]]], "Kế toán": [["Bán hàng", [["Hợp đồng hãng bay", "R"], ["Đơn hàng bán trả lại và duyệt", "R"], ["Yêu cầu báo giá bán", "R"], ["Bán lô nhiên liệu bằng chào giá", "R"], ["Cập nhật tình trạng đơn", "R"], ["Biên bản điều chỉnh giá bán", "R"]]], ["Hệ thống", [["Việc cần làm", "W"], ["Hàng đợi duyệt", "W"], ["Kế toán và kinh doanh", "R"]]], ["Kho", [["Tra cứu tồn kho", "R"], ["Phiếu xuất luân chuyển", "R"], ["Yêu cầu cung ứng", "R"], ["Phiếu nhập mua hàng", "R"], ["Thẻ kho", "R"], ["Phiếu nhập luân chuyển", "R"], ["Phiếu xuất kho sử dụng (mẫu QC, xả đáy)", "R"], ["Truy xuất nguồn gốc lô", "R"], ["Yêu cầu luân chuyển", "R"], ["Bảng tổng hợp nhập xuất tồn", "R"], ["Tuổi tồn kho, tồn tối thiểu", "R"], ["Phiếu xuất bán", "R"], ["Biên bản kiểm kê, đối soát tồn bồn", "R"], ["Phiếu nhập khác (nhập bồn rút, hoàn xe)", "R"], ["Xác nhận xuất kho", "R"], ["Phiếu điều chỉnh tồn", "R"], ["Phiếu nhập hàng bán bị trả lại (rút nhiên liệu)", "R"], ["Xác nhận nhập kho", "R"], ["Duyệt phiếu xuất kho", "R"], ["Phiếu xuất trả nhà cung cấp", "R"], ["Duyệt phiếu nhập kho", "R"]]], ["Mua hàng", [["Tình hình thực hiện đơn mua, đơn tồn đọng", "R"], ["Biên bản điều chỉnh giá mua", "R"], ["Đơn hàng mua", "R"], ["Lập, xử lý đề nghị mua hàng", "R"], ["Thẻ điểm nhà cung cấp theo kỳ, duyệt kết quả", "R"], ["Đơn hàng mua trả lại", "R"], ["Bảng so sánh giá", "R"], ["Hợp đồng nguyên tắc mua", "R"]]], ["Tài chính kế toán", [["Hoá đơn điện tử", "W"], ["Tổng hợp công nợ, tuổi nợ, thẻ công nợ", "R"], ["Đề nghị thanh toán, tạm ứng", "W"], ["Chứng từ phải thu, phải trả", "W"], ["Phiếu thu, chi tiền mặt và ngân hàng", "W"], ["Kế toán phiếu nhập, xuất; tính giá", "W"], ["Phiếu hạch toán, chuyển sổ, tra cứu bút toán", "W"], ["Khai báo quy tắc định khoản kho, phải thu", "W"], ["Cấn trừ công nợ", "W"], ["Quỹ tiền mặt và tài khoản ngân hàng", "W"], ["Khai báo hệ thống tài khoản", "W"]]]], "Kế toán trưởng": [["Bán hàng", [["Hợp đồng hãng bay", "R"], ["Bán lô nhiên liệu bằng chào giá", "R"], ["Yêu cầu báo giá bán", "R"], ["Đơn hàng bán trả lại và duyệt", "R"], ["Cập nhật tình trạng đơn", "R"], ["Biên bản điều chỉnh giá bán", "R"]]], ["Hệ thống", [["Việc cần làm", "W"], ["Hàng đợi duyệt", "W"], ["Kế toán và kinh doanh", "R"]]], ["Kho", [["Thẻ kho", "R"], ["Phiếu xuất luân chuyển", "R"], ["Phiếu nhập mua hàng", "R"], ["Yêu cầu cung ứng", "R"], ["Tra cứu tồn kho", "R"], ["Bảng tổng hợp nhập xuất tồn", "R"], ["Truy xuất nguồn gốc lô", "R"], ["Phiếu xuất kho sử dụng (mẫu QC, xả đáy)", "R"], ["Yêu cầu luân chuyển", "R"], ["Phiếu nhập luân chuyển", "R"], ["Phiếu xuất bán", "R"], ["Tuổi tồn kho, tồn tối thiểu", "R"], ["Biên bản kiểm kê, đối soát tồn bồn", "R"], ["Phiếu nhập khác (nhập bồn rút, hoàn xe)", "R"], ["Phiếu điều chỉnh tồn", "R"], ["Xác nhận xuất kho", "R"], ["Phiếu nhập hàng bán bị trả lại (rút nhiên liệu)", "R"], ["Xác nhận nhập kho", "R"], ["Duyệt phiếu xuất kho", "R"], ["Duyệt phiếu nhập kho", "R"], ["Phiếu xuất trả nhà cung cấp", "R"]]], ["Mua hàng", [["Tình hình thực hiện đơn mua, đơn tồn đọng", "R"], ["Đơn hàng mua", "R"], ["Biên bản điều chỉnh giá mua", "R"], ["Lập, xử lý đề nghị mua hàng", "R"], ["Thẻ điểm nhà cung cấp theo kỳ, duyệt kết quả", "R"], ["Đơn hàng mua trả lại", "R"], ["Bảng so sánh giá", "R"], ["Hợp đồng nguyên tắc mua", "R"]]], ["Tài chính kế toán", [["Khai báo quy tắc định khoản kho, phải thu", "W"], ["Đề nghị thanh toán, tạm ứng", "W"], ["Chứng từ phải thu, phải trả", "W"], ["Phiếu thu, chi tiền mặt và ngân hàng", "W"], ["Kế toán phiếu nhập, xuất; tính giá", "W"], ["Phiếu hạch toán, chuyển sổ, tra cứu bút toán", "W"], ["Tổng hợp công nợ, tuổi nợ, thẻ công nợ", "R"], ["Hoá đơn điện tử", "W"], ["Cấn trừ công nợ", "W"], ["Khai báo hệ thống tài khoản", "W"], ["Quỹ tiền mặt và tài khoản ngân hàng", "W"]]]], "Kinh doanh": [["Bán hàng", [["Bán lô nhiên liệu bằng chào giá", "W"], ["Hợp đồng hãng bay", "W"], ["Yêu cầu báo giá bán", "W"], ["Đơn hàng bán trả lại và duyệt", "W"], ["Biên bản điều chỉnh giá bán", "W"], ["Cập nhật tình trạng đơn", "W"]]], ["Điều độ và tra nạp", [["Bắt đầu bơm và ghi nhận tra nạp", "R"], ["Bảng điều độ ngày và ca", "R"], ["Dự báo nhu cầu", "R"], ["Nhập nhanh lệnh tra nạp", "R"], ["Phân công bị ảnh hưởng", "R"], ["Danh sách ghi nhận", "R"], ["Danh sách lệnh tra nạp", "R"], ["Giao khẩn và đơn tạm (duyệt hậu kiểm)", "R"], ["Ghi nhận cần xử lý (cờ dữ liệu)", "R"], ["In kế hoạch ngày", "R"], ["Nhập bù và chế độ sự cố", "R"]]], ["Hệ thống", [["Việc cần làm", "W"], ["Hàng đợi duyệt", "W"], ["Kế toán và kinh doanh", "R"]]], ["Khai báo", [["Khai báo khách hàng, hãng bay", "W"]]], ["Kho", [["Thẻ kho", "R"], ["Tra cứu tồn kho", "R"], ["Bảng tổng hợp nhập xuất tồn", "R"], ["Tuổi tồn kho, tồn tối thiểu", "R"]]], ["Mua hàng", [["Đơn hàng mua", "W"]]], ["Tài chính kế toán", [["Chứng từ phải thu, phải trả", "R"], ["Tổng hợp công nợ, tuổi nợ, thẻ công nợ", "R"], ["Cấn trừ công nợ", "R"]]]], "Kíp tra nạp": [["Bảo trì", [["Báo hỏng thiết bị (kíp, lái xe)", "W"]]], ["Điều độ và tra nạp", [["Bắt đầu bơm và ghi nhận tra nạp", "W"], ["Danh sách ghi nhận", "W"]]], ["Hệ thống", [["Việc cần làm", "W"], ["Hàng đợi duyệt", "W"], ["Kíp tra nạp", "R"]]], ["QC", [["Kiểm tra trước tra nạp", "W"]]]], "Lãnh đạo": [["Bán hàng", [["Hợp đồng hãng bay", "R"], ["Bán lô nhiên liệu bằng chào giá", "R"], ["Yêu cầu báo giá bán", "R"], ["Đơn hàng bán trả lại và duyệt", "R"], ["Cập nhật tình trạng đơn", "R"], ["Biên bản điều chỉnh giá bán", "R"]]], ["Bảo trì", [["Lập kế hoạch bảo trì", "R"], ["Báo hỏng thiết bị (kíp, lái xe)", "R"], ["Checklist trước ca, kiểm tra định kỳ", "R"], ["Tra cứu thiết bị", "R"], ["Dashboard bảo trì thiết bị", "R"], ["Thực hiện và theo dõi bảo trì", "R"], ["Tiếp nhận và xử lý đề nghị sửa chữa", "R"], ["Trả bảo trì và release QC", "R"]]], ["Điều độ và tra nạp", [["Bảng điều độ ngày và ca", "R"], ["Bắt đầu bơm và ghi nhận tra nạp", "R"], ["Dự báo nhu cầu", "R"], ["Nhập nhanh lệnh tra nạp", "R"], ["Danh sách lệnh tra nạp", "R"], ["Danh sách ghi nhận", "R"], ["Phân công bị ảnh hưởng", "R"], ["In kế hoạch ngày", "R"], ["Giao khẩn và đơn tạm (duyệt hậu kiểm)", "R"], ["Ghi nhận cần xử lý (cờ dữ liệu)", "R"], ["Nhập bù và chế độ sự cố", "R"]]], ["Hệ thống", [["Việc cần làm", "W"], ["Hàng đợi duyệt", "W"], ["Lãnh đạo", "R"]]], ["Khai báo", [["Khai báo khách hàng, hãng bay", "R"], ["Khai báo nhân viên", "R"], ["Khai báo kỳ", "R"], ["Khai báo thiết bị và hiệu chuẩn", "R"], ["Khai báo nhóm mặt hàng", "R"], ["Khai báo công ty", "R"], ["Khai báo thuế suất", "R"], ["Khai báo kho", "R"], ["Khai báo ca làm việc", "R"], ["Khai báo chứng chỉ nhân viên", "R"], ["Khai báo nhà cung cấp", "R"], ["Khai báo cơ cấu tổ chức và điểm vận hành", "R"], ["Khai báo mặt hàng", "R"], ["Khai báo bồn và xe tra nạp", "R"], ["Khai báo lịch làm việc", "R"], ["Khai báo chức danh", "R"], ["Khai báo vị trí địa lý (sân bay, vị trí đỗ)", "R"], ["Khai báo lô", "R"], ["Khai báo đơn vị tính và quy đổi", "R"], ["Tạo điểm vận hành", "R"]]], ["Kho", [["Thẻ kho", "R"], ["Tra cứu tồn kho", "R"], ["Phiếu nhập mua hàng", "R"], ["Yêu cầu cung ứng", "R"], ["Phiếu xuất luân chuyển", "R"], ["Bảng tổng hợp nhập xuất tồn", "R"], ["Phiếu xuất kho sử dụng (mẫu QC, xả đáy)", "R"], ["Truy xuất nguồn gốc lô", "R"], ["Phiếu nhập luân chuyển", "R"], ["Yêu cầu luân chuyển", "R"], ["Phiếu nhập khác (nhập bồn rút, hoàn xe)", "R"], ["Phiếu xuất bán", "R"], ["Tuổi tồn kho, tồn tối thiểu", "R"], ["Biên bản kiểm kê, đối soát tồn bồn", "R"], ["Xác nhận xuất kho", "R"], ["Phiếu nhập hàng bán bị trả lại (rút nhiên liệu)", "R"], ["Phiếu điều chỉnh tồn", "R"], ["Duyệt phiếu xuất kho", "R"], ["Xác nhận nhập kho", "R"], ["Duyệt phiếu nhập kho", "R"], ["Phiếu xuất trả nhà cung cấp", "R"]]], ["Mua hàng", [["Tình hình thực hiện đơn mua, đơn tồn đọng", "R"], ["Thẻ điểm nhà cung cấp theo kỳ, duyệt kết quả", "R"], ["Biên bản điều chỉnh giá mua", "R"], ["Đơn hàng mua", "R"], ["Lập, xử lý đề nghị mua hàng", "R"], ["Bảng so sánh giá", "R"], ["Đơn hàng mua trả lại", "R"], ["Hợp đồng nguyên tắc mua", "R"]]], ["Nhân sự", [["Khai báo nhân viên, hợp đồng lao động", "R"], ["Chấm công nhân viên, phòng ban, tổng hợp", "R"], ["Xem hồ sơ và sửa thông tin cá nhân", "R"], ["Yêu cầu, kế hoạch, lớp đào tạo", "R"], ["Tính lương, thuế TNCN, bảo hiểm", "R"], ["Xem phiếu lương", "R"], ["Nghỉ phép, làm thêm giờ", "R"], ["Chứng chỉ và hạn (cảnh báo)", "R"], ["Đăng ký tăng ca, yêu cầu bổ sung chấm công, phê duyệt nghỉ phép và tăng ca", "R"]]], ["QC", [["Release và Hold (bồn, xe, lô)", "R"], ["Kiểm tra trước tra nạp", "R"], ["Truy vết hai chiều", "R"], ["Chuỗi mẫu, thiết bị, phương pháp; CAPA", "R"], ["Đối soát độc lập", "R"], ["Sự cố an toàn/QC và đóng cờ", "R"], ["Kết quả thử và giấy chứng nhận (CoA)", "R"], ["Kiểm soát chất lượng phiếu nhập và phiếu xuất", "R"], ["Phiếu QC", "R"]]], ["Tài chính kế toán", [["Hoá đơn điện tử", "R"], ["Khai báo quy tắc định khoản kho, phải thu", "R"], ["Tổng hợp công nợ, tuổi nợ, thẻ công nợ", "R"], ["Phiếu hạch toán, chuyển sổ, tra cứu bút toán", "R"], ["Kế toán phiếu nhập, xuất; tính giá", "R"], ["Chứng từ phải thu, phải trả", "R"], ["Phiếu thu, chi tiền mặt và ngân hàng", "R"], ["Đề nghị thanh toán, tạm ứng", "R"], ["Quỹ tiền mặt và tài khoản ngân hàng", "R"], ["Khai báo hệ thống tài khoản", "R"], ["Cấn trừ công nợ", "R"]]], ["Tài liệu", [["Tải tài liệu lên", "R"], ["Khai báo thư mục lưu trữ", "R"], ["Khai báo nhóm tài liệu", "R"], ["Tra cứu tài liệu (CoA, chứng chỉ, biên bản)", "R"], ["Quản lý tập tin mẫu (biểu mẫu in, xuất)", "R"]]]], "Nhân viên kho": [["Điều độ và tra nạp", [["Dự báo nhu cầu", "R"], ["Bắt đầu bơm và ghi nhận tra nạp", "R"], ["Nhập nhanh lệnh tra nạp", "R"], ["Bảng điều độ ngày và ca", "R"], ["Danh sách lệnh tra nạp", "R"], ["Danh sách ghi nhận", "R"], ["Phân công bị ảnh hưởng", "R"], ["In kế hoạch ngày", "R"], ["Giao khẩn và đơn tạm (duyệt hậu kiểm)", "R"], ["Ghi nhận cần xử lý (cờ dữ liệu)", "R"], ["Nhập bù và chế độ sự cố", "R"]]], ["Hệ thống", [["Việc cần làm", "W"], ["Hàng đợi duyệt", "W"], ["Kho", "R"]]], ["Khai báo", [["Khai báo kho", "W"], ["Khai báo bồn và xe tra nạp", "W"], ["Khai báo lô", "W"]]], ["Kho", [["Yêu cầu cung ứng", "W"], ["Tra cứu tồn kho", "W"], ["Phiếu nhập mua hàng", "W"], ["Thẻ kho", "R"], ["Phiếu xuất luân chuyển", "W"], ["Phiếu nhập luân chuyển", "W"], ["Phiếu xuất kho sử dụng (mẫu QC, xả đáy)", "W"], ["Truy xuất nguồn gốc lô", "W"], ["Yêu cầu luân chuyển", "W"], ["Bảng tổng hợp nhập xuất tồn", "R"], ["Phiếu nhập khác (nhập bồn rút, hoàn xe)", "W"], ["Phiếu xuất bán", "W"], ["Biên bản kiểm kê, đối soát tồn bồn", "W"], ["Tuổi tồn kho, tồn tối thiểu", "R"], ["Phiếu điều chỉnh tồn", "W"], ["Phiếu nhập hàng bán bị trả lại (rút nhiên liệu)", "W"], ["Xác nhận xuất kho", "W"], ["Duyệt phiếu xuất kho", "W"], ["Xác nhận nhập kho", "W"], ["Phiếu xuất trả nhà cung cấp", "W"], ["Duyệt phiếu nhập kho", "W"]]], ["Mua hàng", [["Biên bản điều chỉnh giá mua", "R"], ["Đơn hàng mua", "R"], ["Thẻ điểm nhà cung cấp theo kỳ, duyệt kết quả", "R"], ["Tình hình thực hiện đơn mua, đơn tồn đọng", "R"], ["Lập, xử lý đề nghị mua hàng", "R"], ["Bảng so sánh giá", "R"], ["Đơn hàng mua trả lại", "R"], ["Hợp đồng nguyên tắc mua", "R"]]], ["QC", [["Chuỗi mẫu, thiết bị, phương pháp; CAPA", "R"], ["Release và Hold (bồn, xe, lô)", "R"], ["Kiểm tra trước tra nạp", "R"], ["Sự cố an toàn/QC và đóng cờ", "R"], ["Truy vết hai chiều", "R"], ["Đối soát độc lập", "R"], ["Kiểm soát chất lượng phiếu nhập và phiếu xuất", "R"], ["Kết quả thử và giấy chứng nhận (CoA)", "R"], ["Phiếu QC", "R"]]]], "QC": [["Bảo trì", [["Dashboard bảo trì thiết bị", "R"], ["Trả bảo trì và release QC", "W"]]], ["Điều độ và tra nạp", [["Nhập nhanh lệnh tra nạp", "R"], ["Bảng điều độ ngày và ca", "R"], ["Dự báo nhu cầu", "R"], ["Bắt đầu bơm và ghi nhận tra nạp", "R"], ["Danh sách ghi nhận", "R"], ["Danh sách lệnh tra nạp", "R"], ["Phân công bị ảnh hưởng", "R"], ["Ghi nhận cần xử lý (cờ dữ liệu)", "R"], ["Giao khẩn và đơn tạm (duyệt hậu kiểm)", "R"], ["In kế hoạch ngày", "R"], ["Nhập bù và chế độ sự cố", "R"]]], ["Hệ thống", [["Việc cần làm", "W"], ["Hàng đợi duyệt", "W"], ["QC và HSE", "R"]]], ["Khai báo", [["Khai báo thiết bị và hiệu chuẩn", "W"], ["Khai báo chứng chỉ nhân viên", "W"]]], ["Kho", [["Phiếu nhập mua hàng", "R"], ["Thẻ kho", "R"], ["Tra cứu tồn kho", "R"], ["Yêu cầu cung ứng", "R"], ["Phiếu xuất luân chuyển", "R"], ["Phiếu xuất kho sử dụng (mẫu QC, xả đáy)", "R"], ["Phiếu nhập luân chuyển", "R"], ["Truy xuất nguồn gốc lô", "R"], ["Bảng tổng hợp nhập xuất tồn", "R"], ["Yêu cầu luân chuyển", "R"], ["Biên bản kiểm kê, đối soát tồn bồn", "R"], ["Phiếu xuất bán", "R"], ["Tuổi tồn kho, tồn tối thiểu", "R"], ["Phiếu nhập khác (nhập bồn rút, hoàn xe)", "R"], ["Phiếu nhập hàng bán bị trả lại (rút nhiên liệu)", "R"], ["Phiếu điều chỉnh tồn", "R"], ["Xác nhận xuất kho", "R"], ["Duyệt phiếu xuất kho", "R"], ["Xác nhận nhập kho", "R"], ["Duyệt phiếu nhập kho", "R"], ["Phiếu xuất trả nhà cung cấp", "R"]]], ["QC", [["Truy vết hai chiều", "W"], ["Chuỗi mẫu, thiết bị, phương pháp; CAPA", "W"], ["Kiểm tra trước tra nạp", "W"], ["Release và Hold (bồn, xe, lô)", "W"], ["Đối soát độc lập", "W"], ["Sự cố an toàn/QC và đóng cờ", "W"], ["Kết quả thử và giấy chứng nhận (CoA)", "W"], ["Kiểm soát chất lượng phiếu nhập và phiếu xuất", "W"], ["Phiếu QC", "W"]]]], "Quản trị hệ thống": [["Bán hàng", [["Bán lô nhiên liệu bằng chào giá", "R"], ["Hợp đồng hãng bay", "R"], ["Yêu cầu báo giá bán", "R"], ["Đơn hàng bán trả lại và duyệt", "R"], ["Cập nhật tình trạng đơn", "R"], ["Biên bản điều chỉnh giá bán", "R"]]], ["Bảo trì", [["Tra cứu thiết bị", "R"], ["Dashboard bảo trì thiết bị", "R"], ["Checklist trước ca, kiểm tra định kỳ", "R"], ["Lập kế hoạch bảo trì", "R"], ["Báo hỏng thiết bị (kíp, lái xe)", "R"], ["Thực hiện và theo dõi bảo trì", "R"], ["Tiếp nhận và xử lý đề nghị sửa chữa", "R"], ["Trả bảo trì và release QC", "R"]]], ["Điều độ và tra nạp", [["Bắt đầu bơm và ghi nhận tra nạp", "R"], ["Nhập nhanh lệnh tra nạp", "R"], ["Dự báo nhu cầu", "R"], ["Bảng điều độ ngày và ca", "R"], ["Danh sách lệnh tra nạp", "R"], ["Phân công bị ảnh hưởng", "R"], ["Danh sách ghi nhận", "R"], ["In kế hoạch ngày", "R"], ["Ghi nhận cần xử lý (cờ dữ liệu)", "R"], ["Giao khẩn và đơn tạm (duyệt hậu kiểm)", "R"], ["Nhập bù và chế độ sự cố", "R"]]], ["Hệ thống", [["Khai báo người sử dụng", "W"], ["Báo cáo phân quyền hệ thống", "R"], ["Khai báo quy trình duyệt", "W"], ["Khai báo tham số hệ thống", "W"], ["Tra cứu nhật ký kiểm toán", "W"], ["Khai báo menu", "W"], ["Khai báo nhóm quyền", "W"], ["Việc cần làm", "W"], ["Khai báo người dùng làm thêm ở điểm khác", "W"], ["Hàng đợi duyệt", "W"], ["Chế độ điều kiện kiểm soát", "W"], ["Lịch sử gửi mail", "W"], ["Phân quyền menu cho nhóm", "W"], ["Khai báo nghiệp vụ", "W"], ["Khai báo uỷ quyền duyệt", "W"], ["Khai báo quy tắc đặt mã", "W"], ["Danh sách yêu cầu tạo tài khoản", "W"], ["Map nghiệp vụ và menu", "W"], ["Lịch sử đăng nhập", "W"], ["Khai báo domain", "W"], ["Tài khoản của tôi (đổi mật khẩu)", "W"], ["Quản trị hệ thống", "R"]]], ["Khai báo", [["Khai báo kỳ", "W"], ["Khai báo ca làm việc", "W"], ["Khai báo kho", "W"], ["Khai báo công ty", "W"], ["Khai báo nhóm mặt hàng", "W"], ["Khai báo khách hàng, hãng bay", "W"], ["Khai báo thuế suất", "W"], ["Khai báo thiết bị và hiệu chuẩn", "W"], ["Khai báo nhân viên", "W"], ["Khai báo chứng chỉ nhân viên", "W"], ["Khai báo cơ cấu tổ chức và điểm vận hành", "W"], ["Khai báo mặt hàng", "W"], ["Khai báo nhà cung cấp", "W"], ["Khai báo bồn và xe tra nạp", "W"], ["Khai báo lịch làm việc", "W"], ["Khai báo chức danh", "W"], ["Khai báo lô", "W"], ["Khai báo đơn vị tính và quy đổi", "W"], ["Khai báo vị trí địa lý (sân bay, vị trí đỗ)", "W"], ["Tạo điểm vận hành", "W"]]], ["Kho", [["Thẻ kho", "R"], ["Phiếu xuất luân chuyển", "R"], ["Tra cứu tồn kho", "R"], ["Phiếu nhập mua hàng", "R"], ["Yêu cầu cung ứng", "R"], ["Bảng tổng hợp nhập xuất tồn", "R"], ["Phiếu xuất kho sử dụng (mẫu QC, xả đáy)", "R"], ["Yêu cầu luân chuyển", "R"], ["Phiếu nhập luân chuyển", "R"], ["Truy xuất nguồn gốc lô", "R"], ["Phiếu xuất bán", "R"], ["Biên bản kiểm kê, đối soát tồn bồn", "R"], ["Tuổi tồn kho, tồn tối thiểu", "R"], ["Phiếu nhập khác (nhập bồn rút, hoàn xe)", "R"], ["Phiếu điều chỉnh tồn", "R"], ["Xác nhận xuất kho", "R"], ["Phiếu nhập hàng bán bị trả lại (rút nhiên liệu)", "R"], ["Duyệt phiếu xuất kho", "R"], ["Xác nhận nhập kho", "R"], ["Duyệt phiếu nhập kho", "R"], ["Phiếu xuất trả nhà cung cấp", "R"]]], ["Mua hàng", [["Tình hình thực hiện đơn mua, đơn tồn đọng", "R"], ["Biên bản điều chỉnh giá mua", "R"], ["Lập, xử lý đề nghị mua hàng", "R"], ["Thẻ điểm nhà cung cấp theo kỳ, duyệt kết quả", "R"], ["Đơn hàng mua", "R"], ["Đơn hàng mua trả lại", "R"], ["Bảng so sánh giá", "R"], ["Hợp đồng nguyên tắc mua", "R"]]], ["QC", [["Truy vết hai chiều", "R"], ["Chuỗi mẫu, thiết bị, phương pháp; CAPA", "R"], ["Đối soát độc lập", "R"], ["Sự cố an toàn/QC và đóng cờ", "R"], ["Kiểm tra trước tra nạp", "R"], ["Release và Hold (bồn, xe, lô)", "R"], ["Kiểm soát chất lượng phiếu nhập và phiếu xuất", "R"], ["Kết quả thử và giấy chứng nhận (CoA)", "R"], ["Phiếu QC", "R"]]], ["Tài liệu", [["Tải tài liệu lên", "W"], ["Khai báo thư mục lưu trữ", "W"], ["Tra cứu tài liệu (CoA, chứng chỉ, biên bản)", "W"], ["Khai báo nhóm tài liệu", "W"], ["Quản lý tập tin mẫu (biểu mẫu in, xuất)", "W"]]]], "Trưởng ca": [["Bán hàng", [["Bán lô nhiên liệu bằng chào giá", "R"], ["Đơn hàng bán trả lại và duyệt", "R"], ["Yêu cầu báo giá bán", "R"], ["Hợp đồng hãng bay", "R"], ["Biên bản điều chỉnh giá bán", "R"], ["Cập nhật tình trạng đơn", "R"]]], ["Bảo trì", [["Báo hỏng thiết bị (kíp, lái xe)", "W"], ["Dashboard bảo trì thiết bị", "R"]]], ["Điều độ và tra nạp", [["Dự báo nhu cầu", "W"], ["Nhập nhanh lệnh tra nạp", "W"], ["Bảng điều độ ngày và ca", "W"], ["Bắt đầu bơm và ghi nhận tra nạp", "W"], ["Phân công bị ảnh hưởng", "W"], ["Danh sách lệnh tra nạp", "W"], ["Danh sách ghi nhận", "W"], ["Ghi nhận cần xử lý (cờ dữ liệu)", "W"], ["In kế hoạch ngày", "W"], ["Giao khẩn và đơn tạm (duyệt hậu kiểm)", "W"], ["Nhập bù và chế độ sự cố", "W"]]], ["Hệ thống", [["Việc cần làm", "W"], ["Điều độ", "R"], ["Hàng đợi duyệt", "W"], ["Trưởng ca", "R"]]], ["Khai báo", [["Khai báo thiết bị và hiệu chuẩn", "R"], ["Khai báo khách hàng, hãng bay", "R"], ["Khai báo ca làm việc", "R"], ["Khai báo kỳ", "R"], ["Khai báo thuế suất", "R"], ["Khai báo nhóm mặt hàng", "R"], ["Khai báo kho", "R"], ["Khai báo công ty", "R"], ["Khai báo nhân viên", "R"], ["Khai báo nhà cung cấp", "R"], ["Khai báo lịch làm việc", "R"], ["Khai báo chứng chỉ nhân viên", "R"], ["Khai báo bồn và xe tra nạp", "R"], ["Khai báo mặt hàng", "R"], ["Khai báo cơ cấu tổ chức và điểm vận hành", "R"], ["Khai báo vị trí địa lý (sân bay, vị trí đỗ)", "R"], ["Khai báo đơn vị tính và quy đổi", "R"], ["Khai báo chức danh", "R"], ["Khai báo lô", "R"], ["Tạo điểm vận hành", "R"]]], ["Kho", [["Thẻ kho", "R"], ["Yêu cầu cung ứng", "R"], ["Phiếu xuất luân chuyển", "R"], ["Phiếu nhập mua hàng", "R"], ["Tra cứu tồn kho", "R"], ["Yêu cầu luân chuyển", "R"], ["Bảng tổng hợp nhập xuất tồn", "R"], ["Phiếu nhập luân chuyển", "R"], ["Truy xuất nguồn gốc lô", "R"], ["Phiếu xuất kho sử dụng (mẫu QC, xả đáy)", "R"], ["Phiếu nhập khác (nhập bồn rút, hoàn xe)", "R"], ["Phiếu xuất bán", "R"], ["Biên bản kiểm kê, đối soát tồn bồn", "R"], ["Tuổi tồn kho, tồn tối thiểu", "R"], ["Phiếu điều chỉnh tồn", "R"], ["Phiếu nhập hàng bán bị trả lại (rút nhiên liệu)", "R"], ["Xác nhận xuất kho", "R"], ["Xác nhận nhập kho", "R"], ["Duyệt phiếu xuất kho", "R"], ["Duyệt phiếu nhập kho", "R"], ["Phiếu xuất trả nhà cung cấp", "R"]]], ["QC", [["Kiểm tra trước tra nạp", "R"], ["Release và Hold (bồn, xe, lô)", "R"], ["Chuỗi mẫu, thiết bị, phương pháp; CAPA", "R"], ["Đối soát độc lập", "R"], ["Truy vết hai chiều", "R"], ["Sự cố an toàn/QC và đóng cờ", "R"], ["Kết quả thử và giấy chứng nhận (CoA)", "R"], ["Kiểm soát chất lượng phiếu nhập và phiếu xuất", "R"], ["Phiếu QC", "R"]]], ["Tài liệu", [["Tải tài liệu lên", "R"], ["Khai báo thư mục lưu trữ", "R"], ["Khai báo nhóm tài liệu", "R"], ["Tra cứu tài liệu (CoA, chứng chỉ, biên bản)", "R"], ["Quản lý tập tin mẫu (biểu mẫu in, xuất)", "R"]]]]};
+const QA_ACC = [["admin", "Quản trị hệ thống", "Quản trị hệ thống"], ["bao", "Bảo", "Nhân viên kho"], ["binh", "Bình", "Kế toán"], ["dat", "Đạt", "Trưởng ca"], ["ha.dp", "Hà", "Điều độ viên"], ["hanh", "Hạnh", "Quản trị hệ thống"], ["kip1a", "Kíp 1 - A", "Kíp tra nạp"], ["kip1b", "Kíp 1 - B", "Kíp tra nạp"], ["kip2a", "Kíp 2 - A", "Kíp tra nạp"], ["kip2b", "Kíp 2 - B", "Kíp tra nạp"], ["kip3a", "Kíp 3 - A", "Kíp tra nạp"], ["kip3b", "Kíp 3 - B", "Kíp tra nạp"], ["kip4a", "Kíp 4 - A", "Kíp tra nạp"], ["kip4b", "Kíp 4 - B", "Kíp tra nạp"], ["lan", "Lan", "Kế toán"], ["minh", "Minh", "QC"], ["ngoc", "Ngọc", "Kế toán trưởng"], ["son", "Sơn", "HSE"], ["thao", "Thảo", "Kinh doanh"], ["truongphong", "Trưởng phòng", "Lãnh đạo"], ["vinh", "Vinh", "QC"], ["system.tapetco", "Hệ thống", ""]].map(([login, name, group]) => ({ login, name, group, mustChange: login === 'thao' }));
+const QA_COLOR = { 'Quản trị hệ thống': '#475569', 'Kíp tra nạp': '#C2410C', 'Điều độ viên': '#EA580C', 'Trưởng ca': '#B45309', 'Kế toán': '#A16207', 'Kế toán trưởng': '#854D0E',
+  'QC': '#15803D', 'HSE': '#0E7490', 'Nhân viên kho': '#2563EB', 'Kinh doanh': '#7C3AED', 'Lãnh đạo': '#4F46E5', '': '#6B7686' };
+const QA_COLOR_DARK = { 'Quản trị hệ thống': '#94A3B8', 'Kíp tra nạp': '#FB923C', 'Điều độ viên': '#FDBA74', 'Trưởng ca': '#F59E0B', 'Kế toán': '#FACC15', 'Kế toán trưởng': '#FDE047',
+  'QC': '#4ADE80', 'HSE': '#22D3EE', 'Nhân viên kho': '#60A5FA', 'Kinh doanh': '#A78BFA', 'Lãnh đạo': '#818CF8', '': '#7F8DA6' };
+const qaColor = (g) => (document.documentElement.dataset.theme === 'dark' ? QA_COLOR_DARK : QA_COLOR)[g] ?? '#6B7686';
+const fold = (s) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
+const initials = (name) => { const w = name.replace(/[^\p{L}\d ]/gu, ' ').trim().split(/\s+/); return (w.length > 1 ? w[0][0] + w[w.length - 1][0] : w[0][0]).toUpperCase(); };
+const ICON_W = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>';
+const ICON_R = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+const ICON_GO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const ICON_DOWN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>';
+let qaFilter = '', qaQuery = '', qaOpen = new Set(), qaBusy = null, qaLastFocus = null;
+const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function renderQa() {
+  const t = T[lang];
+  const q = fold(qaQuery.trim());
+  const groups = [...new Set(QA_ACC.map((a) => a.group).filter(Boolean))].sort((a, b) => QA_ACC.filter((x) => x.group === b).length - QA_ACC.filter((x) => x.group === a).length || a.localeCompare(b, 'vi'));
+  const pill = (key, label, n) => `<button type="button" class="qa-pill" data-g="${esc(key)}" aria-pressed="${qaFilter === key}" style="--c:${key ? qaColor(key) : 'var(--primary)'}">${key ? '<i></i>' : ''}${esc(label)} <span>${n}</span></button>`;
+  document.getElementById('qaPills').innerHTML = pill('', t.qaAll, QA_ACC.length) + groups.map((g) => pill(g, g, QA_ACC.filter((a) => a.group === g).length)).join('');
+  document.getElementById('qaPills').setAttribute('aria-label', t.qaTitle);
+  const shown = QA_ACC.filter((a) => (!qaFilter || a.group === qaFilter) && (!q || fold(`${a.name} ${a.login} ${a.group}`).includes(q)));
+  document.getElementById('qaCount').textContent = t.qaCountN(shown.length);
+  const list = document.getElementById('qaList');
+  list.classList.toggle('signing', qaBusy !== null);
+  list.innerHTML = shown.length === 0 ? `<li class="qa-empty"><b>${t.qaEmptyT}</b>${t.qaEmptyD}</li>` : shown.map((a) => {
+    const mods = QA_GROUPS[a.group] ?? [];
+    const menuN = mods.reduce((s, m) => s + m[1].length, 0);
+    const open = qaOpen.has(a.login), busy = qaBusy === a.login;
+    const tags = (a.group ? `<span class="qa-tag">${esc(a.group)}</span>` : `<span class="qa-tag none">${t.qaNoGroup}</span>`) + (a.mustChange ? `<span class="qa-tag warn">${t.qaMustChange}</span>` : '');
+    const modsHtml = mods.length === 0 ? `<p style="margin:0;color:var(--text-subtle);font-size:12px">${t.qaNoMenu}</p>` : mods.map(([m, items]) => `<div class="qa-mod"><h4>${esc(m)} <span>${items.length}</span></h4><ul>${items.map(([n, l]) => `<li class="${l === 'W' ? 'w' : 'r'}">${l === 'W' ? ICON_W : ICON_R}${esc(n)}</li>`).join('')}</ul></div>`).join('');
+    return `<li class="qa-card${open ? ' open' : ''}${busy ? ' busy' : ''}" style="--c:${qaColor(a.group)}">
+      <button type="button" class="qa-go" data-login="${esc(a.login)}"><span class="qa-av">${esc(initials(a.name))}</span>
+        <span class="qa-who"><b>${esc(a.name)}<code>${esc(a.login)}</code></b><span class="qa-tags">${tags}</span></span>
+        <span class="qa-arrow">${busy ? `<span class="spin" style="width:14px;height:14px"></span><em>${t.qaBusy}</em>` : `<em>${t.qaGo}</em>${ICON_GO}`}</span></button>
+      <button type="button" class="qa-more" data-more="${esc(a.login)}" aria-expanded="${open}"><span>${t.qaMore(mods.length, menuN)}</span><span style="display:inline-flex;align-items:center;gap:4px">${open ? t.qaHide : t.qaShow}${ICON_DOWN}</span></button>
+      <div class="qa-mods">${modsHtml}</div></li>`;
+  }).join('');
+}
+function openQa() {
+  qaLastFocus = document.activeElement; qaBusy = null; renderQa();
+  document.getElementById('qaBack').classList.add('on');
+  setTimeout(() => document.getElementById('qaSearch').focus(), 30);
+}
+function closeQa() { document.getElementById('qaBack').classList.remove('on'); qaLastFocus?.focus(); }
+document.getElementById('qaClose').addEventListener('click', closeQa);
+document.getElementById('qaBack').addEventListener('click', (e) => { if (e.target.id === 'qaBack') closeQa(); });
+document.getElementById('qaSearch').addEventListener('input', (e) => { qaQuery = e.target.value; renderQa(); });
+document.getElementById('qaPills').addEventListener('click', (e) => { const b = e.target.closest('[data-g]'); if (b) { qaFilter = b.dataset.g; renderQa(); } });
+document.getElementById('qaList').addEventListener('click', (e) => {
+  const more = e.target.closest('[data-more]');
+  if (more) { const k = more.dataset.more; qaOpen.has(k) ? qaOpen.delete(k) : qaOpen.add(k); renderQa(); document.querySelector(`[data-more="${CSS.escape(k)}"]`)?.focus(); return; }
+  const go = e.target.closest('[data-login]');
+  if (go && qaBusy === null) { qaBusy = go.dataset.login; renderQa(); setTimeout(() => { closeQa(); toast(`${lang === 'vi' ? 'Đã vào bằng tài khoản' : 'Signed in as'} ${qaBusy}`); qaBusy = null; }, 1100); }
+});
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('qaBack').classList.contains('on')) return;
+  if (e.key === 'Escape') { e.preventDefault(); closeQa(); return; }
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    const items = [...document.querySelectorAll('#qaList .qa-go')];
+    if (items.length === 0) return;
+    e.preventDefault();
+    const i = items.indexOf(document.activeElement);
+    const next = e.key === 'ArrowDown' ? (i < 0 ? 0 : Math.min(i + 1, items.length - 1)) : (i <= 0 ? -1 : i - 1);
+    if (next < 0) document.getElementById('qaSearch').focus(); else items[next].focus();
+  }
+  if (e.key === 'Enter' && document.activeElement?.id === 'qaSearch') { e.preventDefault(); document.querySelector('#qaList .qa-go')?.click(); }
+  if (e.key === 'Tab') { // giữ Tab trong hộp thoại
+    const f = [...document.querySelectorAll('.qa button, .qa input')].filter((n) => n.offsetParent !== null);
+    if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+    else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+  }
+});
+new MutationObserver(() => { if (document.getElementById('qaBack').classList.contains('on')) renderQa(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+applyLang();
+</script>
+</body>
+</html>

@@ -6,7 +6,7 @@ argument-hint: "[update | validate | <màn hình>]"
 
 # /apf:ux
 
-Thư mục gốc plugin là `../..`. Đọc `references/conventions.md` một lần, rồi đọc `design-baseline/README.md` và `design-baseline/principles.md`. Các file khác trong `design-baseline/` (tokens, responsive, states, patterns, pitfalls, checklist) chỉ đọc khi tới phần cần. Mẫu: `templates/docs/DESIGN.md`, `templates/docs/EXPERIENCE.md`. Đầu ra: `docs/ux/DESIGN.md`, `docs/ux/EXPERIENCE.md`, `docs/ux/mockups/`.
+Thư mục gốc plugin là `../..`. Đọc `references/conventions.md` một lần, rồi đọc `design-baseline/README.md` và `design-baseline/principles.md`. Các file khác trong `design-baseline/` (tokens, responsive, states, patterns, pitfalls, checklist) chỉ đọc khi tới phần cần; muốn xem cách làm v2 bằng mắt thì mở `design-baseline/mockups-v2/`. Mẫu: `templates/docs/DESIGN.md`, `templates/docs/EXPERIENCE.md`. Đầu ra: `docs/ux/DESIGN.md`, `docs/ux/EXPERIENCE.md`, `docs/ux/mockups/`.
 
 ## Tư thế
 Hỏi như người thiết kế lâu năm. **Giữ các quy tắc `[CHỐT]` của bộ nền** (người dùng đã chốt qua nhiều dự án). Quy tắc nào muốn khác thì phải hỏi, và ghi vào mục Ngoại lệ đã duyệt kèm lý do. Phần **bản sắc** (màu, font, hình minh hoạ, giọng văn): **không tự đề xuất** khi chưa được mời; nếu người dùng muốn thấy phương án thì dựng 3–4 phương án để chọn.

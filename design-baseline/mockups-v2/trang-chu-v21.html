@@ -1,0 +1,1370 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trang chủ v2.1</title>
+<meta name="description" content="Bản thử trang chủ v2.1 (BA 09/10/2026): Chức năng thường dùng dạng lưới nhiều hàng, Tổng quan có thanh trạng thái và biểu đồ giá trị, Bảng tin công ty.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Token: giữ màu nhận diện của DESIGN.md v0.24; phần mới của v2 là nền trang ngả màu, thẻ bo 20 px không viền có bóng nhẹ. */
+:root {
+  --bg: #EEF2F7; --bg-glow: #DCE7F5;
+  --surface: #FFFFFF; --surface-muted: #F4F6F9; --surface-sunken: #E9EDF2;
+  --border: #E6E8EB; --border-strong: #80858E;
+  --text: #111418; --text-muted: #4B4F55; --text-subtle: #6B7078;
+  --primary: #0752A4; --primary-hover: #064283; --on-primary: #FFFFFF;
+  --primary-container: #DCE9F8; --on-primary-container: #063A73;
+  --success: #166534; --success-container: #DCFCE7;
+  --warning: #854D0E; --warning-container: #FEF3C7;
+  --danger: #B91C1C; --danger-container: #FEE2E2;
+  --bar-soft: #BBD3F1; --bar-strong: #0752A4; --bar-attn: #B91C1C; --series-2: #D9731A;
+  --track: #F1F4F8; --hatch: #D3DCE7; --grid: #E9EDF2;
+  --mod-fueling: #C2410C; --mod-inventory: #2563EB; --mod-quality: #15803D; --mod-sales: #7C3AED;
+  --mod-purchasing: #0E7490; --mod-maintenance: #B45309; --mod-finance: #A16207; --mod-hr: #BE185D;
+  --mod-reports: #4F46E5; --mod-masterdata: #0369A1; --mod-system: #475569;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 6px 20px rgba(16, 24, 40, .05);
+  --radius-card: 20px; --radius-tile: 18px;
+  color-scheme: light;
+}
+:root[data-theme="hc"] {
+  --bg: #FFFFFF; --bg-glow: #FFFFFF;
+  --surface: #FFFFFF; --surface-muted: #F1F5F9; --surface-sunken: #E2E8F0;
+  --border: #0F172A; --border-strong: #000000;
+  --text: #000000; --text-muted: #1E293B; --text-subtle: #334155;
+  --primary: #053B78; --primary-hover: #03274F; --on-primary: #FFFFFF;
+  --primary-container: #DCE9F8; --on-primary-container: #053B78;
+  --success: #14532D; --warning: #713F12; --danger: #7F1D1D;
+  --bar-soft: #9DBDE6; --bar-strong: #053B78; --bar-attn: #991B1B; --hatch: #94A3B8; --grid: #CBD5E1;
+  --shadow: 0 0 0 1px #0F172A;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="hc"]) {
+    --bg: #0B1220; --bg-glow: #12223D;
+    --surface: #111A2C; --surface-muted: #16213A; --surface-sunken: #1E2A45;
+    --border: #2C3A57; --border-strong: #8492AB;
+    --text: #E5EAF3; --text-muted: #A9B6CC; --text-subtle: #7C8BA5;
+    --primary: #7FB0EE; --primary-hover: #A6C9F4; --on-primary: #04172E;
+    --primary-container: #12386B; --on-primary-container: #D3E4FA;
+    --success: #86EFAC; --success-container: #0F3D22;
+    --warning: #FCD34D; --warning-container: #3D2E08;
+    --danger: #FCA5A5; --danger-container: #4A1414;
+    --bar-soft: #2B4C7A; --bar-strong: #5E97E0; --bar-attn: #E5484D; --series-2: #D9782A;
+    --track: #15203A; --hatch: #26345284; --grid: #1E2A45;
+    --mod-fueling: #FB923C; --mod-inventory: #60A5FA; --mod-quality: #4ADE80; --mod-sales: #A78BFA;
+    --mod-purchasing: #22D3EE; --mod-maintenance: #F59E0B; --mod-finance: #FACC15; --mod-hr: #F472B6;
+    --mod-reports: #818CF8; --mod-masterdata: #38BDF8; --mod-system: #94A3B8;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 20px rgba(0, 0, 0, .25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B1220; --bg-glow: #12223D;
+  --surface: #111A2C; --surface-muted: #16213A; --surface-sunken: #1E2A45;
+  --border: #2C3A57; --border-strong: #8492AB;
+  --text: #E5EAF3; --text-muted: #A9B6CC; --text-subtle: #7C8BA5;
+  --primary: #7FB0EE; --primary-hover: #A6C9F4; --on-primary: #04172E;
+  --primary-container: #12386B; --on-primary-container: #D3E4FA;
+  --success: #86EFAC; --success-container: #0F3D22;
+  --warning: #FCD34D; --warning-container: #3D2E08;
+  --danger: #FCA5A5; --danger-container: #4A1414;
+  --bar-soft: #2B4C7A; --bar-strong: #5E97E0; --bar-attn: #E5484D; --series-2: #D9782A;
+  --track: #15203A; --hatch: #263452; --grid: #1E2A45;
+  --mod-fueling: #FB923C; --mod-inventory: #60A5FA; --mod-quality: #4ADE80; --mod-sales: #A78BFA;
+  --mod-purchasing: #22D3EE; --mod-maintenance: #F59E0B; --mod-finance: #FACC15; --mod-hr: #F472B6;
+  --mod-reports: #818CF8; --mod-masterdata: #38BDF8; --mod-system: #94A3B8;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 20px rgba(0, 0, 0, .25);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: Inter, 'Segoe UI', Roboto, Arial, sans-serif; font-size: 14px; line-height: 1.45;
+  color: var(--text); -webkit-font-smoothing: antialiased;
+  background: radial-gradient(1100px 520px at 80% -8%, var(--bg-glow), transparent 65%), var(--bg);
+  background-attachment: fixed; min-height: 100dvh;
+}
+button { font: inherit; color: inherit; }
+a { color: inherit; }
+svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.num { font-feature-settings: "tnum" 1, "zero" 1; }
+
+/* Thanh điều khiển của bản thử, không thuộc giao diện thật */
+.proto-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 8px 16px; font-size: 12px;
+  background: var(--surface); border-bottom: 1px dashed var(--border-strong); color: var(--text-muted); }
+.proto-bar strong { color: var(--text); }
+.proto-bar .grp { display: inline-flex; align-items: center; gap: 6px; }
+.proto-bar .grp > span { white-space: nowrap; }
+.pseg { display: inline-flex; background: var(--surface-muted); border-radius: 999px; padding: 2px; }
+.pseg button { border: 0; background: none; padding: 4px 10px; border-radius: 999px; cursor: pointer; font-size: 12px; white-space: nowrap; }
+.pseg button[aria-pressed="true"] { background: var(--surface); box-shadow: var(--shadow); color: var(--text); font-weight: 600; }
+
+/* Khung */
+.app { display: grid; grid-template-columns: 252px minmax(0, 1fr); }
+.sidebar { position: sticky; top: 12px; height: calc(100dvh - 24px); margin: 12px 0 12px 12px; background: var(--surface);
+  border-radius: var(--radius-card); box-shadow: var(--shadow); display: flex; flex-direction: column; padding: 16px 12px; overflow: auto; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 2px 8px 16px; }
+.brand-mark { width: 36px; height: 36px; border-radius: 12px; background: #0752A4; display: grid; place-items: center; flex: none; }
+.brand-mark span { width: 14px; height: 14px; border-radius: 4px; background: #F4EB28; transform: rotate(45deg); }
+.brand b { font-size: 16px; }
+.brand small { display: block; color: var(--text-subtle); font-size: 12px; }
+.nav-label { margin: 14px 10px 6px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--text-subtle); }
+.nav a { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 12px; text-decoration: none; color: var(--text-muted); font-weight: 500; }
+.nav a:hover { background: var(--surface-muted); }
+.nav a[aria-current="page"] { background: var(--primary-container); color: var(--on-primary-container); font-weight: 600; }
+.nav a.dim { color: var(--text-subtle); }
+.nav a .count { margin-left: auto; font-size: 11px; font-weight: 600; background: var(--danger-container); color: var(--danger); border-radius: 999px; padding: 1px 7px; }
+.nav .txt { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.main { min-width: 0; padding: 12px 20px 32px; }
+.topbar { display: flex; align-items: center; gap: 10px; min-height: 52px; }
+.search { flex: 1; min-width: 0; max-width: 420px; white-space: nowrap; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; border-radius: 999px;
+  background: var(--surface); box-shadow: var(--shadow); color: var(--text-subtle); }
+.search .ph { overflow: hidden; text-overflow: ellipsis; }
+.search kbd { margin-left: auto; font: 500 11px Inter, sans-serif; border: 1px solid var(--border); border-radius: 6px; padding: 1px 6px; }
+.topbar .spacer { flex: 1; }
+.pill { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px; border-radius: 999px; background: var(--surface);
+  box-shadow: var(--shadow); border: 0; cursor: pointer; white-space: nowrap; font-weight: 500; }
+.pill .muted { color: var(--text-subtle); font-weight: 400; }
+.tools { display: inline-flex; align-items: center; gap: 4px; padding: 4px; border-radius: 999px; background: var(--surface); box-shadow: var(--shadow); }
+.icon-btn { position: relative; display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 999px; border: 0;
+  background: var(--surface-muted); cursor: pointer; color: var(--text-muted); flex: none; }
+.icon-btn:hover { background: var(--surface-sunken); color: var(--text); }
+.icon-btn .dot { position: absolute; top: 7px; right: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--danger); box-shadow: 0 0 0 2px var(--surface-muted); }
+.avatar { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-weight: 600; font-size: 13px;
+  background: var(--primary); color: var(--on-primary); flex: none; }
+
+/* Hàng 1: lời chào + KPI */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "greet kpis" "favs favs"; gap: 16px 24px; align-items: end; margin: 16px 0; }
+.greet { grid-area: greet; min-width: 0; }
+.kpis { grid-area: kpis; }
+.favs-row { grid-area: favs; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.favs-row .icon-btn { background: var(--surface); box-shadow: var(--shadow); width: 40px; height: 40px; }
+.greet h1 { margin: 0; font-size: 32px; line-height: 1.15; font-weight: 700; letter-spacing: -.01em; }
+.greet h1 .name { overflow-wrap: anywhere; }
+.greet .sub { margin: 6px 0 0; color: var(--text-muted); }
+.favs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 4px; margin: -4px; min-width: 0; flex: 1; }
+.favs::-webkit-scrollbar { display: none; }
+.favs.more { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent); }
+.fav { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 6px; border-radius: 999px; border: 0; cursor: pointer;
+  background: var(--surface); box-shadow: var(--shadow); white-space: nowrap; font-weight: 500; flex: none; }
+.fav:hover { background: var(--surface-muted); }
+.fav .ico { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; color: var(--tint);
+  background: color-mix(in srgb, var(--tint) 14%, var(--surface)); }
+.fav .ico svg { width: 15px; height: 15px; }
+.fav.ghost { background: transparent; box-shadow: inset 0 0 0 1px var(--border); color: var(--text-muted); padding: 0 14px; }
+
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(150px, 176px)); gap: 12px; }
+.kpi { display: flex; flex-direction: column; justify-content: space-between; gap: 14px; min-height: 108px; padding: 14px 16px; border-radius: var(--radius-tile);
+  background: var(--surface); box-shadow: var(--shadow); text-decoration: none; border: 1px solid transparent; cursor: pointer; text-align: left; transition: border-color .15s; }
+.kpi:hover { border-color: var(--primary-container); }
+.kpi-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.kpi-label { font-size: 13px; font-weight: 500; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.kpi-ico { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; flex: none; color: var(--tint); background: color-mix(in srgb, var(--tint) 14%, var(--surface)); }
+.kpi-ico svg { width: 16px; height: 16px; }
+.kpi.is-danger .kpi-ico { color: var(--danger); background: var(--danger-container); }
+.kpi.is-warning .kpi-ico { color: var(--warning); background: var(--warning-container); }
+.kpi-bottom { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.kpi-value { font-size: 26px; font-weight: 600; line-height: 1; white-space: nowrap; }
+.kpi-value small { font-size: 13px; font-weight: 500; color: var(--text-subtle); margin-left: 3px; }
+.kpi-link { font-size: 12px; color: var(--text-subtle); white-space: nowrap; }
+.kpi:hover .kpi-link { color: var(--primary); }
+
+/* Hàng 2 */
+.row2 { display: grid; grid-template-columns: minmax(0, 2fr) minmax(330px, 1fr); gap: 16px; }
+.card { background: var(--surface); border-radius: var(--radius-card); box-shadow: var(--shadow); padding: 20px; min-width: 0; }
+.card h2 { margin: 0; font-size: 18px; font-weight: 600; }
+.chart-card, .tasks-card { height: 440px; display: flex; flex-direction: column; }
+
+.cc-head { display: flex; align-items: center; gap: 12px; }
+.cc-head h2 { white-space: nowrap; }
+.mod-pills { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; min-width: 0; flex: 1; padding: 2px; }
+.mod-pills::-webkit-scrollbar { display: none; }
+.mod-pill { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; border: 0; cursor: pointer;
+  background: var(--surface-muted); color: var(--text-muted); white-space: nowrap; font-weight: 500; flex: none; }
+.mod-pill svg { width: 15px; height: 15px; color: var(--tint); }
+.mod-pill[aria-pressed="true"] { background: var(--primary-container); color: var(--on-primary-container); font-weight: 600; }
+.mod-single { color: var(--text-muted); font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+.mod-single svg { width: 15px; height: 15px; color: var(--tint); }
+.cc-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; flex: none; }
+.delta { display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 10px; border-radius: 999px; background: var(--surface-muted);
+  color: var(--text-muted); font-size: 13px; white-space: nowrap; }
+.delta b { color: var(--text); font-weight: 600; }
+.delta svg { width: 14px; height: 14px; }
+.cc-sub { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 14px 0 6px; }
+.cc-cap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+.cc-caption { margin: 0; color: var(--text-muted); font-size: 13px; min-width: 0; }
+.seg { display: inline-flex; background: var(--surface-muted); border-radius: 999px; padding: 3px; flex: none; }
+.seg button { border: 0; background: none; height: 28px; padding: 0 12px; border-radius: 999px; cursor: pointer; color: var(--text-muted); font-weight: 500; white-space: nowrap; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: var(--shadow); font-weight: 600; }
+.seg .short { display: none; }
+.legend { display: flex; gap: 14px; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; min-height: 18px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 3px; }
+.cc-body { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+
+/* Cột theo nhóm (Hôm nay): vệt gạch chéo là phần còn trống của thang (với Kho là sức chứa) */
+.cols { flex: 1; display: flex; gap: 12px; align-items: stretch; min-height: 0; padding-top: 6px; }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; border: 0; background: none; padding: 0; cursor: pointer; text-align: center; }
+.col-track { position: relative; flex: 1; min-height: 120px; border-radius: 16px; overflow: hidden;
+  background: repeating-linear-gradient(135deg, var(--hatch) 0 1px, transparent 1px 7px), var(--track); }
+.col-fill { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 16px; background: var(--bar-soft); transition: height .35s ease, background .15s; }
+.col:hover .col-fill, .col:focus-visible .col-fill { background: var(--bar-strong); }
+.col.is-attn .col-fill { background: var(--bar-attn); }
+.col-val { position: absolute; left: 50%; transform: translateX(-50%); font-weight: 600; font-size: 13px; padding: 2px 8px; border-radius: 999px;
+  background: var(--surface); color: var(--text); white-space: nowrap; box-shadow: 0 0 0 1px var(--border); }
+.col-name { font-size: 13px; font-weight: 500; color: var(--text-muted); display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 0; }
+.col-name .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.col-name svg { width: 14px; height: 14px; color: var(--danger); }
+.col.is-attn .col-name { color: var(--text); font-weight: 600; }
+.col-sub { font-size: 11px; color: var(--text-subtle); margin-top: -6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Cột theo thời gian (7N, 30N, 12T) */
+.tscroll { flex: 1; min-height: 0; overflow: hidden; display: flex; }
+.tchart { flex: 1; display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 22px; min-width: 0; padding-top: 12px; }
+.yaxis { position: relative; grid-row: 1; }
+.yaxis span { position: absolute; right: 8px; transform: translateY(50%); font-size: 11px; color: var(--text-subtle); }
+.plot { position: relative; margin-right: 14px; grid-row: 1 / span 2; grid-column: 2; display: grid; grid-template-rows: minmax(0, 1fr) 22px; }
+.gridlines { position: absolute; inset: 0 0 22px 0; pointer-events: none; }
+.gridlines i { position: absolute; left: 0; right: 0; height: 1px; background: var(--grid); }
+.gridlines i.base { background: var(--border); }
+.tbars { grid-row: 1 / span 2; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); position: relative; }
+.tg { border: 0; background: none; padding: 0; cursor: pointer; display: grid; grid-template-rows: minmax(0, 1fr) 22px; min-width: 0; border-radius: 8px; }
+.tg:hover, .tg:focus-visible { background: color-mix(in srgb, var(--surface-sunken) 55%, transparent); }
+.tg-bars { position: relative; display: flex; align-items: flex-end; justify-content: center; gap: 2px; padding: 0 2px; }
+.tg-bar { width: min(24px, 64%); border-radius: 4px 4px 0 0; background: var(--bar-soft); min-height: 1px; transition: height .35s ease; }
+.tg.two .tg-bar { width: min(12px, 40%); }
+.tg.is-now .tg-bar { background: var(--bar-strong); }
+.tg .tg-bar.s1 { background: var(--bar-strong); }
+.tg .tg-bar.s2 { background: var(--series-2); }
+.tg-lab { font-size: 11px; color: var(--text-subtle); line-height: 22px; white-space: nowrap; }
+.tg.is-now .tg-lab { color: var(--text); font-weight: 600; }
+.tg-val { position: absolute; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 600; white-space: nowrap; }
+
+.tip { position: absolute; z-index: 5; pointer-events: none; background: var(--text); color: var(--surface); padding: 8px 10px; border-radius: 10px;
+  font-size: 12px; line-height: 1.5; white-space: nowrap; transform: translate(-50%, calc(-100% - 8px)); opacity: 0; transition: opacity .1s; }
+.tip.on { opacity: 1; }
+.tip b { font-weight: 600; }
+.tip i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }
+
+.dtable { width: 100%; border-collapse: collapse; font-size: 13px; }
+.dtable th { text-align: left; font-weight: 600; color: var(--text-muted); background: var(--surface-muted); padding: 8px 10px; position: sticky; top: 0; }
+.dtable td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+.dtable td.r, .dtable th.r { text-align: right; }
+.tablewrap { flex: 1; overflow: auto; min-height: 0; border-radius: 12px; }
+
+/* Việc cần làm */
+.tk-head { display: flex; align-items: center; gap: 8px; }
+.tk-head .count { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--surface-muted); color: var(--text-muted); }
+.tk-head .icon-btn { margin-left: auto; width: 32px; height: 32px; }
+.tk-filter { margin: 12px 0 10px; }
+.tasks { list-style: none; margin: 0 -4px; padding: 0 4px 4px; display: grid; gap: 8px; align-content: start; overflow-y: auto; flex: 1; min-height: 0; }
+.task { display: grid; grid-template-columns: 40px minmax(0, 1fr) 32px; align-items: center; gap: 12px; padding: 10px 10px 10px 12px; border-radius: 16px;
+  border: 1px solid var(--border); background: var(--surface); cursor: pointer; }
+.task:hover { background: var(--surface-muted); }
+.task.is-hot { background: color-mix(in srgb, var(--primary-container) 60%, var(--surface)); border-color: transparent; }
+.ring { position: relative; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--c);
+  background: conic-gradient(var(--c) calc(var(--p) * 1%), var(--surface-sunken) 0); }
+.ring::before { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: var(--surface); }
+.task.is-hot .ring::before { background: color-mix(in srgb, var(--primary-container) 60%, var(--surface)); }
+.ring svg { position: relative; width: 16px; height: 16px; }
+.t-title { margin: 0; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.t-meta { margin: 2px 0 0; font-size: 12px; color: var(--text-subtle); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.badge { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 999px; }
+.badge svg { width: 11px; height: 11px; }
+.badge.danger { background: var(--danger-container); color: var(--danger); }
+.badge.warning { background: var(--warning-container); color: var(--warning); }
+.badge.info { background: var(--surface-muted); color: var(--text-muted); }
+.go { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; border: 0; background: transparent; color: var(--text-muted); cursor: pointer; }
+.task.is-hot .go { background: var(--primary); color: var(--on-primary); }
+.go svg { width: 16px; height: 16px; }
+
+/* Trạng thái */
+.state { flex: 1; display: grid; place-items: center; align-content: center; gap: 8px; text-align: center; color: var(--text-muted); padding: 16px; }
+.state .big { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-muted); color: var(--text-subtle); }
+.state.err .big { background: var(--danger-container); color: var(--danger); }
+.state p { margin: 0; max-width: 300px; }
+.state strong { color: var(--text); }
+.btn { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--border-strong);
+  background: var(--surface); cursor: pointer; font-weight: 500; }
+.sk { background: linear-gradient(90deg, var(--surface-muted), var(--surface-sunken), var(--surface-muted)); background-size: 200% 100%;
+  animation: sk 1.2s linear infinite; border-radius: 10px; }
+@keyframes sk { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .sk { animation: none; } .col-fill, .tg-bar { transition: none; } }
+
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 50;
+  background: var(--text); color: var(--surface); padding: 10px 16px; border-radius: 12px; font-size: 13px; max-width: calc(100vw - 32px); transition: .2s; }
+.toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+.bottom-nav { display: none; }
+.menu { position: fixed; z-index: 40; min-width: 220px; padding: 6px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 16px 40px rgba(16, 24, 40, .16); display: none; }
+.menu.on { display: block; }
+.menu .mh { padding: 6px 10px; font-size: 12px; font-weight: 600; color: var(--text-subtle); }
+.mi { display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 10px; border-radius: 8px; border: 0; background: none; text-align: left; cursor: pointer; }
+.mi svg { width: 16px; height: 16px; color: var(--text-subtle); }
+.mi:hover, .mi:focus { background: var(--surface-muted); outline: none; }
+.mi .k { margin-left: auto; font-size: 12px; color: var(--text-subtle); }
+.mi[aria-checked="true"], .mi[aria-checked="true"] svg { color: var(--primary); font-weight: 600; }
+
+/* Màn rộng vừa: KPI xuống dưới lời chào */
+@media (max-width: 1320px) {
+  .hero { grid-template-columns: minmax(0, 1fr); grid-template-areas: "greet" "favs" "kpis"; }
+  .kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 1120px) {
+  .row2 { grid-template-columns: minmax(0, 1fr); }
+  .tasks-card { height: auto; max-height: 560px; }
+}
+/* Máy tính bảng: sidebar chỉ icon */
+@media (max-width: 1023px) {
+  .app { grid-template-columns: 76px minmax(0, 1fr); }
+  .sidebar { padding: 14px 10px; }
+  .brand { justify-content: center; padding: 2px 0 12px; }
+  .brand div, .nav-label, .nav .txt, .nav .count { display: none; }
+  .nav a { justify-content: center; padding: 10px; }
+  .search kbd, .pill .muted { display: none; }
+}
+/* Điện thoại */
+@media (max-width: 767px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { display: none; }
+  .main { padding: 8px 16px 96px; }
+  .topbar { gap: 8px; }
+  .search { display: none; }
+  .topbar .m-brand { display: flex !important; }
+  .pill { height: 36px; padding: 0 12px; }
+  .pill.shift { display: none; }
+  .tools { padding: 3px; }
+  .tools .icon-btn.mail { display: none; }
+  .hero { margin: 8px 0 16px; gap: 14px; }
+  .greet h1 { display: block; font-size: 28px; }
+  .greet h1 .hello { display: block; font-size: 13px; font-weight: 500; color: var(--text-muted); line-height: 1.3; }
+  .greet h1 .name { color: var(--primary); }
+  .greet .sub { font-size: 13px; margin: 4px 0 0; }
+  .favs { margin: -4px 0 -4px -16px; padding: 4px 16px; }
+  .hero { grid-template-areas: "greet" "kpis" "favs"; }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .kpi { min-height: 96px; padding: 12px 14px; }
+  .kpi-value { font-size: 22px; }
+  .card { padding: 16px; border-radius: 18px; }
+  .chart-card { height: auto; }
+  .cc-head { flex-wrap: wrap; }
+  .cc-head .mod-pills { order: 3; flex-basis: 100%; margin: 0 -16px; padding: 2px 16px; }
+  .cc-sub { flex-wrap: wrap; }
+  .seg .long { display: none; }
+  .seg .short { display: inline; }
+  .cc-body { height: 280px; flex: none; }
+  .cols { gap: 8px; }
+  .col-name { font-size: 11px; line-height: 1.25; align-items: flex-start; min-height: 28px; }
+  .col-name .t { white-space: normal; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .col-name svg { width: 12px; height: 12px; margin-top: 1px; }
+  .col-val { font-size: 12px; padding: 1px 6px; }
+  .tscroll { overflow-x: auto; }
+  .tchart.wide { min-width: 640px; }
+  .tasks-card { max-height: none; }
+  .tasks { overflow: visible; }
+  .delta .vs { display: none; }
+  .bottom-nav { display: grid; grid-template-columns: repeat(5, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    background: var(--surface); box-shadow: 0 -4px 20px rgba(16, 24, 40, .08); border-radius: 20px 20px 0 0;
+    padding: 8px 8px max(8px, env(safe-area-inset-bottom)); }
+  .bottom-nav a { display: grid; justify-items: center; gap: 2px; font-size: 11px; text-decoration: none; color: var(--text-subtle); padding: 4px 0; position: relative; }
+  .bottom-nav a[aria-current="page"] { color: var(--primary); font-weight: 600; }
+  .bottom-nav .count { position: absolute; top: 0; left: calc(50% + 6px); font-size: 10px; font-weight: 600; background: var(--danger); color: #fff; border-radius: 999px; padding: 0 5px; }
+  .toast { bottom: 92px; }
+}
+.m-brand { display: none !important; align-items: center; gap: 8px; }
+.m-brand .brand-mark { width: 32px; height: 32px; border-radius: 10px; }
+.m-brand .brand-mark span { width: 12px; height: 12px; }
+
+/* ================= v2.1 (BA 09/10/2026) ================= */
+/* Bảng màu biểu đồ trạng thái (tươi, đọc được trên nền Sáng và Tối). */
+:root { --st-gray: #94A3B8; --st-amber: #F5A524; --st-blue: #3B82F6; --st-green: #22A55B; --st-orange: #F97316; --st-red: #E5484D; }
+.greet { display: flex; align-items: flex-end; gap: 12px; }
+.greet > div { min-width: 0; flex: 1; }
+.greet .icon-btn { background: var(--surface); box-shadow: var(--shadow); width: 40px; height: 40px; flex: none; }
+.hero { grid-template-areas: "greet kpis"; }
+@media (max-width: 1100px) { .hero { grid-template-areas: "greet" "kpis"; } }
+
+/* Chức năng thường dùng: thẻ có tiêu đề, lưới ô biểu tượng nhiều hàng (tối đa 16). */
+.favs-card { margin-bottom: 16px; }
+.fc-head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.fc-head .count { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--surface-muted); color: var(--text-muted); }
+.fc-head .btn { margin-left: auto; height: 32px; }
+.fgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; }
+.ftile { display: grid; justify-items: center; align-content: start; gap: 8px; min-height: 104px; padding: 14px 8px 12px; border: 0; border-radius: 16px; background: none; color: var(--text); cursor: pointer; text-align: center; font: inherit; }
+.ftile:hover { background: var(--surface-muted); }
+.ftile:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.ftile .ico { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; color: var(--tint); background: color-mix(in srgb, var(--tint) 13%, var(--surface)); }
+.ftile .ico svg { width: 22px; height: 22px; }
+.ftile .nm { font-size: 13px; font-weight: 500; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ftile.add .ico { color: var(--text-muted); background: none; box-shadow: inset 0 0 0 1.5px var(--border-strong); border-radius: 14px; }
+.ftile.add .nm { color: var(--text-muted); }
+@media (max-width: 767px) {
+  .fgrid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
+  .ftile { min-height: 92px; padding: 10px 2px; }
+  .ftile .nm { font-size: 12px; }
+}
+
+/* Thanh trạng thái: một thanh ngang chia màu, mũi tên chỉ vào từng màu kèm chú thích (BA 09/10/2026: tổng luôn 100% nên không vẽ cột). */
+.sbar-wrap { position: relative; margin: 6px 0 4px; }
+.sbar-top { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+.sbar-top b { font-size: 22px; font-weight: 700; }
+.sbar-top span { color: var(--text-muted); font-size: 13px; }
+.sbar { display: flex; height: 22px; border-radius: 999px; overflow: hidden; gap: 2px; background: var(--surface); }
+.sseg { height: 100%; border: 0; padding: 0; background: var(--c); cursor: pointer; min-width: 6px; transition: filter .15s, transform .15s; }
+.sseg:hover, .sseg:focus-visible, .sseg.hl { filter: brightness(1.08) saturate(1.15); outline: none; transform: scaleY(1.18); }
+.sseg:first-child { border-radius: 999px 0 0 999px; }
+.sseg:last-child { border-radius: 0 999px 999px 0; }
+.slinks { position: absolute; left: 0; width: 100%; pointer-events: none; overflow: visible; }
+.slinks path { fill: none; stroke: var(--c); stroke-width: 1.5; }
+.slinks polygon { fill: var(--c); }
+.scall { display: grid; gap: 10px; margin-top: 34px; }
+.scall-item { border: 0; background: var(--surface-muted); border-radius: 14px; padding: 10px 12px; text-align: left; cursor: pointer; color: var(--text); font: inherit; border-top: 3px solid var(--c); min-width: 0; }
+.scall-item:hover, .scall-item.hl { background: color-mix(in srgb, var(--c) 10%, var(--surface)); }
+.scall-item:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.scall-item .h { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-muted); }
+.scall-item .h svg { width: 13px; height: 13px; color: var(--danger); }
+.scall-item .v { display: flex; align-items: baseline; gap: 6px; margin-top: 2px; }
+.scall-item .v b { font-size: 20px; font-weight: 700; }
+.scall-item .v span { font-size: 12px; color: var(--text-muted); }
+.scall-item .d { margin: 4px 0 0; font-size: 12px; color: var(--text-muted); line-height: 1.35; }
+.vsep { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin: 22px 0 12px; }
+.vsep h3 { margin: 0; font-size: 14px; font-weight: 600; white-space: nowrap; }
+.vsep p { margin: 0; font-size: 12px; color: var(--text-muted); flex: 1 1 240px; }
+.vsep .lg { margin-left: auto; display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--text-muted); }
+.vsep .lg i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 4px; vertical-align: -1px; }
+@media (max-width: 767px) {
+  .slinks { display: none; }
+  .scall { grid-template-columns: minmax(0, 1fr) !important; margin-top: 12px; gap: 6px; }
+  .scall-item { border-top: 0; border-left: 4px solid var(--c); display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 8px; }
+  .scall-item .v { grid-row: 1 / span 2; grid-column: 2; margin: 0; }
+  .vsep { flex-wrap: wrap; }
+  .vsep .lg { margin-left: 0; width: 100%; }
+}
+
+/* Tổng quan dạng thanh trạng thái + biểu đồ giá trị: khung cao theo nội dung (không còn 440 px cố định). */
+.chart-card.is-status { height: auto; }
+.chart-card.is-status .cc-body { height: auto !important; flex: none; display: block; }
+.row2:has(.chart-card.is-status) .tasks-card { height: auto; max-height: none; }
+.row2:has(.chart-card.is-status) .tasks { max-height: 640px; }
+/* Tiến độ theo giờ ETA: cột kế hoạch (nhạt), phần đã tra nạp (đậm), phần trễ (đỏ), vạch Bây giờ. */
+.hrs { position: relative; margin-top: 26px; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); align-items: end; gap: 6px; height: 170px; padding: 0 0 22px; border-bottom: 1px solid var(--grid); }
+.hr { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; border: 0; background: none; padding: 0; cursor: pointer; font: inherit; color: inherit; }
+.hr .stack { position: relative; width: 100%; max-width: 28px; display: flex; flex-direction: column-reverse; border-radius: 6px 6px 3px 3px; overflow: hidden; background: var(--bar-soft); }
+.hr .stack i { display: block; width: 100%; }
+.hr .stack .done { background: var(--st-green); }
+.hr .stack .late { background: var(--st-red); }
+.hr .stack .base { background: var(--bar-strong); }
+.hr .lab { position: absolute; bottom: -20px; font-size: 11px; color: var(--text-muted); }
+.hr .num-top { font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 3px; }
+.hr.future .stack { background: color-mix(in srgb, var(--bar-soft) 70%, var(--surface)); box-shadow: inset 0 0 0 1px var(--bar-soft); }
+.hr.is-late .num-top { color: var(--st-red); }
+.hr:hover .stack, .hr:focus-visible .stack { filter: brightness(.95); }
+.hr:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 6px; }
+.nowline { position: absolute; top: -6px; bottom: 22px; width: 0; border-left: 2px dashed var(--primary); pointer-events: none; }
+.nowline span { position: absolute; top: -20px; left: -26px; width: 52px; text-align: center; font-size: 11px; font-weight: 700; color: var(--primary); }
+.hr .avgdot { position: absolute; left: 50%; width: 10px; height: 3px; margin-left: -5px; border-radius: 2px; background: var(--text); opacity: .55; }
+.hr.anom .stack .base { background: var(--st-orange); }
+
+/* Tuổi Hold: mỗi đối tượng một thanh, vạch ngưỡng. */
+.holds { display: grid; gap: 10px; position: relative; }
+.hold { display: grid; grid-template-columns: minmax(120px, 200px) minmax(0, 1fr) 64px; align-items: center; gap: 12px; border: 0; background: none; padding: 4px 0; text-align: left; cursor: pointer; color: inherit; font: inherit; }
+.hold .who b { display: block; font-size: 13px; }
+.hold .who small { display: block; font-size: 11px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hold .track { position: relative; height: 14px; border-radius: 999px; background: var(--track); }
+.hold .fill { position: absolute; inset: 0 auto 0 0; border-radius: 999px; background: var(--st-amber); }
+.hold.over .fill { background: var(--st-red); }
+.hold .age { font-size: 13px; font-weight: 700; text-align: right; }
+.hold.over .age { color: var(--st-red); }
+.hold:hover .track, .hold:focus-visible .track { box-shadow: 0 0 0 2px var(--primary-container); }
+.thr { position: absolute; top: -8px; bottom: -4px; width: 0; border-left: 2px dashed var(--danger); opacity: .7; pointer-events: none; }
+.thr span { position: absolute; top: -16px; left: 4px; font-size: 11px; font-weight: 600; color: var(--danger); white-space: nowrap; }
+@media (max-width: 767px) { .hold { grid-template-columns: minmax(0, 1fr) 56px; } .hold .track { grid-column: 1 / -1; grid-row: 2; } }
+
+/* Bảng tin công ty */
+.news-card { margin-top: 16px; }
+.nw-head { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.nw-head .count { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--primary-container); color: var(--on-primary-container); }
+.nw-head .sp { margin-left: auto; }
+.nw-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px; }
+.feat { display: grid; grid-template-rows: auto 1fr; border: 0; padding: 0; background: none; text-align: left; cursor: pointer; color: inherit; font: inherit; border-radius: 18px; }
+.feat:focus-visible, .nitem:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+.cover { position: relative; aspect-ratio: 16 / 7.5; border-radius: 18px; overflow: hidden; background: var(--cv-bg); display: grid; place-items: center; }
+.cover svg.art { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cover .pin { position: absolute; top: 12px; left: 12px; display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, .92); color: #111418; font-size: 12px; font-weight: 600; }
+.cover .pin svg { width: 13px; height: 13px; }
+.feat .body { padding: 14px 4px 4px; }
+.ncat { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--cat); }
+.ncat::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--cat); }
+.feat h3 { margin: 6px 0 6px; font-size: 20px; line-height: 1.3; font-weight: 700; letter-spacing: -.01em; }
+.feat p { margin: 0; color: var(--text-muted); font-size: 14px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.nmeta { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 12px; color: var(--text-muted); }
+.newdot { display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: 999px; background: var(--primary); color: var(--on-primary); font-size: 11px; font-weight: 700; }
+.nlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; align-content: start; }
+.nitem { width: 100%; display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 12px; align-items: center; padding: 8px; border: 0; border-radius: 14px; background: none; text-align: left; cursor: pointer; color: inherit; font: inherit; }
+.nitem:hover { background: var(--surface-muted); }
+.nitem .cover { aspect-ratio: 4 / 3; border-radius: 12px; }
+.nitem h4 { margin: 3px 0 2px; font-size: 14px; font-weight: 600; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.nitem .nmeta { margin-top: 2px; }
+.nitem.unread h4::after { content: ""; display: inline-block; width: 8px; height: 8px; margin-left: 6px; border-radius: 50%; background: var(--primary); vertical-align: 1px; }
+@media (max-width: 900px) { .nw-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 767px) { .feat h3 { font-size: 17px; } .nitem { grid-template-columns: 76px minmax(0, 1fr); } }
+
+/* Trang con của bản thử: Đọc tin, Tất cả tin, Quản lý tin, Soạn tin. */
+.view { display: none; }
+body.in-view main > section { display: none; }
+body.in-view .view { display: block; }
+.vback { display: inline-flex; align-items: center; gap: 6px; margin: 4px 0 14px; border: 0; background: none; color: var(--primary); font: inherit; font-weight: 600; cursor: pointer; padding: 4px 0; }
+.vback svg { width: 16px; height: 16px; transform: rotate(180deg); }
+.article { max-width: 820px; margin: 0 auto; }
+.article .cover { aspect-ratio: 16 / 6.5; }
+.article h1 { margin: 16px 0 8px; font-size: 28px; line-height: 1.25; letter-spacing: -.02em; }
+.article .ameta { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
+.article .content { font-size: 15px; line-height: 1.7; }
+.article .content h3 { font-size: 17px; margin: 22px 0 6px; }
+.article .content ul { padding-left: 20px; }
+.article .content blockquote { margin: 16px 0; padding: 10px 16px; border-left: 4px solid var(--primary); background: var(--surface-muted); border-radius: 0 12px 12px 0; }
+.vtitle { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 0 0 14px; }
+.vtitle h1 { margin: 0; font-size: 24px; }
+.vtitle .sp { margin-left: auto; display: flex; gap: 8px; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.chip { height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font: inherit; font-size: 13px; cursor: pointer; }
+.chip[aria-pressed="true"] { border-color: var(--primary); background: var(--primary-container); }
+.ngrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.ncard { border: 0; padding: 0; background: var(--surface); border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; text-align: left; cursor: pointer; color: inherit; font: inherit; }
+.ncard .cover { border-radius: 0; aspect-ratio: 16 / 8; }
+.ncard .b { padding: 12px 14px 14px; }
+.ncard h4 { margin: 6px 0 4px; font-size: 15px; line-height: 1.35; }
+.ncard p { margin: 0; font-size: 13px; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.mtable { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+.mtable th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .03em; color: var(--text-muted); background: var(--surface-muted); padding: 8px 10px; }
+.mtable td { padding: 10px; border-bottom: 1px solid var(--border); }
+.mtable tr:hover td { background: var(--surface-muted); cursor: pointer; }
+.st { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--surface-muted); color: var(--text-muted); }
+.st.Y { background: var(--success-container); color: var(--success); }
+.st.W { background: var(--warning-container); color: var(--warning); }
+.st.R { background: var(--danger-container); color: var(--danger); }
+.st.N { background: var(--primary-container); color: var(--on-primary-container); }
+.fhead { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; position: sticky; top: 0; z-index: 5; padding: 10px 0; background: var(--bg); }
+.fhead h1 { margin: 0; font-size: 22px; }
+.fhead .sp { margin-left: auto; display: flex; gap: 8px; }
+.btn.primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.sstrip { display: flex; flex-wrap: wrap; gap: 0; margin: 4px 0 16px; background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); font-size: 13px; }
+.sstrip > div { padding: 10px 16px; } .sstrip > div + div { border-left: 1px solid var(--border); }
+.sstrip small { display: block; color: var(--text-muted); font-size: 11px; }
+.fgrid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 16px; }
+.fld { display: grid; gap: 6px; min-width: 0; }
+.fld.w2 { grid-column: span 2; } .fld.w4 { grid-column: 1 / -1; }
+.fld label { font-size: 13px; font-weight: 600; color: var(--text-muted); }
+.fld input, .fld select, .fld textarea { width: 100%; min-height: 40px; padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: 10px; background: var(--surface); color: var(--text); font: inherit; }
+.fld textarea { min-height: 72px; resize: vertical; }
+.drop { display: grid; place-items: center; gap: 4px; min-height: 120px; border: 1.5px dashed var(--border-strong); border-radius: 14px; color: var(--text-muted); font-size: 13px; text-align: center; }
+.rte { border: 1px solid var(--border-strong); border-radius: 12px; overflow: hidden; }
+.rte .tb { display: flex; gap: 2px; padding: 6px; border-bottom: 1px solid var(--border); background: var(--surface-muted); }
+.rte .tb button { min-width: 32px; height: 30px; border: 0; border-radius: 8px; background: none; color: var(--text); font-weight: 700; cursor: pointer; }
+.rte .tb button:hover { background: var(--surface); }
+.rte .ed { min-height: 200px; padding: 12px 14px; outline: none; line-height: 1.6; }
+.sw { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; }
+@media (max-width: 900px) { .fgrid4 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .fld.w2 { grid-column: 1 / -1; } }
+</style>
+</head>
+<body>
+
+<div class="proto-bar" aria-label="Điều khiển bản thử">
+  <strong>Bản thử Trang chủ v2.1</strong>
+  <span>Dữ liệu mẫu, không phải giao diện thật.</span>
+  <div class="grp"><span>Vai trò</span><div class="pseg" data-ctl="role">
+    <button data-v="manager">Quản trị</button><button data-v="staff">Nhân viên</button><button data-v="none">Chưa giao phân hệ</button></div></div>
+  <div class="grp"><span>Trạng thái</span><div class="pseg" data-ctl="state">
+    <button data-v="normal">Có dữ liệu</button><button data-v="loading">Đang tải</button><button data-v="empty">Rỗng</button><button data-v="error">Lỗi</button></div></div>
+</div>
+
+<div class="app">
+  <aside class="sidebar" aria-label="Menu chính">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"><span></span></span><div><b>Tapetco ERP</b><small>Tra nạp hàng không</small></div></div>
+    <nav class="nav" id="nav"></nav>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="m-brand"><span class="brand-mark" aria-hidden="true"><span></span></span></div>
+      <div class="search" role="search"><svg class="i" data-i="search"></svg><span class="ph">Tìm nhanh chứng từ, chuyến bay, lô…</span><kbd>Ctrl K</kbd></div>
+      <span class="spacer"></span>
+      <button class="pill" data-toast="Đổi điểm vận hành: chỉ hiện các điểm trong phạm vi được giao."><svg class="i" data-i="pin"></svg>SGN <span class="muted">· Tân Sơn Nhất</span><svg class="i" data-i="down"></svg></button>
+      <button class="pill shift" data-toast="Ca hiện tại theo lịch ca của điểm."><svg class="i" data-i="clock"></svg>Ca sáng <span class="muted">06:00–14:00</span></button>
+      <div class="tools">
+        <button class="icon-btn mail" aria-label="Trao đổi" data-toast="Trao đổi và @nhắc tên (FR-80)."><svg class="i" data-i="msg"></svg></button>
+        <button class="icon-btn" id="theme-btn" aria-haspopup="menu" aria-expanded="false" aria-label="Chế độ hiển thị"><svg class="i" data-i="sun"></svg></button>
+        <button class="icon-btn" aria-label="Thông báo, có thông báo mới" data-toast="Thông báo theo người (FR-77)."><svg class="i" data-i="bell"></svg><span class="dot"></span></button>
+        <span class="avatar" id="avatar" aria-hidden="true">MA</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-label="Lời chào và chỉ số chính">
+        <div class="greet">
+          <div><h1><span class="hello">Chào </span><span class="name" id="g-name"></span></h1>
+          <p class="sub" id="g-sub"></p></div>
+          <button class="icon-btn" aria-label="Tuỳ chỉnh khối" title="Tuỳ chỉnh khối" data-toast="Tuỳ chỉnh khối: bật, tắt, đổi thứ tự Chỉ số chính, Thường dùng, Tổng quan, Việc cần làm, Bảng tin."><svg class="i" data-i="sliders"></svg></button>
+        </div>
+        <div class="kpis" id="kpis" aria-live="polite"></div>
+      </section>
+
+      <section class="card favs-card" aria-labelledby="fc-title">
+        <header class="fc-head"><h2 id="fc-title">Chức năng thường dùng</h2><span class="count num" id="fc-count"></span>
+          <button class="btn" data-toast="Sửa thường dùng: chọn tối đa 16 chức năng, kéo thả để sắp xếp."><svg class="i" data-i="pencil"></svg>Sửa</button></header>
+        <div class="fgrid" id="favs" role="list"></div>
+      </section>
+
+      <section class="row2">
+        <article class="card chart-card" aria-labelledby="cc-title">
+          <header class="cc-head">
+            <h2 id="cc-title">Tổng quan</h2>
+            <div class="mod-pills" id="mods" aria-label="Chọn phân hệ"></div>
+            <div class="cc-actions">
+              <button class="icon-btn" id="tbl-btn" aria-pressed="false" aria-label="Xem dạng bảng"><svg class="i" data-i="table"></svg></button>
+              <button class="icon-btn" id="open-src" aria-label="Mở danh sách nguồn"><svg class="i" data-i="arrow"></svg></button>
+            </div>
+          </header>
+          <div class="cc-sub">
+            <div class="cc-cap"><p class="cc-caption" id="cc-caption"></p><span class="delta" id="delta"></span></div>
+            <div class="seg" id="ranges" role="group" aria-label="Kỳ">
+              <button data-r="today"><span class="long">Hôm nay</span><span class="short">Hôm nay</span></button>
+              <button data-r="7d"><span class="long">7 ngày</span><span class="short">7N</span></button>
+              <button data-r="30d"><span class="long">30 ngày</span><span class="short">30N</span></button>
+              <button data-r="12m"><span class="long">12 tháng</span><span class="short">12T</span></button>
+            </div>
+          </div>
+          <div class="legend" id="legend"></div>
+          <div class="cc-body" id="chart"></div>
+        </article>
+
+        <article class="card tasks-card" aria-labelledby="tk-title">
+          <header class="tk-head">
+            <h2 id="tk-title">Việc cần làm</h2><span class="count num" id="tk-count"></span>
+            <button class="icon-btn" aria-label="Mở trang Việc cần làm" data-toast="Mở trang Việc cần làm (FR-77)."><svg class="i" data-i="more"></svg></button>
+          </header>
+          <div class="seg tk-filter" id="tk-filter" role="group" aria-label="Lọc việc"></div>
+          <ul class="tasks" id="tasks"></ul>
+        </article>
+      </section>
+
+      <section class="card news-card" aria-labelledby="nw-title">
+        <header class="nw-head"><h2 id="nw-title">Bảng tin</h2><span class="count" id="nw-count"></span>
+          <button class="btn sp" data-view="all">Xem tất cả<svg class="i" data-i="right"></svg></button></header>
+        <div class="nw-grid" id="news"></div>
+      </section>
+      <div class="view" id="view"></div>
+    </main>
+  </div>
+</div>
+
+<nav class="bottom-nav" aria-label="Điều hướng nhanh">
+  <a href="#" aria-current="page"><svg class="i" data-i="home"></svg>Trang chủ</a>
+  <a href="#" data-toast="Mở Việc cần làm."><svg class="i" data-i="check"></svg>Việc<span class="count" id="bn-count"></span></a>
+  <a href="#" data-toast="Mở Điều độ và tra nạp."><svg class="i" data-i="fuel"></svg>Tra nạp</a>
+  <a href="#" data-toast="Mở Kho."><svg class="i" data-i="warehouse"></svg>Kho</a>
+  <a href="#" data-toast="Mở toàn bộ menu."><svg class="i" data-i="menu"></svg>Menu</a>
+</nav>
+
+<div class="menu" id="menu" role="menu"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const ICONS = {
+  home: '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>',
+  check: '<rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
+  fuel: '<path d="M3 22h12"/><path d="M4 9h10"/><path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18"/><path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0V9.83a2 2 0 0 0-.59-1.42L18 5"/>',
+  warehouse: '<path d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z"/><path d="M6 18h12"/><path d="M6 14h12"/><rect width="12" height="12" x="6" y="10"/>',
+  flask: '<path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/>',
+  receipt: '<path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/>',
+  cart: '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>',
+  wrench: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+  wallet: '<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',
+  users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  chart: '<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+  db: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/>',
+  shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+  bell: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+  msg: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+  search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  right: '<path d="m9 18 6-6-6-6"/>',
+  down: '<path d="m6 9 6 6 6-6"/>',
+  arrow: '<path d="M7 7h10v10"/><path d="M7 17 17 7"/>',
+  up: '<path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>',
+  dn: '<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
+  alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  lock: '<rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  more: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
+  plus: '<path d="M5 12h14"/><path d="M12 5v14"/>',
+  pencil: '<path d="M21.17 6.81a1 1 0 0 0-3.99-3.98L3.84 16.17a2 2 0 0 0-.5.83l-1.32 4.35a.5.5 0 0 0 .62.62l4.35-1.32a2 2 0 0 0 .83-.5z"/>',
+  table: '<path d="M12 3v18"/><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/>',
+  menu: '<path d="M4 12h16"/><path d="M4 6h16"/><path d="M4 18h16"/>',
+  pin: '<path d="M20 10c0 5-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 15 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>',
+  refresh: '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+  done: '<path d="M21.8 10A10 10 0 1 1 17 3.34"/><path d="m9 11 3 3L22 4"/>',
+  inbox: '<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
+  truck: '<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>',
+  calendar: '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>',
+  award: '<circle cx="12" cy="8" r="6"/><path d="M15.48 12.89 17 22l-5-3-5 3 1.52-9.11"/>',
+  user: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m16 11 2 2 4-4"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+  moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+  contrast: '<circle cx="12" cy="12" r="10"/><path d="M12 18a6 6 0 0 0 0-12v12z"/>',
+  monitor: '<rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/>',
+  sliders: '<path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M2 14h4"/><path d="M10 8h4"/><path d="M18 16h4"/>',
+  lockkey: '<rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>'
+};
+const ic = (name) => `<svg class="i" aria-hidden="true" viewBox="0 0 24 24">${ICONS[name] || ''}</svg>`;
+const fmt = new Intl.NumberFormat('vi-VN');
+const pct = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 });
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+// Bản thử: hôm nay cố định 08/10/2026 để ảnh chụp giống nhau.
+const TODAY = new Date(2026, 9, 8);
+const WD = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+const dd = (d) => String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0');
+function rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+
+/** Sinh chuỗi theo ngày hoặc tháng; dài gấp đôi để có kỳ trước cho chip so sánh. */
+function series(seed, n, unit, gen) {
+  const r = rng(seed);
+  const out = [];
+  for (let i = 2 * n - 1; i >= 0; i--) {
+    const d = new Date(TODAY);
+    if (unit === 'm') { d.setDate(1); d.setMonth(d.getMonth() - i); } else d.setDate(d.getDate() - i);
+    out.push({ d, v: gen(r, d) });
+  }
+  return { prev: out.slice(0, n), cur: out.slice(n) };
+}
+const vary = (r, base, spread) => Math.max(0, Math.round(base + spread * (r() * 2 - 1)));
+const weekend = (d) => d.getDay() === 0 || d.getDay() === 6;
+
+const MODS = {
+  dispatch: {
+    name: 'Điều độ', icon: 'fuel', tint: '--mod-fueling', unit: 'lệnh',
+    today: { caption: 'Lệnh tra nạp hôm nay · SGN', list: 'Lệnh tra nạp', field: 'Trạng thái', yesterday: 37,
+      bars: [{ k: 'Nháp', v: 4 }, { k: 'Được phép', v: 9 }, { k: 'Đang tra nạp', v: 3 }, { k: 'Hoàn thành', v: 21 }, { k: 'Cần xử lý', v: 2, attn: true }] },
+    trend: { caption: 'Số lệnh tra nạp theo ETA', list: 'Lệnh tra nạp', series: [{ name: 'Lệnh', day: (r) => vary(r, 38, 8), month: (r) => vary(r, 1150, 120) }] },
+    kpis: [
+      { label: 'Chuyến hôm nay', v: 39, icon: 'fuel', list: 'Lệnh tra nạp', filter: 'ETA = hôm nay' },
+      { label: 'Đang tra nạp', v: 3, icon: 'clock', list: 'Lệnh tra nạp', filter: 'Trạng thái = Đang tra nạp' },
+      { label: 'Quá ETA chưa có ghi nhận', v: 2, icon: 'alert', tone: 'danger', list: 'Lệnh tra nạp', filter: 'Xem lọc sẵn "Quá ETA chưa có ghi nhận"' },
+      { label: 'Ghi nhận chưa Hoàn thành', v: 5, icon: 'check', tone: 'warning', list: 'Ghi nhận tra nạp', filter: 'Trạng thái ∈ N, W, R' }
+    ]
+  },
+  inventory: {
+    name: 'Kho', icon: 'warehouse', tint: '--mod-inventory', unit: 'm³',
+    today: { caption: 'Tồn theo bồn so với sức chứa (m³) · giờ sự kiện 08/10 09:00', list: 'Tồn theo bồn', field: 'Bồn', capacity: true, yesterdayTotal: 4102,
+      bars: [{ k: 'T01', v: 812, cap: 1000, sub: 'Jet A-1' }, { k: 'T02', v: 645, cap: 1000, sub: 'Jet A-1' }, { k: 'T03', v: 920, cap: 1000, sub: 'Hold', attn: true, lock: true },
+        { k: 'T04', v: 388, cap: 800, sub: 'Jet A-1' }, { k: 'T05', v: 571, cap: 800, sub: 'Jet A-1' }, { k: 'T06', v: 540, cap: 600, sub: 'Jet A-1' }] },
+    trend: { caption: 'Nhập và xuất kho (m³)', list: 'Thẻ kho', series: [
+      { name: 'Xuất', cls: 's1', color: '--bar-strong', day: (r) => vary(r, 420, 60), month: (r) => vary(r, 12600, 900) },
+      { name: 'Nhập', cls: 's2', color: '--series-2', day: (r) => (r() < 0.4 ? vary(r, 700, 200) : 0), month: (r) => vary(r, 12500, 1500) }] },
+    kpis: [
+      { label: 'Tổng tồn Jet A-1', v: 3876, unit: 'm³', icon: 'warehouse', list: 'Tồn theo bồn', filter: 'Điểm = SGN' },
+      { label: 'Bồn đang Hold', v: 1, icon: 'lock', tone: 'danger', list: 'Tồn theo bồn', filter: 'Trạng thái QC = Hold' },
+      { label: 'Chờ xác nhận nhập kho', v: 2, icon: 'truck', list: 'Xác nhận nhập kho', filter: 'Chưa xác nhận' },
+      { label: 'Chờ xác nhận xuất kho', v: 3, icon: 'truck', list: 'Xác nhận xuất kho', filter: 'Chưa xác nhận' }
+    ]
+  },
+  qc: {
+    name: 'QC', icon: 'flask', tint: '--mod-quality', unit: 'lô',
+    today: { caption: 'Bồn, xe, lô theo trạng thái QC · SGN', list: 'Lô hàng', field: 'Trạng thái QC', yesterday: 21,
+      bars: [{ k: 'Chờ kiểm', v: 3 }, { k: 'Hold', v: 2, attn: true, lock: true }, { k: 'Release', v: 14 }, { k: 'Không đạt', v: 1, attn: true }] },
+    trend: { caption: 'Số phiếu QC', list: 'Phiếu QC', series: [{ name: 'Phiếu QC', day: (r) => vary(r, 6, 3), month: (r) => vary(r, 175, 25) }] },
+    kpis: [
+      { label: 'Lô đang Hold', v: 2, icon: 'lock', tone: 'danger', list: 'Lô hàng', filter: 'Trạng thái QC = Hold' },
+      { label: 'Phiếu QC chờ duyệt', v: 3, icon: 'flask', list: 'Phiếu QC', filter: 'Chờ duyệt' },
+      { label: 'Mẫu chờ kết quả', v: 4, icon: 'clock', list: 'Phiếu QC', filter: 'Chưa có kết quả' },
+      { label: 'Release hôm nay', v: 5, icon: 'done', list: 'Phiếu QC Release/Hold', filter: 'Release, ngày = hôm nay' }
+    ]
+  },
+  sales: {
+    name: 'Bán hàng', icon: 'receipt', tint: '--mod-sales', unit: 'm³',
+    today: { caption: 'Sản lượng tra nạp hôm nay theo khách hàng (m³)', list: 'Ghi nhận tra nạp', field: 'Khách hàng', yesterday: 451,
+      bars: [{ k: 'VNA', v: 182 }, { k: 'VJC', v: 156 }, { k: 'BAV', v: 48 }, { k: 'PIC', v: 22 }, { k: 'VAG', v: 15 }, { k: 'Khác', v: 16 }] },
+    trend: { caption: 'Sản lượng tra nạp (m³)', list: 'Ghi nhận tra nạp', series: [{ name: 'Sản lượng', day: (r) => vary(r, 430, 50), month: (r) => vary(r, 12900, 900) }] },
+    kpis: [
+      { label: 'Sản lượng hôm nay', v: 439, unit: 'm³', icon: 'fuel', list: 'Ghi nhận tra nạp', filter: 'Ngày = hôm nay' },
+      { label: 'Khách hàng đã phục vụ', v: 9, icon: 'users', list: 'Ghi nhận tra nạp', filter: 'Nhóm theo khách hàng' },
+      { label: 'Ghi nhận chờ lập hoá đơn', v: 12, icon: 'receipt', list: 'Ghi nhận tra nạp', filter: 'Y, chưa xuất dữ liệu hoá đơn' },
+      { label: 'Hợp đồng sắp hết hạn', v: 2, icon: 'calendar', tone: 'warning', list: 'Hợp đồng bán', filter: 'Hết hạn trong 30 ngày' }
+    ]
+  },
+  admin: {
+    name: 'Hệ thống', icon: 'shield', tint: '--mod-system', unit: 'tài khoản',
+    today: { caption: 'Tài khoản và đăng nhập hôm nay', list: 'Tài khoản', field: 'Trạng thái', yesterday: 93,
+      bars: [{ k: 'Hoạt động', v: 86 }, { k: 'Chờ kích hoạt', v: 4 }, { k: 'Bị khoá', v: 3, attn: true, lock: true }, { k: 'Hết hạn mật khẩu', v: 2 }] },
+    trend: { caption: 'Lượt đăng nhập', list: 'Nhật ký đăng nhập', series: [{ name: 'Lượt', day: (r, d) => vary(r, weekend(d) ? 24 : 58, 10), month: (r) => vary(r, 1400, 160) }] },
+    kpis: [
+      { label: 'Yêu cầu tài khoản chờ', v: 4, icon: 'user', list: 'Yêu cầu cấp tài khoản', filter: 'Đang mở' },
+      { label: 'Hàng đợi duyệt', v: 6, icon: 'check', list: 'Hàng đợi duyệt', filter: 'Chờ tôi duyệt' },
+      { label: 'Tài khoản cần chú ý', v: 3, icon: 'alert', tone: 'danger', list: 'Tài khoản', filter: 'Bị khoá' },
+      { label: 'Đăng nhập hôm nay', v: 58, icon: 'users', list: 'Nhật ký đăng nhập', filter: 'Ngày = hôm nay' }
+    ]
+  },
+  mine: {
+    name: 'Điều độ', icon: 'fuel', tint: '--mod-fueling', unit: 'lệnh',
+    today: { caption: 'Lệnh của tôi hôm nay', list: 'Lệnh tra nạp', field: 'Trạng thái', yesterday: 10,
+      bars: [{ k: 'Được phép', v: 3 }, { k: 'Đang tra nạp', v: 1 }, { k: 'Hoàn thành', v: 6 }, { k: 'Cần xử lý', v: 1, attn: true }] },
+    trend: { caption: 'Chuyến của tôi', list: 'Ghi nhận tra nạp', series: [{ name: 'Chuyến', day: (r, d) => vary(r, weekend(d) ? 6 : 10, 3), month: (r) => vary(r, 240, 30) }] },
+    kpis: [
+      { label: 'Lệnh của tôi hôm nay', v: 11, icon: 'fuel', list: 'Lệnh tra nạp', filter: 'Được gán cho tôi, ETA = hôm nay' },
+      { label: 'Ghi nhận chưa Hoàn thành', v: 2, icon: 'check', tone: 'warning', list: 'Ghi nhận tra nạp', filter: 'Của tôi, N, W, R' },
+      { label: 'Việc quá hạn', v: 0, icon: 'clock', list: 'Việc cần làm', filter: 'Quá hạn' },
+      { label: 'Chứng chỉ sắp hết hạn', v: 1, icon: 'award', tone: 'warning', list: 'Hồ sơ nhân viên', filter: 'Chứng chỉ của tôi, hết hạn trong 30 ngày' }
+    ]
+  }
+};
+
+const ROLES = {
+  manager: {
+    name: 'Nguyễn Minh Anh', initials: 'MA', title: 'Trưởng ca', mods: ['dispatch', 'inventory', 'qc', 'sales', 'admin'],
+    favs: [['Kế hoạch tra nạp', 'calendar', '--mod-fueling'], ['Lệnh tra nạp', 'fuel', '--mod-fueling'], ['Ghi nhận tra nạp', 'check', '--mod-fueling'],
+      ['Tồn theo bồn', 'warehouse', '--mod-inventory'], ['Xác nhận xuất kho', 'truck', '--mod-inventory'], ['Phiếu QC', 'flask', '--mod-quality'],
+      ['Bảng giá bán', 'receipt', '--mod-sales'], ['Tài khoản', 'users', '--mod-system'], ['Bảng điều độ', 'calendar', '--mod-fueling'],
+      ['Phiếu nhập kho', 'warehouse', '--mod-inventory'], ['Release và Hold', 'lock', '--mod-quality'], ['Hợp đồng bán', 'receipt', '--mod-sales'], ['Báo cáo sản lượng', 'chart', '--mod-reports'], ['Hồ sơ nhân viên', 'award', '--mod-hr']],
+    tasks: [
+      { t: 'Duyệt release lô SGN-L2610-03', kind: 'Phiếu QC', due: 'Hạn 09:30', icon: 'flask', p: 100, st: 'overdue' },
+      { t: 'Xử lý ghi nhận Cần xử lý chuyến VJ123', kind: 'Ghi nhận tra nạp', due: 'Hạn 10:00', icon: 'fuel', p: 80, st: 'urgent' },
+      { t: 'Lệnh VN1203 quá ETA chưa có ghi nhận', kind: 'Lệnh tra nạp', due: 'ETA 08:45', icon: 'alert', p: 90, st: 'urgent' },
+      { t: 'Duyệt phiếu xuất kho PX-261008-004', kind: 'Xuất kho', due: 'Hạn 11:00', icon: 'truck', p: 55 },
+      { t: 'Xác nhận nhập kho PN-261008-002, 450 m³ Jet A-1 từ xe bồn 51C-123.45', kind: 'Nhập kho', due: 'Hạn 12:00', icon: 'warehouse', p: 40 },
+      { t: 'Yêu cầu cấp tài khoản cho Phạm Thu Hà', kind: 'Hệ thống', due: 'Hạn 14:00', icon: 'user', p: 20 },
+      { t: 'Chứng chỉ an toàn PCCC của Lê Văn Cường hết hạn ngày 12/10/2026, cần nhắc gia hạn trước khi xếp ca tối thứ Hai tuần sau', kind: 'Nhân sự', due: 'Hạn 12/10', icon: 'award', p: 10 }
+    ]
+  },
+  staff: {
+    name: 'Trần Văn Bình', initials: 'TB', title: 'Nhân viên tra nạp', mods: ['mine'],
+    favs: [['Ghi nhận tra nạp', 'check', '--mod-fueling'], ['Lệnh của tôi', 'fuel', '--mod-fueling'], ['Kế hoạch ca', 'calendar', '--mod-fueling'], ['Hồ sơ của tôi', 'award', '--mod-hr']],
+    tasks: [
+      { t: 'Bổ sung nhiệt độ cho ghi nhận VJ135 (bị trả lại)', kind: 'Ghi nhận tra nạp', due: 'Hạn 09:45', icon: 'fuel', p: 100, st: 'overdue' },
+      { t: 'Hoàn thành ghi nhận VN214, tàu VN-A321', kind: 'Ghi nhận tra nạp', due: 'Hạn 10:30', icon: 'check', p: 70, st: 'urgent' },
+      { t: 'Nhận lệnh VN1203, ETA 11:40, sân đỗ 12', kind: 'Lệnh tra nạp', due: 'ETA 11:40', icon: 'calendar', p: 35 },
+      { t: 'Gia hạn chứng chỉ vận hành xe tra nạp', kind: 'Hồ sơ', due: 'Hết hạn 20/10', icon: 'award', p: 15 }
+    ]
+  },
+  none: { name: 'Lê Hoàng Phúc', initials: 'HP', title: 'Nhân viên mới', mods: [], favs: [], tasks: [] }
+};
+
+const NAV = [
+  ['home', 'Trang chủ', 'cur'], ['check', 'Việc cần làm', 'count'], 'Phân hệ',
+  ['fuel', 'Điều độ và tra nạp'], ['warehouse', 'Kho'], ['flask', 'Chất lượng (QC)'], ['receipt', 'Bán hàng'],
+  ['cart', 'Mua hàng', 'dim'], ['wrench', 'Bảo trì', 'dim'], ['wallet', 'Tài chính', 'dim'], ['users', 'Nhân sự'], ['chart', 'Báo cáo'],
+  'Cấu hình', ['db', 'Danh mục'], ['shield', 'Hệ thống']
+];
+
+const S = { role: 'manager', state: 'normal', theme: null, mod: null, range: 'today', filter: 'all', table: false };
+const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch { /* bỏ qua */ } } };
+const $ = (id) => document.getElementById(id);
+
+function toast(msg) {
+  const t = $('toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 2800);
+}
+
+function renderNav() {
+  const role = ROLES[S.role];
+  $('nav').innerHTML = NAV.map((n) => typeof n === 'string' ? `<div class="nav-label">${n}</div>`
+    : `<a href="#" ${n[2] === 'cur' ? 'aria-current="page"' : ''} class="${n[2] === 'dim' ? 'dim' : ''}" title="${n[1]}">${ic(n[0])}<span class="txt">${n[1]}</span>${n[2] === 'count' && role.tasks.length ? `<span class="count num">${role.tasks.length}</span>` : ''}</a>`).join('');
+  $('bn-count').textContent = role.tasks.length || '';
+  $('bn-count').style.display = role.tasks.length ? '' : 'none';
+}
+
+function renderHero() {
+  const role = ROLES[S.role];
+  $('g-name').textContent = role.name;
+  $('avatar').textContent = role.initials;
+  $('g-sub').textContent = `${role.title} · SGN · Ca sáng 06:00–14:00 · Thứ Năm, 08/10/2026`;
+  $('favs').innerHTML = role.favs.map(([n, i, t]) => `<button class="ftile" role="listitem" style="--tint: var(${t})" data-toast="Mở ${n}."><span class="ico">${ic(i)}</span><span class="nm">${n}</span></button>`).join('')
+    + (role.favs.length < MAX_FAVS ? `<button class="ftile add" role="listitem" data-toast="Thêm chức năng thường dùng (tối đa ${MAX_FAVS}).">${'<span class="ico">' + ic('plus') + '</span>'}<span class="nm">Thêm</span></button>` : '');
+  $('fc-count').textContent = `${role.favs.length}/${MAX_FAVS}`;
+  document.querySelector('.favs-card').style.display = role.favs.length || S.role !== 'none' ? '' : 'none';
+}
+
+// Chế độ hiển thị ở thanh đầu: Sáng, Sáng chói, Tối, Theo máy (bản thật lưu theo người dùng).
+const THEMES = [['light', 'Sáng', 'sun'], ['hc', 'Sáng chói', 'contrast'], ['dark', 'Tối', 'moon'], ['system', 'Theo máy', 'monitor']];
+function applyTheme() {
+  if (S.theme === 'system') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = S.theme;
+  const t = THEMES.find((x) => x[0] === S.theme) || THEMES[0];
+  $('theme-btn').querySelector('svg').innerHTML = ICONS[t[2]];
+  $('theme-btn').setAttribute('aria-label', `Chế độ hiển thị: ${t[1]}`);
+}
+function themeMenu(open) {
+  const m = $('menu'), b = $('theme-btn');
+  if (!open) { m.classList.remove('on'); b.setAttribute('aria-expanded', 'false'); return; }
+  m.innerHTML = '<div class="mh">Chế độ hiển thị</div>' + THEMES.map(([v, n, i]) => `<button class="mi" role="menuitemradio" aria-checked="${S.theme === v}" data-theme-v="${v}">${ic(i)}${n}${v === 'hc' ? '<span class="k">ngoài trời</span>' : ''}</button>`).join('');
+  m.classList.add('on'); b.setAttribute('aria-expanded', 'true');
+  const r = b.getBoundingClientRect();
+  m.style.top = r.bottom + 6 + 'px'; m.style.left = Math.max(8, Math.min(r.right - m.offsetWidth, innerWidth - m.offsetWidth - 8)) + 'px';
+  m.querySelector('[aria-checked="true"]')?.focus();
+}
+function fadeFavs() {
+  const f = $('favs');
+  f.classList.toggle('more', f.scrollWidth - f.clientWidth - f.scrollLeft > 4);
+}
+function renderKpis() {
+  const el = $('kpis');
+  const mod = MODS[S.mod];
+  if (!mod) { el.innerHTML = ''; return; }
+  if (S.state === 'loading') { el.innerHTML = Array.from({ length: 4 }, () => `<div class="kpi" aria-hidden="true"><div class="sk" style="height:14px;width:70%"></div><div class="sk" style="height:24px;width:45%"></div></div>`).join(''); return; }
+  el.innerHTML = mod.kpis.map((k) => {
+    const v = S.state === 'error' ? '—' : S.state === 'empty' ? 0 : k.v;
+    const tone = typeof v === 'number' && v > 0 && k.tone ? `is-${k.tone}` : '';
+    return `<button class="kpi ${tone}" style="--tint: var(${mod.tint})" data-toast="Mở «${k.list}», lọc: ${k.filter}." title="${S.state === 'error' ? 'Không tải được số liệu' : ''}">
+      <span class="kpi-top"><span class="kpi-label">${k.label}</span><span class="kpi-ico">${ic(k.icon)}</span></span>
+      <span class="kpi-bottom"><span class="kpi-value num">${typeof v === 'number' ? fmt.format(v) : v}${k.unit && typeof v === 'number' ? `<small>${k.unit}</small>` : ''}</span><span class="kpi-link">Chi tiết</span></span></button>`;
+  }).join('');
+}
+
+function renderMods() {
+  const role = ROLES[S.role];
+  const el = $('mods');
+  if (role.mods.length === 0) { el.innerHTML = ''; return; }
+  if (role.mods.length === 1) { const m = MODS[role.mods[0]]; el.innerHTML = `<span class="mod-single" style="--tint: var(${m.tint})">${ic(m.icon)}${m.name}</span>`; return; }
+  el.innerHTML = role.mods.map((k) => { const m = MODS[k]; return `<button class="mod-pill" data-mod="${k}" aria-pressed="${k === S.mod}" style="--tint: var(${m.tint})">${ic(m.icon)}${m.name}</button>`; }).join('');
+}
+
+function niceMax(v) {
+  if (v <= 0) return 1;
+  const p = 10 ** Math.floor(Math.log10(v));
+  for (const m of [1, 2, 2.5, 5, 10]) if (m * p >= v) return m * p;
+  return 10 * p;
+}
+
+function trendData(mod) {
+  const n = S.range === '7d' ? 7 : S.range === '30d' ? 30 : 12;
+  const unit = S.range === '12m' ? 'm' : 'd';
+  const seedBase = { dispatch: 11, inventory: 23, qc: 37, sales: 41, admin: 53, mine: 67 }[S.mod] * 100 + n;
+  return mod.trend.series.map((s, i) => ({ ...s, ...series(seedBase + i * 7, n, unit, (r, d) => (unit === 'm' ? s.month(r, d) : s.day(r, d))) }));
+}
+function labelOf(d, i, n) {
+  if (S.range === '12m') return 'T' + (d.getMonth() + 1);
+  if (S.range === '7d') return WD[d.getDay()];
+  return (i % 5 === 4 || i === n - 1) ? dd(d) : '';
+}
+function fullLabel(d) {
+  if (S.range === '12m') return `Tháng ${d.getMonth() + 1}/${d.getFullYear()}`;
+  return `${WD[d.getDay()]}, ${dd(d)}/${d.getFullYear()}`;
+}
+const PREV = { today: 'hôm qua', '7d': '7 ngày trước', '30d': '30 ngày trước', '12m': '12 tháng trước' };
+
+function setDelta(cur, prev) {
+  const el = $('delta');
+  if (S.state !== 'normal' || !MODS[S.mod] || !prev) { el.style.display = 'none'; return; }
+  el.style.display = '';
+  const d = (cur - prev) / prev * 100;
+  el.innerHTML = `${ic(d >= 0 ? 'up' : 'dn')}<b class="num">${d >= 0 ? '+' : '−'}${pct.format(Math.abs(d))}%</b><span class="vs">so với ${PREV[S.range]}</span>`;
+}
+
+function stateBox(kind) {
+  if (kind === 'loading') return `<div class="cols" aria-busy="true" aria-label="Đang tải">${Array.from({ length: 5 }, (_, i) => `<div class="col"><div class="col-track sk" style="background-image:none"></div><div class="sk" style="height:12px;width:60%;margin:0 auto"></div></div>`).join('')}</div>`;
+  if (kind === 'error') return `<div class="state err" role="alert"><span class="big">${ic('alert')}</span><p><strong>Không tải được số liệu.</strong><br>Số liệu khác trên trang vẫn dùng được.</p><button class="btn" data-retry>${ic('refresh')}Thử lại</button></div>`;
+  if (kind === 'empty') return `<div class="state"><span class="big">${ic('chart')}</span><p><strong>Chưa có số liệu cho kỳ này.</strong><br>Khi có chứng từ trong phạm vi của bạn, biểu đồ sẽ hiện ở đây.</p></div>`;
+  return `<div class="state"><span class="big">${ic('lock')}</span><p><strong>Bạn chưa được giao phân hệ nào có biểu đồ.</strong><br>Liên hệ quản trị viên để được cấp quyền xem.</p></div>`;
+}
+
+function renderChart() {
+  const mod = MODS[S.mod];
+  const body = $('chart');
+  const legend = $('legend');
+  legend.innerHTML = '';
+  document.querySelectorAll('#ranges button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.r === S.range));
+  $('tbl-btn').setAttribute('aria-pressed', S.table);
+  if (!mod) { $('cc-caption').textContent = ''; setDelta(0, 0); body.innerHTML = stateBox('none'); return; }
+  const today = S.range === 'today';
+  $('cc-caption').textContent = today ? mod.today.caption : mod.trend.caption;
+  if (S.state !== 'normal') { setDelta(0, 0); body.innerHTML = stateBox(S.state); return; }
+
+  document.querySelector('.chart-card').classList.toggle('is-status', today && !!STATUS[S.mod] && S.state === 'normal');
+  if (today && STATUS[S.mod]) { renderStatusToday(S.mod, mod, body); return; }
+  if (today) {
+    const t = mod.today;
+    const total = t.bars.reduce((a, b) => a + b.v, 0);
+    setDelta(total, t.capacity ? t.yesterdayTotal : t.yesterday);
+    if (S.table) {
+      body.innerHTML = `<div class="tablewrap"><table class="dtable"><thead><tr><th>${t.field}</th><th class="r">Giá trị (${mod.unit})</th>${t.capacity ? '<th class="r">Sức chứa</th><th class="r">Tỉ lệ</th>' : ''}</tr></thead><tbody>${t.bars.map((b) => `<tr><td>${b.k}${b.sub && t.capacity ? ' · ' + b.sub : ''}</td><td class="r num">${fmt.format(b.v)}</td>${t.capacity ? `<td class="r num">${fmt.format(b.cap)}</td><td class="r num">${pct.format(b.v / b.cap * 100)}%</td>` : ''}</tr>`).join('')}</tbody></table></div>`;
+      return;
+    }
+    const max = t.capacity ? 1 : niceMax(Math.max(...t.bars.map((b) => b.v)));
+    body.innerHTML = `<div class="cols" role="list">${t.bars.map((b, i) => {
+      const p = Math.max(2, (t.capacity ? b.v / b.cap : b.v / max) * 100);
+      const label = t.capacity ? `${fmt.format(b.v)} / ${fmt.format(b.cap)}` : fmt.format(b.v);
+      const inside = p > 82;
+      const aria = `${b.k}${b.sub ? ', ' + b.sub : ''}: ${t.capacity ? `${fmt.format(b.v)} trên ${fmt.format(b.cap)} m³` : `${fmt.format(b.v)} ${mod.unit}`}${b.attn ? ', cần chú ý' : ''}`;
+      return `<button class="col ${b.attn ? 'is-attn' : ''}" role="listitem" data-i="${i}" aria-label="${esc(aria)}">
+        <span class="col-track"><span class="col-fill" style="height:${p}%"></span><span class="col-val num" style="bottom:${inside ? `calc(${p}% - 30px)` : `calc(${p}% + 6px)`}">${t.capacity ? fmt.format(b.v) : label}</span></span>
+        <span class="col-name">${b.attn ? ic(b.lock ? 'lock' : 'alert') : ''}<span class="t">${b.k}</span></span>${b.sub ? `<span class="col-sub">${b.attn && t.capacity ? '' : ''}${b.sub}${t.capacity ? ' · ' + pct.format(b.v / b.cap * 100) + '%' : ''}</span>` : ''}
+      </button>`;
+    }).join('')}</div><div class="tip" id="tip"></div>`;
+    body.querySelectorAll('.col').forEach((el) => {
+      const b = t.bars[el.dataset.i];
+      const html = `<b>${b.k}${b.sub ? ' · ' + b.sub : ''}</b><br>${t.capacity ? `Tồn ${fmt.format(b.v)} m³ / sức chứa ${fmt.format(b.cap)} m³` : `${fmt.format(b.v)} ${mod.unit}`}${b.attn ? '<br>Cần chú ý' : ''}<br><span style="opacity:.7">Bấm để mở danh sách</span>`;
+      bindTip(el, html, () => el.querySelector('.col-fill'));
+      el.onclick = () => toast(`Mở «${t.list}», lọc ${t.field} = ${b.k}.`);
+    });
+    return;
+  }
+
+  const data = trendData(mod);
+  const n = data[0].cur.length;
+  const sums = data.map((s) => [s.cur.reduce((a, x) => a + x.v, 0), s.prev.reduce((a, x) => a + x.v, 0)]);
+  setDelta(sums[0][0], sums[0][1]);
+  const two = data.length > 1;
+  if (two) legend.innerHTML = data.map((s) => `<span><i style="background: var(${s.color})"></i>${s.name}</span>`).join('');
+  if (S.table) {
+    body.innerHTML = `<div class="tablewrap"><table class="dtable"><thead><tr><th>${S.range === '12m' ? 'Tháng' : 'Ngày'}</th>${data.map((s) => `<th class="r">${s.name} (${mod.unit})</th>`).join('')}</tr></thead><tbody>${data[0].cur.map((x, i) => `<tr><td>${fullLabel(x.d)}</td>${data.map((s) => `<td class="r num">${fmt.format(s.cur[i].v)}</td>`).join('')}</tr>`).reverse().join('')}</tbody></table></div>`;
+    return;
+  }
+  const max = niceMax(Math.max(1, ...data.flatMap((s) => s.cur.map((x) => x.v))));
+  const ticks = [0, 0.5, 1];
+  body.innerHTML = `<div class="tscroll"><div class="tchart ${S.range === '30d' ? 'wide' : ''}">
+    <div class="yaxis">${ticks.map((f) => `<span class="num" style="bottom:calc(${f * 100}% * 1)">${fmt.format(max * f)}</span>`).join('')}</div>
+    <div class="plot">
+      <div class="gridlines">${ticks.map((f) => `<i class="${f === 0 ? 'base' : ''}" style="bottom:${f * 100}%"></i>`).join('')}</div>
+      <div class="tbars" style="--n:${n}" role="list">${data[0].cur.map((x, i) => {
+        const now = i === n - 1;
+        const vals = data.map((s) => s.cur[i].v);
+        const aria = `${fullLabel(x.d)}: ${data.map((s, j) => `${s.name} ${fmt.format(vals[j])} ${mod.unit}`).join(', ')}`;
+        return `<button class="tg ${two ? 'two' : ''} ${now && !two ? 'is-now' : ''}" role="listitem" data-i="${i}" aria-label="${esc(aria)}">
+          <span class="tg-bars">${data.map((s, j) => `<span class="tg-bar ${two ? s.cls : ''}" style="height:${vals[j] / max * 100}%"></span>`).join('')}
+          ${now && !two ? `<span class="tg-val num" style="bottom:calc(${vals[0] / max * 100}% + 4px)">${fmt.format(vals[0])}</span>` : ''}</span>
+          <span class="tg-lab">${labelOf(x.d, i, n)}</span></button>`;
+      }).join('')}</div>
+    </div></div></div><div class="tip" id="tip"></div>`;
+  body.querySelectorAll('.tg').forEach((el) => {
+    const i = +el.dataset.i;
+    const html = `<b>${fullLabel(data[0].cur[i].d)}</b>${data.map((s) => `<br>${two ? `<i style="background: var(${s.color})"></i>` : ''}${s.name}: <b class="num">${fmt.format(s.cur[i].v)}</b> ${mod.unit}`).join('')}`;
+    bindTip(el, html, () => el.querySelector('.tg-bars'));
+    el.onclick = () => toast(`Mở «${mod.trend.list}», lọc ${S.range === '12m' ? 'tháng' : 'ngày'} = ${fullLabel(data[0].cur[i].d)}.`);
+  });
+}
+
+function bindTip(el, html, anchor) {
+  const show = () => {
+    const tip = $('tip'); if (!tip) return;
+    const host = $('chart').getBoundingClientRect();
+    const a = anchor().getBoundingClientRect();
+    const bars = [...el.querySelectorAll('.col-fill, .tg-bar')].map((x) => x.getBoundingClientRect().top);
+    const top = Math.min(...bars, a.bottom);
+    tip.innerHTML = html;
+    const half = tip.offsetWidth / 2;
+    const x = Math.min(Math.max(a.left + a.width / 2 - host.left, half), host.width - half);
+    tip.style.left = x + 'px';
+    tip.style.top = Math.max(top - host.top, tip.offsetHeight + 8) + 'px';
+    tip.classList.add('on');
+  };
+  const hide = () => $('tip')?.classList.remove('on');
+  el.addEventListener('pointerenter', show); el.addEventListener('focus', show);
+  el.addEventListener('pointerleave', hide); el.addEventListener('blur', hide);
+}
+
+function renderTasks() {
+  const role = ROLES[S.role];
+  const all = role.tasks;
+  const counts = { all: all.length, urgent: all.filter((t) => t.st === 'urgent').length, overdue: all.filter((t) => t.st === 'overdue').length };
+  $('tk-count').textContent = S.state === 'normal' ? all.length : '';
+  $('tk-filter').innerHTML = [['all', 'Tất cả'], ['urgent', 'Khẩn'], ['overdue', 'Quá hạn']].map(([k, n]) =>
+    `<button data-f="${k}" aria-pressed="${S.filter === k}">${n}${S.state === 'normal' ? ` <span class="num">${counts[k]}</span>` : ''}</button>`).join('');
+  const el = $('tasks');
+  if (S.state === 'loading') { el.innerHTML = Array.from({ length: 4 }, () => `<li class="task" aria-hidden="true"><span class="sk" style="width:40px;height:40px;border-radius:50%"></span><span><span class="sk" style="display:block;height:13px;width:80%"></span><span class="sk" style="display:block;height:10px;width:50%;margin-top:6px"></span></span><span></span></li>`).join(''); return; }
+  if (S.state === 'error') { el.innerHTML = `<li class="state err" role="alert"><span class="big">${ic('alert')}</span><p><strong>Không tải được việc cần làm.</strong></p><button class="btn" data-retry>${ic('refresh')}Thử lại</button></li>`; return; }
+  const list = S.state === 'empty' ? [] : all.filter((t) => S.filter === 'all' || t.st === S.filter);
+  if (list.length === 0) { el.innerHTML = `<li class="state"><span class="big">${ic('done')}</span><p><strong>Không còn việc nào${S.filter === 'all' ? '' : ' ở mục này'}.</strong><br>Việc mới được giao sẽ hiện ở đây.</p></li>`; return; }
+  const hot = list.findIndex((t) => t.st);
+  el.innerHTML = list.map((t, i) => {
+    const c = t.st === 'overdue' ? 'var(--danger)' : t.st === 'urgent' ? 'var(--warning)' : 'var(--primary)';
+    const badge = t.st === 'overdue' ? `<span class="badge danger">${ic('clock')}Quá hạn</span>` : t.st === 'urgent' ? `<span class="badge warning">${ic('alert')}Khẩn</span>` : '';
+    return `<li class="task ${i === hot ? 'is-hot' : ''}" tabindex="0" data-toast="Mở ${t.kind}: ${esc(t.t)}.">
+      <span class="ring" style="--c:${c};--p:${t.p}" aria-hidden="true">${ic(t.icon)}</span>
+      <div><p class="t-title">${esc(t.t)}</p><p class="t-meta">${t.kind} · ${t.due} ${badge}</p></div>
+      <button class="go" aria-label="Mở việc">${ic('right')}</button></li>`;
+  }).join('');
+}
+
+function renderAll() {
+  const role = ROLES[S.role];
+  if (!role.mods.includes(S.mod)) {
+    const saved = store.get('tapetco.home.mod.' + S.role);
+    S.mod = role.mods.includes(saved) ? saved : role.mods[0] ?? null;
+  }
+  document.querySelectorAll('.pseg').forEach((g) => g.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', S[g.dataset.ctl] === b.dataset.v)));
+  renderNav(); renderHero(); renderMods(); renderKpis(); renderChart(); renderTasks(); renderNews();
+}
+
+document.addEventListener('click', (e) => {
+  const c = e.target.closest('.pseg button');
+  if (c) {
+    const k = c.closest('.pseg').dataset.ctl; S[k] = c.dataset.v;
+    if (k === 'theme') applyTheme();
+    if (k === 'role') S.filter = 'all';
+    renderAll(); return;
+  }
+  const m = e.target.closest('[data-mod]');
+  if (m) { S.mod = m.dataset.mod; store.set('tapetco.home.mod.' + S.role, S.mod); renderMods(); renderKpis(); renderChart(); return; }
+  const r = e.target.closest('#ranges button');
+  if (r) { S.range = r.dataset.r; renderChart(); return; }
+  const f = e.target.closest('#tk-filter button');
+  if (f) { S.filter = f.dataset.f; renderTasks(); return; }
+  if (e.target.closest('[data-retry]')) { S.state = 'normal'; renderAll(); return; }
+  if (e.target.closest('#theme-btn')) { themeMenu(!$('menu').classList.contains('on')); return; }
+  const tv = e.target.closest('[data-theme-v]');
+  if (tv) { S.theme = tv.dataset.themeV; applyTheme(); themeMenu(false); $('theme-btn').focus(); renderAll(); return; }
+  if (!e.target.closest('#menu')) themeMenu(false);
+  if (e.target.closest('#tbl-btn')) { S.table = !S.table; renderChart(); return; }
+  if (e.target.closest('#open-src')) { const mod = MODS[S.mod]; if (mod) toast(`Mở «${S.range === 'today' ? mod.today.list : mod.trend.list}» với bộ lọc của biểu đồ.`); return; }
+  const t = e.target.closest('[data-toast]');
+  if (t) { e.preventDefault(); toast(t.dataset.toast); }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && $('menu').classList.contains('on')) { themeMenu(false); $('theme-btn').focus(); return; }
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.task')) { e.preventDefault(); toast(e.target.dataset.toast); }
+});
+
+
+/* ================= v2.1 (BA 09/10/2026) ================= */
+const MAX_FAVS = 16;
+const NOW_H = 10, NOW_LABEL = '10:20';
+
+/* Trạng thái hôm nay của ba phân hệ (và "Lệnh của tôi"): thứ tự theo luồng, màu, giải thích ngắn. Tổng luôn 100% nên vẽ một thanh. */
+const STATUS = {
+  dispatch: { total: 'lệnh hôm nay', list: 'Lệnh tra nạp', field: 'Trạng thái', items: [
+    { k: 'Nháp', v: 3, c: '--st-gray', d: 'Mới tạo, chưa gửi kiểm tra.' },
+    { k: 'Chờ kiểm tra', v: 6, c: '--st-amber', d: 'Chờ kiểm tra trước tra nạp (xe, bồn, kíp).' },
+    { k: 'Được phép', v: 8, c: '--st-blue', d: 'Đủ điều kiện, chờ tới giờ bơm.' },
+    { k: 'Đã tra nạp', v: 18, c: '--st-green', d: 'Đã bơm xong, có ghi nhận.' },
+    { k: 'Cần kiểm tra lại', v: 1, c: '--st-orange', d: 'Điều kiện đổi sau khi đã kiểm, phải kiểm lại.', attn: true },
+    { k: 'Cần điều độ xử lý', v: 2, c: '--st-red', d: 'Bị chặn: thiếu xe, kíp hoặc bồn Hold.', attn: true }] },
+  qc: { total: 'đối tượng (bồn, xe, lô)', list: 'Release và Hold', field: 'Trạng thái QC', items: [
+    { k: 'Chờ kiểm', v: 3, c: '--st-amber', d: 'Đã lấy mẫu, chưa có kết quả.' },
+    { k: 'Release', v: 14, c: '--st-green', d: 'Được dùng để tra nạp.' },
+    { k: 'Hold', v: 4, c: '--st-red', d: 'Tạm ngừng dùng, chờ xử lý.', attn: true },
+    { k: 'Không đạt', v: 1, c: '--st-orange', d: 'Kết quả không đạt, phải xử lý lô.', attn: true }] },
+  admin: { total: 'tài khoản', list: 'Tài khoản', field: 'Trạng thái', items: [
+    { k: 'Đang hoạt động', v: 86, c: '--st-green', d: 'Đăng nhập được bình thường.' },
+    { k: 'Chờ kích hoạt', v: 4, c: '--st-amber', d: 'Mới cấp, chưa đổi mật khẩu lần đầu.' },
+    { k: 'Bị khoá tạm', v: 3, c: '--st-red', d: 'Nhập sai nhiều lần, chờ mở khoá.', attn: true },
+    { k: 'Vô hiệu hoá', v: 2, c: '--st-gray', d: 'Đã nghỉ hoặc ngừng dùng.' }] },
+  mine: { total: 'lệnh của tôi hôm nay', list: 'Lệnh tra nạp', field: 'Trạng thái', items: [
+    { k: 'Được phép', v: 3, c: '--st-blue', d: 'Tới giờ thì nhận lệnh và bơm.' },
+    { k: 'Đã tra nạp', v: 6, c: '--st-green', d: 'Đã có ghi nhận.' },
+    { k: 'Cần điều độ xử lý', v: 1, c: '--st-red', d: 'Đang chờ điều độ đổi xe hoặc kíp.', attn: true }] }
+};
+
+/* Biểu đồ giá trị dưới thanh trạng thái. */
+const HOURS = Array.from({ length: 18 }, (_, i) => i + 5); // 05..22
+const PLAN = [1, 2, 3, 4, 3, 5, 4, 3, 2, 3, 2, 1, 1, 1, 1, 1, 0, 1];
+const DONE = [1, 2, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const MINE_PLAN = [0, 0, 1, 1, 1, 2, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0];
+const MINE_DONE = [0, 0, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const LOGIN_H = Array.from({ length: 24 }, (_, i) => i);
+const LOGINS = [0, 0, 9, 0, 0, 1, 14, 8, 5, 6, 4].concat(Array(13).fill(null));
+const LOGIN_AVG = [0, 0, 1, 0, 0, 1, 12, 9, 6, 5, 5, 6, 7, 5, 12, 8, 5, 4, 3, 2, 3, 6, 2, 1];
+const HOLDS = [
+  { k: 'Bồn T03', t: 'Bồn · SGN', h: 52, why: 'Nước tự do vượt ngưỡng' },
+  { k: 'Lô SGN-L2610-03', t: 'Lô · SGN', h: 31, why: 'Chờ kết quả tỉ trọng' },
+  { k: 'Xe 51C-123.45', t: 'Xe tra nạp · SGN', h: 6, why: 'Bộ lọc quá hạn thay' },
+  { k: 'Lô CXR-L2610-01', t: 'Lô · CXR', h: 2, why: 'Chờ COA nhà cung cấp' }];
+const HOLD_LIMIT = 24;
+
+function valueBlock(key, unit) {
+  if (key === 'dispatch' || key === 'mine') {
+    const plan = key === 'mine' ? MINE_PLAN : PLAN, done = key === 'mine' ? MINE_DONE : DONE;
+    const max = Math.max(...plan, 1);
+    const late = HOURS.reduce((s, h, i) => s + (h < NOW_H ? Math.max(0, plan[i] - done[i]) : 0), 0);
+    const left = HOURS.reduce((s, h, i) => s + (h >= NOW_H ? plan[i] : 0), 0);
+    const nowIdx = HOURS.indexOf(NOW_H) + 20 / 60;
+    return { title: 'Tiến độ theo giờ ETA', sub: `Còn ${left} lệnh từ giờ tới hết ngày${late ? ` · <b style="color:var(--st-red)">${late} lệnh trễ</b>` : ''}`,
+      legend: [['--st-green', 'Đã tra nạp'], ['--st-red', 'Trễ (quá ETA chưa tra nạp)'], ['--bar-soft', 'Kế hoạch còn lại']],
+      table: `<table class="dtable"><thead><tr><th>Giờ ETA</th><th class="r">Kế hoạch</th><th class="r">Đã tra nạp</th><th class="r">Trễ</th></tr></thead><tbody>${HOURS.map((h, i) => `<tr><td>${String(h).padStart(2, '0')}:00</td><td class="r num">${plan[i]}</td><td class="r num">${done[i]}</td><td class="r num">${h < NOW_H ? Math.max(0, plan[i] - done[i]) : '–'}</td></tr>`).join('')}</tbody></table>`,
+      html: `<div class="hrs" style="--n:${HOURS.length}">${HOURS.map((h, i) => {
+        const past = h < NOW_H, lt = past ? Math.max(0, plan[i] - done[i]) : 0;
+        const H = (v) => (v / max) * 128;
+        const aria = `${h}:00, kế hoạch ${plan[i]} lệnh, đã tra nạp ${done[i]}${lt ? `, trễ ${lt}` : ''}`;
+        return `<button class="hr ${past ? '' : 'future'} ${lt ? 'is-late' : ''}" data-hour="${h}" aria-label="${aria}">
+          ${plan[i] ? `<span class="num-top num">${plan[i]}</span>` : ''}
+          <span class="stack" style="height:${H(plan[i])}px">${past ? `<i class="done" style="height:${H(done[i])}px"></i><i class="late" style="height:${H(lt)}px"></i>` : ''}</span>
+          <span class="lab">${i % 2 === 1 ? '' : String(h).padStart(2, '0')}</span></button>`;
+      }).join('')}<span class="nowline" style="left:calc(${nowIdx} / ${HOURS.length} * 100%)"><span>${NOW_LABEL}</span></span></div>` };
+  }
+  if (key === 'qc') {
+    const max = Math.max(...HOLDS.map((x) => x.h), HOLD_LIMIT) * 1.1;
+    return { title: 'Tuổi Hold', sub: `Đối tượng đang Hold lâu nhất ${HOLDS[0].h} giờ · ngưỡng cảnh báo ${HOLD_LIMIT} giờ`,
+      legend: [['--st-red', `Quá ${HOLD_LIMIT} giờ`], ['--st-amber', 'Trong ngưỡng']],
+      table: `<table class="dtable"><thead><tr><th>Đối tượng</th><th>Lý do</th><th class="r">Đã Hold (giờ)</th></tr></thead><tbody>${HOLDS.map((x) => `<tr><td>${x.k}</td><td>${x.why}</td><td class="r num">${x.h}</td></tr>`).join('')}</tbody></table>`,
+      html: `<div class="holds">${HOLDS.map((x) => `<button class="hold ${x.h > HOLD_LIMIT ? 'over' : ''}" data-hold="${esc(x.k)}" aria-label="${esc(x.k)}, Hold ${x.h} giờ, ${esc(x.why)}">
+        <span class="who"><b>${x.k}</b><small>${x.t} · ${x.why}</small></span>
+        <span class="track"><span class="fill" style="width:${x.h / max * 100}%"></span><span class="thr" style="left:${HOLD_LIMIT / max * 100}%">${x === HOLDS[0] ? `<span>${HOLD_LIMIT} giờ</span>` : ''}</span></span>
+        <span class="age num">${x.h} giờ</span></button>`).join('')}</div>` };
+  }
+  // admin: lượt đăng nhập theo giờ, vạch trung bình 7 ngày, giờ bất thường tô cam
+  const max = Math.max(...LOGINS.filter((v) => v !== null), ...LOGIN_AVG, 1);
+  return { title: 'Lượt đăng nhập theo giờ', sub: 'Hôm nay so với trung bình 7 ngày cùng giờ · <b style="color:var(--st-orange)">02:00 có 9 lượt ngoài giờ ca</b>',
+    legend: [['--bar-strong', 'Hôm nay'], ['--st-orange', 'Bất thường'], ['--text', 'Trung bình 7 ngày']],
+    table: `<table class="dtable"><thead><tr><th>Giờ</th><th class="r">Hôm nay</th><th class="r">TB 7 ngày</th></tr></thead><tbody>${LOGIN_H.map((h) => `<tr><td>${String(h).padStart(2, '0')}:00</td><td class="r num">${LOGINS[h] ?? '–'}</td><td class="r num">${LOGIN_AVG[h]}</td></tr>`).join('')}</tbody></table>`,
+    html: `<div class="hrs" style="--n:24">${LOGIN_H.map((h) => {
+      const v = LOGINS[h], anom = v !== null && v >= LOGIN_AVG[h] + 6;
+      return `<button class="hr ${v === null ? 'future' : ''} ${anom ? 'anom' : ''}" aria-label="${h}:00, ${v ?? 'chưa tới'} lượt, trung bình ${LOGIN_AVG[h]}">
+        <span class="stack" style="height:${((v ?? 0) / max) * 128}px">${v ? '<i class="base" style="height:100%"></i>' : ''}</span>
+        <span class="avgdot" style="bottom:${22 + LOGIN_AVG[h] / max * 128}px"></span>
+        <span class="lab">${h % 3 ? '' : String(h).padStart(2, '0')}</span></button>`;
+    }).join('')}<span class="nowline" style="left:calc(${NOW_H + 20 / 60} / 24 * 100%)"><span>${NOW_LABEL}</span></span></div>` };
+}
+
+function renderStatusToday(key, mod, body) {
+  const st = STATUS[key];
+  const total = st.items.reduce((a, b) => a + b.v, 0);
+  const val = valueBlock(key, mod.unit);
+  setDelta(total, mod.today.yesterday);
+  if (S.table) {
+    body.innerHTML = `<div class="tablewrap"><table class="dtable"><thead><tr><th>${st.field}</th><th class="r">Số lượng</th><th class="r">Tỉ lệ</th><th>Giải thích</th></tr></thead><tbody>${st.items.map((x) => `<tr><td>${x.k}</td><td class="r num">${x.v}</td><td class="r num">${pct.format(x.v / total * 100)}%</td><td>${x.d}</td></tr>`).join('')}</tbody></table></div>
+      <div class="vsep"><h3>${val.title}</h3></div><div class="tablewrap">${val.table}</div>`;
+    return;
+  }
+  body.innerHTML = `<div class="sbar-wrap">
+      <div class="sbar-top"><b class="num">${total}</b><span>${st.total}</span></div>
+      <div class="sbar" role="list" aria-label="Tỉ lệ theo ${st.field.toLowerCase()}">${st.items.map((x, i) => `<button class="sseg" role="listitem" data-s="${i}" style="--c:var(${x.c});flex:${x.v}" aria-label="${x.k}: ${x.v} (${pct.format(x.v / total * 100)}%). ${x.d} Bấm để mở danh sách."></button>`).join('')}</div>
+      <svg class="slinks" id="slinks" aria-hidden="true"></svg>
+      <div class="scall" style="grid-template-columns:repeat(${st.items.length}, minmax(0, 1fr))">${st.items.map((x, i) => `<button class="scall-item" data-s="${i}" style="--c:var(${x.c})">
+        <span class="h">${x.attn ? ic('alert') : ''}${x.k}</span>
+        <span class="v"><b class="num">${x.v}</b><span class="num">${pct.format(x.v / total * 100)}%</span></span>
+        <p class="d">${x.d}</p></button>`).join('')}</div>
+    </div>
+    <div class="vsep"><h3>${val.title}</h3><p>${val.sub}</p><div class="lg">${val.legend.map(([c, n]) => `<span><i style="background:var(${c})"></i>${n}</span>`).join('')}</div></div>
+    ${val.html}`;
+  const open = (i) => toast(`Mở «${st.list}», lọc ${st.field} = ${st.items[i].k}${key === 'qc' || key === 'admin' ? '' : ', ETA = hôm nay'}.`);
+  const hl = (i, on) => body.querySelectorAll(`[data-s="${i}"]`).forEach((n) => n.classList.toggle('hl', on));
+  body.querySelectorAll('[data-s]').forEach((el) => {
+    const i = +el.dataset.s;
+    el.onclick = () => open(i);
+    el.onpointerenter = el.onfocus = () => hl(i, true);
+    el.onpointerleave = el.onblur = () => hl(i, false);
+  });
+  body.querySelectorAll('.hr[data-hour]').forEach((el) => { el.onclick = () => toast(`Mở «Lệnh tra nạp», lọc ETA ${el.dataset.hour}:00–${el.dataset.hour}:59 hôm nay.`); });
+  body.querySelectorAll('.hold').forEach((el) => { el.onclick = () => toast(`Mở «Release và Hold» của ${el.dataset.hold}.`); });
+  drawLinks();
+}
+
+/* Mũi tên: từ chú thích đi lên, gãy khúc, mũi nhọn chỉ vào giữa đoạn màu. */
+function drawLinks() {
+  const svg = $('slinks'); if (!svg) return;
+  const wrap = svg.parentElement, bar = wrap.querySelector('.sbar');
+  const wb = wrap.getBoundingClientRect(), bb = bar.getBoundingClientRect();
+  const segs = [...bar.children], calls = [...wrap.querySelectorAll('.scall-item')];
+  const top = bb.bottom - wb.top, bottom = calls[0].getBoundingClientRect().top - wb.top;
+  svg.style.top = `${top}px`; svg.setAttribute('height', bottom - top); svg.setAttribute('width', wb.width);
+  const mid = (bottom - top) / 2;
+  svg.innerHTML = segs.map((s, i) => {
+    const sr = s.getBoundingClientRect(), cr = calls[i].getBoundingClientRect();
+    const x1 = sr.left + sr.width / 2 - wb.left, x2 = cr.left + Math.min(24, cr.width / 2) - wb.left, h = bottom - top;
+    const c = s.style.getPropertyValue('--c');
+    return `<g style="--c:${c}"><path d="M${x2},${h} V${mid + 2 + i * 0} H${x1} V7"/><polygon points="${x1 - 4},8 ${x1 + 4},8 ${x1},2"/></g>`;
+  }).join('');
+}
+addEventListener('resize', () => { if (S.range === 'today' && STATUS[S.mod]) drawLinks(); });
+
+/* ---------- Bảng tin ---------- */
+const CATS = {
+  company: { n: 'Tin công ty', c: '--st-blue', bg: 'linear-gradient(135deg,#0752A4,#2F78CC)', icon: 'building' },
+  event: { n: 'Sự kiện', c: '--st-orange', bg: 'linear-gradient(135deg,#C2410C,#F59E0B)', icon: 'calendar' },
+  policy: { n: 'Chính sách', c: '--mod-reports', bg: 'linear-gradient(135deg,#4338CA,#818CF8)', icon: 'doc' },
+  honor: { n: 'Vinh danh', c: '--st-green', bg: 'linear-gradient(135deg,#15803D,#4ADE80)', icon: 'award' }
+};
+const COVER_ART = {
+  building: '<g fill="#fff" fill-opacity=".9"><rect x="120" y="60" width="70" height="90" rx="6"/><rect x="200" y="35" width="80" height="115" rx="6"/><rect x="290" y="80" width="60" height="70" rx="6"/></g><g fill="#0752A4" fill-opacity=".35">' + Array.from({ length: 12 }, (_, i) => `<rect x="${212 + (i % 3) * 22}" y="${50 + Math.floor(i / 3) * 24}" width="12" height="14" rx="2"/>`).join('') + '</g><path d="M60 150 H420" stroke="#fff" stroke-opacity=".6" stroke-width="3"/><path d="M330 40 l40 -12 l-8 10 l18 2 z" fill="#F4EB28"/>',
+  calendar: '<rect x="160" y="40" width="160" height="110" rx="14" fill="#fff" fill-opacity=".92"/><rect x="160" y="40" width="160" height="30" rx="14" fill="#fff"/><g fill="#C2410C" fill-opacity=".55">' + Array.from({ length: 10 }, (_, i) => `<rect x="${176 + (i % 5) * 28}" y="${84 + Math.floor(i / 5) * 28}" width="18" height="16" rx="3"/>`).join('') + '</g><g fill="#F4EB28"><circle cx="110" cy="50" r="6"/><circle cx="370" cy="60" r="5"/><circle cx="390" cy="120" r="7"/><circle cx="90" cy="120" r="5"/></g>',
+  doc: '<rect x="180" y="28" width="120" height="132" rx="10" fill="#fff" fill-opacity=".94"/><g stroke="#4338CA" stroke-opacity=".45" stroke-width="6" stroke-linecap="round"><path d="M200 60 H280"/><path d="M200 82 H280"/><path d="M200 104 H260"/><path d="M200 126 H270"/></g><circle cx="300" cy="140" r="22" fill="#F4EB28"/><path d="M290 140 l7 7 l13 -14" stroke="#4338CA" stroke-width="5" fill="none" stroke-linecap="round"/>',
+  award: '<circle cx="240" cy="78" r="44" fill="#F4EB28"/><circle cx="240" cy="78" r="30" fill="#fff" fill-opacity=".9"/><path d="M240 60 l6 12 13 2 -9 9 2 13 -12 -6 -12 6 2 -13 -9 -9 13 -2z" fill="#15803D"/><path d="M215 116 l-14 42 22 -8 12 18 10 -40z M265 116 l14 42 -22 -8 -12 18 -10 -40z" fill="#fff" fill-opacity=".85"/>'
+};
+const cover = (cat, pin) => `<div class="cover" style="--cv-bg:${CATS[cat].bg}"><svg class="art" viewBox="0 0 480 190" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${COVER_ART[CATS[cat].icon]}</svg>${pin ? `<span class="pin">${ic('pin')}Ghim</span>` : ''}</div>`;
+const NEWS = [
+  { id: 1, cat: 'company', pin: true, unread: true, date: '08/10/2026', by: 'Phòng Hành chính', scope: 'Toàn công ty', views: 214,
+    t: 'Tapetco đưa vào khai thác điểm tra nạp Cam Ranh mở rộng', s: 'Từ ngày 15/10/2026, điểm CXR có thêm 2 bồn 1.000 m³ và 3 xe tra nạp mới, nâng năng lực phục vụ lên 60 chuyến mỗi ngày.',
+    body: '<p>Sau 6 tháng thi công, khu bồn mở rộng tại Cam Ranh đã hoàn thành nghiệm thu và sẵn sàng khai thác từ <b>15/10/2026</b>.</p><h3>Năng lực mới</h3><ul><li>2 bồn chứa 1.000 m³ Jet A-1 (T05, T06).</li><li>3 xe tra nạp 20 m³ đã đăng kiểm.</li><li>Phục vụ tối đa 60 chuyến mỗi ngày, tăng 50%.</li></ul><blockquote>Cảm ơn các anh chị kíp CXR đã phối hợp chặt chẽ trong suốt thời gian thi công mà vẫn đảm bảo không gián đoạn tra nạp.</blockquote><p>Lịch đào tạo vận hành xe mới sẽ được phòng Kỹ thuật gửi tới từng kíp trong tuần này.</p>' },
+  { id: 2, cat: 'policy', unread: true, date: '07/10/2026', by: 'Phòng An toàn', scope: 'Toàn công ty', views: 188,
+    t: 'Quy định mới về kiểm tra trước tra nạp, áp dụng từ 15/10', s: 'Bổ sung kiểm tra nước tự do bằng thuốc thử cho mọi lần nạp từ bồn đã Release quá 12 giờ.', body: '<p>Nội dung chi tiết quy định...</p>' },
+  { id: 3, cat: 'event', unread: true, date: '06/10/2026', by: 'Công đoàn', scope: 'SGN', views: 97,
+    t: 'Diễn tập phòng cháy chữa cháy toàn điểm SGN ngày 18/10', s: 'Mỗi kíp cử 2 người tham gia; lịch tra nạp ca sáng giữ nguyên.', body: '<p>Chi tiết lịch diễn tập...</p>' },
+  { id: 4, cat: 'honor', date: '05/10/2026', by: 'Ban Giám đốc', scope: 'Toàn công ty', views: 302,
+    t: 'Kíp 2 SGN đạt mốc 1.000 chuyến liên tiếp không sự cố', s: 'Ban Giám đốc khen thưởng và trao cờ thi đua quý III cho Kíp 2.', body: '<p>Chi tiết...</p>' },
+  { id: 5, cat: 'company', date: '02/10/2026', by: 'Phòng Kinh doanh', scope: 'Toàn công ty', views: 256,
+    t: 'Sản lượng quý III/2026 đạt 38.900 m³, tăng 12% so với cùng kỳ', s: 'Hãng bay nội địa tăng tần suất mùa cao điểm hè là động lực chính.', body: '<p>Chi tiết...</p>' },
+  { id: 6, cat: 'event', date: '30/09/2026', by: 'Công đoàn', scope: 'Toàn công ty', views: 141,
+    t: 'Hội thao chào mừng ngày Phụ nữ Việt Nam 20/10', s: 'Đăng ký các môn kéo co, cầu lông, chạy tiếp sức trước 12/10.', body: '<p>Chi tiết...</p>' }
+];
+const MANAGE = [
+  { t: 'Thông báo nghỉ lễ Quốc khánh 2/9', cat: 'company', st: 'Y', stn: 'Đã đăng', date: '28/08/2026', by: 'Phòng Hành chính' },
+  { t: 'Lịch đào tạo vận hành xe tra nạp mới tại CXR', cat: 'event', st: 'W', stn: 'Chờ duyệt', date: '—', by: 'Phòng Kỹ thuật' },
+  { t: 'Cập nhật quy trình nhận hàng từ tàu dầu', cat: 'policy', st: 'R', stn: 'Trả lại', date: '—', by: 'Phòng Kho' },
+  { t: 'Chúc mừng sinh nhật tháng 10', cat: 'honor', st: 'N', stn: 'Đang soạn', date: '—', by: 'Công đoàn' }
+].concat(NEWS.map((n) => ({ t: n.t, cat: n.cat, st: 'Y', stn: 'Đã đăng', date: n.date, by: n.by })));
+let newsCat = '';
+
+function newsMeta(n) { return `<span class="nmeta">${n.unread ? '<span class="newdot">Mới</span>' : ''}<span>${n.date}</span><span>·</span><span>${n.by}</span></span>`; }
+function renderNews() {
+  const el = $('news'); if (!el) return;
+  const visible = S.role === 'none' ? NEWS.slice(0, 3) : NEWS;
+  const feat = visible.find((n) => n.pin) ?? visible[0];
+  const rest = visible.filter((n) => n !== feat).slice(0, 4);
+  $('nw-count').textContent = `${visible.filter((n) => n.unread).length} tin mới`;
+  el.innerHTML = `<button class="feat" data-read="${feat.id}" style="--cat:var(${CATS[feat.cat].c})">${cover(feat.cat, feat.pin)}
+      <span class="body"><span class="ncat">${CATS[feat.cat].n}</span><h3>${feat.t}</h3><p>${feat.s}</p>${newsMeta(feat)}</span></button>
+    <ul class="nlist">${rest.map((n) => `<li><button class="nitem ${n.unread ? 'unread' : ''}" data-read="${n.id}" style="--cat:var(${CATS[n.cat].c})">${cover(n.cat)}
+      <span><span class="ncat">${CATS[n.cat].n}</span><h4>${n.t}</h4>${newsMeta({ ...n, unread: false })}</span></button></li>`).join('')}</ul>`;
+}
+
+function showView(name, arg) {
+  const v = $('view');
+  document.body.classList.toggle('in-view', name !== 'home');
+  window.scrollTo(0, 0);
+  if (name === 'home') { renderNews(); return; }
+  const back = `<button class="vback" data-view="${name === 'edit' ? 'manage' : name === 'read' && arg?.from === 'all' ? 'all' : 'home'}">${ic('right')}${name === 'edit' ? 'Quản lý tin' : name === 'read' && arg?.from === 'all' ? 'Bảng tin' : 'Trang chủ'}</button>`;
+  if (name === 'read') {
+    const n = NEWS.find((x) => x.id === arg.id); n.unread = false;
+    v.innerHTML = `${back}<article class="article" style="--cat:var(${CATS[n.cat].c})">${cover(n.cat, n.pin)}<h1>${n.t}</h1>
+      <div class="ameta"><span class="ncat">${CATS[n.cat].n}</span><span>${n.date}</span><span>${n.by}</span><span>Phạm vi: ${n.scope}</span><span>${n.views} lượt xem</span></div>
+      <div class="content">${n.body}</div></article>`;
+  } else if (name === 'all') {
+    const list = NEWS.filter((n) => !newsCat || n.cat === newsCat);
+    v.innerHTML = `${back}<div class="vtitle"><h1>Bảng tin</h1><div class="sp">${S.role === 'manager' ? `<button class="btn" data-view="manage">${ic('pencil')}Quản lý tin</button>` : ''}</div></div>
+      <div class="chips"><button class="chip" data-cat="" aria-pressed="${!newsCat}">Tất cả</button>${Object.entries(CATS).map(([k, c]) => `<button class="chip" data-cat="${k}" aria-pressed="${newsCat === k}">${c.n}</button>`).join('')}</div>
+      <div class="ngrid">${list.map((n) => `<button class="ncard" data-read="${n.id}" data-from="all" style="--cat:var(${CATS[n.cat].c})">${cover(n.cat, n.pin)}<span class="b" style="display:block"><span class="ncat">${CATS[n.cat].n}</span><h4>${n.t}</h4><p>${n.s}</p>${newsMeta(n)}</span></button>`).join('')}</div>`;
+  } else if (name === 'manage') {
+    v.innerHTML = `${back}<div class="vtitle"><h1>Quản lý tin</h1><p style="margin:0;color:var(--text-muted);font-size:13px">Tin là chứng từ 5 trạng thái; bật duyệt ở Luồng duyệt thì phải duyệt mới lên Bảng tin.</p><div class="sp"><button class="btn primary" data-view="edit">${ic('plus')}Đăng tin mới</button></div></div>
+      <article class="card" style="padding:12px"><table class="mtable"><thead><tr><th>Tiêu đề</th><th>Loại</th><th>Trạng thái</th><th>Ngày đăng</th><th>Người đăng</th></tr></thead><tbody>${MANAGE.map((m) => `<tr data-view="edit"><td><b style="font-weight:600">${m.t}</b></td><td><span class="ncat" style="--cat:var(${CATS[m.cat].c})">${CATS[m.cat].n}</span></td><td><span class="st ${m.st}">${m.stn}</span></td><td class="num">${m.date}</td><td>${m.by}</td></tr>`).join('')}</tbody></table></article>`;
+  } else if (name === 'edit') {
+    v.innerHTML = `${back}<div class="fhead"><h1>Tin mới</h1><span class="st N">Đang soạn</span><div class="sp"><button class="btn" data-toast="Bỏ thay đổi.">Bỏ thay đổi</button><button class="btn" data-toast="Đã lưu nháp.">Lưu</button><button class="btn primary" data-toast="Hoàn thành: nếu Luồng duyệt bật, tin chuyển Chờ duyệt; nếu tắt, tin lên Bảng tin ngay vào Ngày đăng.">Hoàn thành</button></div></div>
+      <div class="sstrip"><div><small>Tình trạng</small>Đang soạn</div><div><small>Người soạn</small>Nguyễn Minh Anh</div><div><small>Luồng duyệt</small>Đang tắt · Hoàn thành là đăng</div></div>
+      <article class="card"><div class="fgrid4">
+        <div class="fld w4"><label>Tiêu đề</label><input placeholder="Ví dụ: Lịch diễn tập PCCC tháng 10"></div>
+        <div class="fld"><label>Loại tin</label><select>${Object.values(CATS).map((c) => `<option>${c.n}</option>`).join('')}</select></div>
+        <div class="fld"><label>Phạm vi</label><select><option>Toàn công ty</option><option>SGN · Tân Sơn Nhất</option><option>CXR · Cam Ranh</option><option>HAN · Nội Bài</option></select></div>
+        <div class="fld"><label>Ngày đăng</label><input value="09/10/2026 08:00"></div>
+        <div class="fld"><label>Hết hạn hiển thị</label><input placeholder="Không hết hạn"></div>
+        <div class="fld w2"><label>Ảnh bìa</label><div class="drop">${ic('plus')}<span>Kéo thả hoặc bấm để chọn ảnh<br><small>JPG, PNG, WebP · tối đa 4 MB · tỉ lệ 16:9</small></span></div></div>
+        <div class="fld w2"><label>Tóm tắt</label><textarea placeholder="Một, hai câu hiện trên thẻ tin ở trang chủ"></textarea><label class="sw" style="margin-top:6px"><input type="checkbox" style="width:auto;min-height:0"> Ghim lên đầu Bảng tin</label></div>
+        <div class="fld w4"><label>Nội dung</label><div class="rte"><div class="tb"><button title="Đậm">B</button><button title="Nghiêng"><i>I</i></button><button title="Tiêu đề nhỏ">H</button><button title="Danh sách">•</button><button title="Liên kết">🔗</button><button title="Chèn ảnh">🖼</button></div><div class="ed" contenteditable="true">Soạn nội dung tin ở đây…</div></div></div>
+      </div></article>`;
+  }
+}
+document.addEventListener('click', (e) => {
+  const r = e.target.closest('[data-read]'); if (r) { showView('read', { id: +r.dataset.read, from: r.dataset.from }); return; }
+  const vw = e.target.closest('[data-view]'); if (vw) { showView(vw.dataset.view); return; }
+  const c = e.target.closest('[data-cat]'); if (c) { newsCat = c.dataset.cat; showView('all'); return; }
+}, true);
+
+// Icon tĩnh trong HTML
+document.querySelectorAll('svg[data-i]').forEach((s) => { s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('aria-hidden', 'true'); s.innerHTML = ICONS[s.dataset.i]; });
+S.theme = 'system';
+applyTheme();
+renderAll();
+</script>
+</body>
+</html>

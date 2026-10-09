@@ -20,3 +20,11 @@
 18. **Playwright `page.evaluate`**: truyền hàm dạng chuỗi, vì tsx chèn `__name` làm hỏng hàm. e2e chạy `next build` vào chung thư mục `.next`, nên phải tắt `next dev` trước. Ca duyệt nhiều trang cần `test.setTimeout`.
 19. **Đo tràn tự động** phải bỏ qua phần tử `fixed`/`absolute`, `svg`, các vùng tự cuộn ngang (bảng, hàng tab) và các khối có lề âm theo quy ước tràn mép.
 20. **Prop lỗi thời** (ví dụ `description` không còn được vẽ): khi dựng dự án mới thì bỏ hẳn, đừng giữ cho tương thích.
+21. **Hằng lấy từ tệp `'use client'` vào trang server thành tham chiếu client, không phải giá trị** (v2, Tapetco 09/10/2026: khoá cột lưới import từ tệp client nên mọi ô rỗng). Hằng, khoá cột, hàm dựng dòng dùng ở trang server phải nằm ở tệp thường (không `'use client'`).
+22. **CSS ngoài layer đè cả kiểu thẻ điện thoại.** Lớp bảng mới (vd `table.lv2-static td { padding… }`) có độ ưu tiên cao hơn luật biến bảng thành thẻ của `PhoneTable` (`[data-slot="phone-table"] td`). Giới hạn lớp mới bằng `@media (min-width: 768px)`.
+23. **Tên token kết thúc bằng `-dark` hay `-hc` bị bộ sinh token hiểu là biến thể chế độ màu** (hình minh hoạ đen thui vì `scene-dark`). Đặt tên khác (`-deep`, `-shade`).
+24. **Chữ tiếng Việt "BẢN DEMO" in hoa** vướng luật cấm nhãn in hoa; viết "Bản demo".
+25. **React tách chữ có biến thành nhiều nút văn bản** khi vẽ tĩnh (`Đã chọn {n}/{max}` thành ba nút), test so chuỗi sẽ trượt. Dùng template string cho câu có số.
+26. **Bố cục lưu theo người dùng phải chịu được khối mới**: khi thêm khối (vd Bảng tin), bộ đọc bố cục đã lưu phải nối khối thiếu vào cuối thay vì coi bố cục cũ là sai và bỏ.
+27. **Ngăn xem trước ngay trên trang** thì phải giữ bản "đã lưu" riêng để Đóng/✕/Esc trả lại; đừng chỉ giữ một state.
+28. **Đổi kiểu dáng lớn (màu icon, bố cục) nên thử trên một hai chỗ và hỏi trước** khi áp toàn hệ thống: người dùng có thể bỏ, và lệnh khôi phục tệp chưa commit bị hook bảo vệ chặn.

@@ -5,7 +5,8 @@ Giá trị sẵn dùng nằm trong `tokens.css`. File này giải thích **vai t
 ## Màu: vai trò
 | Token | Dùng cho |
 |---|---|
-| background, surface | nền trang, nền thẻ (đều trắng ở chế độ Sáng) |
+| background, surface | nền trang, nền thẻ. v2 `[MẶC ĐỊNH]`: nền trang ngả xanh nhạt (`#EEF2F7`), thẻ trắng nổi lên; Sáng chói giữ nền trắng |
+| bg-glow, shadow-card | v2: quầng nhạt góc trên phải của nền (tuỳ chọn); màu nét của bóng thẻ, chỉ dùng pha trong suốt |
 | surface-muted | nền hover, ô bị khoá, ô nhập trên điện thoại |
 | surface-sunken | skeleton, vùng lõm |
 | border | viền trang trí (thẻ, đường kẻ bảng) |
@@ -42,13 +43,14 @@ Chỉ dùng weight 400, 500, 600 (700 cho số KPI lớn và tiêu đề trên �
 Thang 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Trong component dùng 4–8; trong cùng nhóm 12–16; giữa các thẻ 24–32; giữa các section lớn 48–64. Nguyên tắc **"nén trong widget, thoáng giữa widget"**: những thứ đọc cùng nhau cách nhau ≤ 8 px. Lưới trường 12 cột, khe 20 × 14 px.
 
 ## Bo góc
-Máy tính: ô nhập 6 · nút 8 · hộp thoại, khung danh sách 12 · thẻ 16 · viên trạng thái full. Không bo từ 16 px trở lên cho điều khiển trên máy tính. Điện thoại theo kiểu thẻ mềm: ô nhập 14 · nút 16 · thẻ dòng 18 · thẻ nội dung 20 · tấm trượt 24 · thẻ đăng nhập 28.
+Máy tính: ô nhập 6 · nút 8 (nút danh sách v2 bo 10) · hộp thoại 12 · **thẻ, khung danh sách, khối trang chủ 20** (v2, cũ 16) · viên trạng thái full. Điều khiển trên máy tính không bo từ 16 px trở lên, **trừ nút viên tròn** (`rounded-full`) dùng có chủ đích cho nút phụ nhỏ ở trang chủ và ngăn kéo (Sửa, Tuỳ chỉnh, Đóng, Xong) và nhóm chọn dạng viên. Điện thoại theo kiểu thẻ mềm: ô nhập 14 · nút 16 · thẻ dòng 18 · thẻ nội dung 20 · tấm trượt 24 · thẻ đăng nhập 28.
 
 ## Độ nổi
-- Máy tính, Sáng: thẻ chỉ có viền 1 px, không bóng. Lớp nổi (hộp thoại, ngăn kéo, menu, toast) có bóng lớn, không viền. Lớp nổi nhỏ (danh sách chọn, lịch, ô lọc cột, menu ⋮) có cả viền lẫn bóng.
-- Điện thoại: thẻ không viền, bóng mềm nhuốm màu chủ đạo 15%.
-- Sáng chói: bỏ mọi bóng, viền dày 1,5 px.
-- Không dùng gradient, glow hay bóng màu. Ngoại lệ có chủ đích: nút chính trên điện thoại có bóng cùng màu.
+- **v2 `[MẶC ĐỊNH]`** — Máy tính và điện thoại, Sáng và Tối: thẻ **không viền**, nổi bằng `--elevation-card` (hai lớp rất nhẹ: 1 px 4% và 20 px 5% màu `shadow-card`; Tối 30% và 25%). Bảng 0.1.3 trở về trước dùng "thẻ viền 1 px, không bóng" — dự án nào muốn kiểu đó thì ghi vào Ngoại lệ đã duyệt.
+- Lớp nổi (hộp thoại, ngăn kéo, menu, toast) có bóng lớn, không viền. Lớp nổi nhỏ (danh sách chọn, lịch, ô lọc cột, menu ⋮) có cả viền lẫn bóng.
+- Điện thoại: thẻ không viền, bóng mềm nhuốm màu chủ đạo 15% (`--soft-shadow`) hoặc `--elevation-card`.
+- Sáng chói: bỏ mọi bóng (`--elevation-card: none`), thẻ có viền 1,5 px.
+- Không dùng glow hay bóng màu cho điều khiển. Ngoại lệ có chủ đích: nút chính trên điện thoại có bóng cùng màu. Gradient chỉ dùng cho **ảnh thay thế** (ảnh bìa chưa có ảnh thật, tô theo màu loại) và hình minh hoạ, không dùng cho nút, thẻ hay nền vùng làm việc `[MẶC ĐỊNH]`.
 - Chuyển động chỉ dùng `transform` và `opacity`: 150–200 ms cho hover, 250 ms cho hộp thoại. Người dùng bật giảm chuyển động thì tắt hết.
 
 ## Chiều cao điều khiển

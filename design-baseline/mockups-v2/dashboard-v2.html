@@ -1,0 +1,934 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trang chủ v2</title>
+<meta name="description" content="Bản thử trang chủ Tapetco ERP theo bố cục mới: KPI cạnh lời chào, biểu đồ cột theo phân hệ, việc cần làm dạng thẻ.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Token: giữ màu nhận diện của DESIGN.md v0.24; phần mới của v2 là nền trang ngả màu, thẻ bo 20 px không viền có bóng nhẹ. */
+:root {
+  --bg: #EEF2F7; --bg-glow: #DCE7F5;
+  --surface: #FFFFFF; --surface-muted: #F4F6F9; --surface-sunken: #E9EDF2;
+  --border: #E6E8EB; --border-strong: #80858E;
+  --text: #111418; --text-muted: #4B4F55; --text-subtle: #6B7078;
+  --primary: #0752A4; --primary-hover: #064283; --on-primary: #FFFFFF;
+  --primary-container: #DCE9F8; --on-primary-container: #063A73;
+  --success: #166534; --success-container: #DCFCE7;
+  --warning: #854D0E; --warning-container: #FEF3C7;
+  --danger: #B91C1C; --danger-container: #FEE2E2;
+  --bar-soft: #BBD3F1; --bar-strong: #0752A4; --bar-attn: #B91C1C; --series-2: #D9731A;
+  --track: #F1F4F8; --hatch: #D3DCE7; --grid: #E9EDF2;
+  --mod-fueling: #C2410C; --mod-inventory: #2563EB; --mod-quality: #15803D; --mod-sales: #7C3AED;
+  --mod-purchasing: #0E7490; --mod-maintenance: #B45309; --mod-finance: #A16207; --mod-hr: #BE185D;
+  --mod-reports: #4F46E5; --mod-masterdata: #0369A1; --mod-system: #475569;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 6px 20px rgba(16, 24, 40, .05);
+  --radius-card: 20px; --radius-tile: 18px;
+  color-scheme: light;
+}
+:root[data-theme="hc"] {
+  --bg: #FFFFFF; --bg-glow: #FFFFFF;
+  --surface: #FFFFFF; --surface-muted: #F1F5F9; --surface-sunken: #E2E8F0;
+  --border: #0F172A; --border-strong: #000000;
+  --text: #000000; --text-muted: #1E293B; --text-subtle: #334155;
+  --primary: #053B78; --primary-hover: #03274F; --on-primary: #FFFFFF;
+  --primary-container: #DCE9F8; --on-primary-container: #053B78;
+  --success: #14532D; --warning: #713F12; --danger: #7F1D1D;
+  --bar-soft: #9DBDE6; --bar-strong: #053B78; --bar-attn: #991B1B; --hatch: #94A3B8; --grid: #CBD5E1;
+  --shadow: 0 0 0 1px #0F172A;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="hc"]) {
+    --bg: #0B1220; --bg-glow: #12223D;
+    --surface: #111A2C; --surface-muted: #16213A; --surface-sunken: #1E2A45;
+    --border: #2C3A57; --border-strong: #8492AB;
+    --text: #E5EAF3; --text-muted: #A9B6CC; --text-subtle: #7C8BA5;
+    --primary: #7FB0EE; --primary-hover: #A6C9F4; --on-primary: #04172E;
+    --primary-container: #12386B; --on-primary-container: #D3E4FA;
+    --success: #86EFAC; --success-container: #0F3D22;
+    --warning: #FCD34D; --warning-container: #3D2E08;
+    --danger: #FCA5A5; --danger-container: #4A1414;
+    --bar-soft: #2B4C7A; --bar-strong: #5E97E0; --bar-attn: #E5484D; --series-2: #D9782A;
+    --track: #15203A; --hatch: #26345284; --grid: #1E2A45;
+    --mod-fueling: #FB923C; --mod-inventory: #60A5FA; --mod-quality: #4ADE80; --mod-sales: #A78BFA;
+    --mod-purchasing: #22D3EE; --mod-maintenance: #F59E0B; --mod-finance: #FACC15; --mod-hr: #F472B6;
+    --mod-reports: #818CF8; --mod-masterdata: #38BDF8; --mod-system: #94A3B8;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 20px rgba(0, 0, 0, .25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B1220; --bg-glow: #12223D;
+  --surface: #111A2C; --surface-muted: #16213A; --surface-sunken: #1E2A45;
+  --border: #2C3A57; --border-strong: #8492AB;
+  --text: #E5EAF3; --text-muted: #A9B6CC; --text-subtle: #7C8BA5;
+  --primary: #7FB0EE; --primary-hover: #A6C9F4; --on-primary: #04172E;
+  --primary-container: #12386B; --on-primary-container: #D3E4FA;
+  --success: #86EFAC; --success-container: #0F3D22;
+  --warning: #FCD34D; --warning-container: #3D2E08;
+  --danger: #FCA5A5; --danger-container: #4A1414;
+  --bar-soft: #2B4C7A; --bar-strong: #5E97E0; --bar-attn: #E5484D; --series-2: #D9782A;
+  --track: #15203A; --hatch: #263452; --grid: #1E2A45;
+  --mod-fueling: #FB923C; --mod-inventory: #60A5FA; --mod-quality: #4ADE80; --mod-sales: #A78BFA;
+  --mod-purchasing: #22D3EE; --mod-maintenance: #F59E0B; --mod-finance: #FACC15; --mod-hr: #F472B6;
+  --mod-reports: #818CF8; --mod-masterdata: #38BDF8; --mod-system: #94A3B8;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 20px rgba(0, 0, 0, .25);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: Inter, 'Segoe UI', Roboto, Arial, sans-serif; font-size: 14px; line-height: 1.45;
+  color: var(--text); -webkit-font-smoothing: antialiased;
+  background: radial-gradient(1100px 520px at 80% -8%, var(--bg-glow), transparent 65%), var(--bg);
+  background-attachment: fixed; min-height: 100dvh;
+}
+button { font: inherit; color: inherit; }
+a { color: inherit; }
+svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.num { font-feature-settings: "tnum" 1, "zero" 1; }
+
+/* Thanh điều khiển của bản thử, không thuộc giao diện thật */
+.proto-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 8px 16px; font-size: 12px;
+  background: var(--surface); border-bottom: 1px dashed var(--border-strong); color: var(--text-muted); }
+.proto-bar strong { color: var(--text); }
+.proto-bar .grp { display: inline-flex; align-items: center; gap: 6px; }
+.proto-bar .grp > span { white-space: nowrap; }
+.pseg { display: inline-flex; background: var(--surface-muted); border-radius: 999px; padding: 2px; }
+.pseg button { border: 0; background: none; padding: 4px 10px; border-radius: 999px; cursor: pointer; font-size: 12px; white-space: nowrap; }
+.pseg button[aria-pressed="true"] { background: var(--surface); box-shadow: var(--shadow); color: var(--text); font-weight: 600; }
+
+/* Khung */
+.app { display: grid; grid-template-columns: 252px minmax(0, 1fr); }
+.sidebar { position: sticky; top: 12px; height: calc(100dvh - 24px); margin: 12px 0 12px 12px; background: var(--surface);
+  border-radius: var(--radius-card); box-shadow: var(--shadow); display: flex; flex-direction: column; padding: 16px 12px; overflow: auto; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 2px 8px 16px; }
+.brand-mark { width: 36px; height: 36px; border-radius: 12px; background: #0752A4; display: grid; place-items: center; flex: none; }
+.brand-mark span { width: 14px; height: 14px; border-radius: 4px; background: #F4EB28; transform: rotate(45deg); }
+.brand b { font-size: 16px; }
+.brand small { display: block; color: var(--text-subtle); font-size: 12px; }
+.nav-label { margin: 14px 10px 6px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--text-subtle); }
+.nav a { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 12px; text-decoration: none; color: var(--text-muted); font-weight: 500; }
+.nav a:hover { background: var(--surface-muted); }
+.nav a[aria-current="page"] { background: var(--primary-container); color: var(--on-primary-container); font-weight: 600; }
+.nav a.dim { color: var(--text-subtle); }
+.nav a .count { margin-left: auto; font-size: 11px; font-weight: 600; background: var(--danger-container); color: var(--danger); border-radius: 999px; padding: 1px 7px; }
+.nav .txt { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.main { min-width: 0; padding: 12px 20px 32px; }
+.topbar { display: flex; align-items: center; gap: 10px; min-height: 52px; }
+.search { flex: 1; min-width: 0; max-width: 420px; white-space: nowrap; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; border-radius: 999px;
+  background: var(--surface); box-shadow: var(--shadow); color: var(--text-subtle); }
+.search .ph { overflow: hidden; text-overflow: ellipsis; }
+.search kbd { margin-left: auto; font: 500 11px Inter, sans-serif; border: 1px solid var(--border); border-radius: 6px; padding: 1px 6px; }
+.topbar .spacer { flex: 1; }
+.pill { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px; border-radius: 999px; background: var(--surface);
+  box-shadow: var(--shadow); border: 0; cursor: pointer; white-space: nowrap; font-weight: 500; }
+.pill .muted { color: var(--text-subtle); font-weight: 400; }
+.tools { display: inline-flex; align-items: center; gap: 4px; padding: 4px; border-radius: 999px; background: var(--surface); box-shadow: var(--shadow); }
+.icon-btn { position: relative; display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 999px; border: 0;
+  background: var(--surface-muted); cursor: pointer; color: var(--text-muted); flex: none; }
+.icon-btn:hover { background: var(--surface-sunken); color: var(--text); }
+.icon-btn .dot { position: absolute; top: 7px; right: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--danger); box-shadow: 0 0 0 2px var(--surface-muted); }
+.avatar { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-weight: 600; font-size: 13px;
+  background: var(--primary); color: var(--on-primary); flex: none; }
+
+/* Hàng 1: lời chào + KPI */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "greet kpis" "favs favs"; gap: 16px 24px; align-items: end; margin: 16px 0; }
+.greet { grid-area: greet; min-width: 0; }
+.kpis { grid-area: kpis; }
+.favs-row { grid-area: favs; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.favs-row .icon-btn { background: var(--surface); box-shadow: var(--shadow); width: 40px; height: 40px; }
+.greet h1 { margin: 0; font-size: 32px; line-height: 1.15; font-weight: 700; letter-spacing: -.01em; }
+.greet h1 .name { overflow-wrap: anywhere; }
+.greet .sub { margin: 6px 0 0; color: var(--text-muted); }
+.favs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 4px; margin: -4px; min-width: 0; flex: 1; }
+.favs::-webkit-scrollbar { display: none; }
+.favs.more { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent); }
+.fav { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 6px; border-radius: 999px; border: 0; cursor: pointer;
+  background: var(--surface); box-shadow: var(--shadow); white-space: nowrap; font-weight: 500; flex: none; }
+.fav:hover { background: var(--surface-muted); }
+.fav .ico { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; color: var(--tint);
+  background: color-mix(in srgb, var(--tint) 14%, var(--surface)); }
+.fav .ico svg { width: 15px; height: 15px; }
+.fav.ghost { background: transparent; box-shadow: inset 0 0 0 1px var(--border); color: var(--text-muted); padding: 0 14px; }
+
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(150px, 176px)); gap: 12px; }
+.kpi { display: flex; flex-direction: column; justify-content: space-between; gap: 14px; min-height: 108px; padding: 14px 16px; border-radius: var(--radius-tile);
+  background: var(--surface); box-shadow: var(--shadow); text-decoration: none; border: 1px solid transparent; cursor: pointer; text-align: left; transition: border-color .15s; }
+.kpi:hover { border-color: var(--primary-container); }
+.kpi-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.kpi-label { font-size: 13px; font-weight: 500; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.kpi-ico { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; flex: none; color: var(--tint); background: color-mix(in srgb, var(--tint) 14%, var(--surface)); }
+.kpi-ico svg { width: 16px; height: 16px; }
+.kpi.is-danger .kpi-ico { color: var(--danger); background: var(--danger-container); }
+.kpi.is-warning .kpi-ico { color: var(--warning); background: var(--warning-container); }
+.kpi-bottom { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.kpi-value { font-size: 26px; font-weight: 600; line-height: 1; white-space: nowrap; }
+.kpi-value small { font-size: 13px; font-weight: 500; color: var(--text-subtle); margin-left: 3px; }
+.kpi-link { font-size: 12px; color: var(--text-subtle); white-space: nowrap; }
+.kpi:hover .kpi-link { color: var(--primary); }
+
+/* Hàng 2 */
+.row2 { display: grid; grid-template-columns: minmax(0, 2fr) minmax(330px, 1fr); gap: 16px; }
+.card { background: var(--surface); border-radius: var(--radius-card); box-shadow: var(--shadow); padding: 20px; min-width: 0; }
+.card h2 { margin: 0; font-size: 18px; font-weight: 600; }
+.chart-card, .tasks-card { height: 440px; display: flex; flex-direction: column; }
+
+.cc-head { display: flex; align-items: center; gap: 12px; }
+.cc-head h2 { white-space: nowrap; }
+.mod-pills { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; min-width: 0; flex: 1; padding: 2px; }
+.mod-pills::-webkit-scrollbar { display: none; }
+.mod-pill { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; border: 0; cursor: pointer;
+  background: var(--surface-muted); color: var(--text-muted); white-space: nowrap; font-weight: 500; flex: none; }
+.mod-pill svg { width: 15px; height: 15px; color: var(--tint); }
+.mod-pill[aria-pressed="true"] { background: var(--primary-container); color: var(--on-primary-container); font-weight: 600; }
+.mod-single { color: var(--text-muted); font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+.mod-single svg { width: 15px; height: 15px; color: var(--tint); }
+.cc-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; flex: none; }
+.delta { display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 10px; border-radius: 999px; background: var(--surface-muted);
+  color: var(--text-muted); font-size: 13px; white-space: nowrap; }
+.delta b { color: var(--text); font-weight: 600; }
+.delta svg { width: 14px; height: 14px; }
+.cc-sub { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 14px 0 6px; }
+.cc-cap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+.cc-caption { margin: 0; color: var(--text-muted); font-size: 13px; min-width: 0; }
+.seg { display: inline-flex; background: var(--surface-muted); border-radius: 999px; padding: 3px; flex: none; }
+.seg button { border: 0; background: none; height: 28px; padding: 0 12px; border-radius: 999px; cursor: pointer; color: var(--text-muted); font-weight: 500; white-space: nowrap; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: var(--shadow); font-weight: 600; }
+.seg .short { display: none; }
+.legend { display: flex; gap: 14px; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; min-height: 18px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 3px; }
+.cc-body { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+
+/* Cột theo nhóm (Hôm nay): vệt gạch chéo là phần còn trống của thang (với Kho là sức chứa) */
+.cols { flex: 1; display: flex; gap: 12px; align-items: stretch; min-height: 0; padding-top: 6px; }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; border: 0; background: none; padding: 0; cursor: pointer; text-align: center; }
+.col-track { position: relative; flex: 1; min-height: 120px; border-radius: 16px; overflow: hidden;
+  background: repeating-linear-gradient(135deg, var(--hatch) 0 1px, transparent 1px 7px), var(--track); }
+.col-fill { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 16px; background: var(--bar-soft); transition: height .35s ease, background .15s; }
+.col:hover .col-fill, .col:focus-visible .col-fill { background: var(--bar-strong); }
+.col.is-attn .col-fill { background: var(--bar-attn); }
+.col-val { position: absolute; left: 50%; transform: translateX(-50%); font-weight: 600; font-size: 13px; padding: 2px 8px; border-radius: 999px;
+  background: var(--surface); color: var(--text); white-space: nowrap; box-shadow: 0 0 0 1px var(--border); }
+.col-name { font-size: 13px; font-weight: 500; color: var(--text-muted); display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 0; }
+.col-name .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.col-name svg { width: 14px; height: 14px; color: var(--danger); }
+.col.is-attn .col-name { color: var(--text); font-weight: 600; }
+.col-sub { font-size: 11px; color: var(--text-subtle); margin-top: -6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Cột theo thời gian (7N, 30N, 12T) */
+.tscroll { flex: 1; min-height: 0; overflow: hidden; display: flex; }
+.tchart { flex: 1; display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 22px; min-width: 0; padding-top: 12px; }
+.yaxis { position: relative; grid-row: 1; }
+.yaxis span { position: absolute; right: 8px; transform: translateY(50%); font-size: 11px; color: var(--text-subtle); }
+.plot { position: relative; margin-right: 14px; grid-row: 1 / span 2; grid-column: 2; display: grid; grid-template-rows: minmax(0, 1fr) 22px; }
+.gridlines { position: absolute; inset: 0 0 22px 0; pointer-events: none; }
+.gridlines i { position: absolute; left: 0; right: 0; height: 1px; background: var(--grid); }
+.gridlines i.base { background: var(--border); }
+.tbars { grid-row: 1 / span 2; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); position: relative; }
+.tg { border: 0; background: none; padding: 0; cursor: pointer; display: grid; grid-template-rows: minmax(0, 1fr) 22px; min-width: 0; border-radius: 8px; }
+.tg:hover, .tg:focus-visible { background: color-mix(in srgb, var(--surface-sunken) 55%, transparent); }
+.tg-bars { position: relative; display: flex; align-items: flex-end; justify-content: center; gap: 2px; padding: 0 2px; }
+.tg-bar { width: min(24px, 64%); border-radius: 4px 4px 0 0; background: var(--bar-soft); min-height: 1px; transition: height .35s ease; }
+.tg.two .tg-bar { width: min(12px, 40%); }
+.tg.is-now .tg-bar { background: var(--bar-strong); }
+.tg .tg-bar.s1 { background: var(--bar-strong); }
+.tg .tg-bar.s2 { background: var(--series-2); }
+.tg-lab { font-size: 11px; color: var(--text-subtle); line-height: 22px; white-space: nowrap; }
+.tg.is-now .tg-lab { color: var(--text); font-weight: 600; }
+.tg-val { position: absolute; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 600; white-space: nowrap; }
+
+.tip { position: absolute; z-index: 5; pointer-events: none; background: var(--text); color: var(--surface); padding: 8px 10px; border-radius: 10px;
+  font-size: 12px; line-height: 1.5; white-space: nowrap; transform: translate(-50%, calc(-100% - 8px)); opacity: 0; transition: opacity .1s; }
+.tip.on { opacity: 1; }
+.tip b { font-weight: 600; }
+.tip i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }
+
+.dtable { width: 100%; border-collapse: collapse; font-size: 13px; }
+.dtable th { text-align: left; font-weight: 600; color: var(--text-muted); background: var(--surface-muted); padding: 8px 10px; position: sticky; top: 0; }
+.dtable td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+.dtable td.r, .dtable th.r { text-align: right; }
+.tablewrap { flex: 1; overflow: auto; min-height: 0; border-radius: 12px; }
+
+/* Việc cần làm */
+.tk-head { display: flex; align-items: center; gap: 8px; }
+.tk-head .count { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--surface-muted); color: var(--text-muted); }
+.tk-head .icon-btn { margin-left: auto; width: 32px; height: 32px; }
+.tk-filter { margin: 12px 0 10px; }
+.tasks { list-style: none; margin: 0 -4px; padding: 0 4px 4px; display: grid; gap: 8px; align-content: start; overflow-y: auto; flex: 1; min-height: 0; }
+.task { display: grid; grid-template-columns: 40px minmax(0, 1fr) 32px; align-items: center; gap: 12px; padding: 10px 10px 10px 12px; border-radius: 16px;
+  border: 1px solid var(--border); background: var(--surface); cursor: pointer; }
+.task:hover { background: var(--surface-muted); }
+.task.is-hot { background: color-mix(in srgb, var(--primary-container) 60%, var(--surface)); border-color: transparent; }
+.ring { position: relative; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--c);
+  background: conic-gradient(var(--c) calc(var(--p) * 1%), var(--surface-sunken) 0); }
+.ring::before { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: var(--surface); }
+.task.is-hot .ring::before { background: color-mix(in srgb, var(--primary-container) 60%, var(--surface)); }
+.ring svg { position: relative; width: 16px; height: 16px; }
+.t-title { margin: 0; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.t-meta { margin: 2px 0 0; font-size: 12px; color: var(--text-subtle); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.badge { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 999px; }
+.badge svg { width: 11px; height: 11px; }
+.badge.danger { background: var(--danger-container); color: var(--danger); }
+.badge.warning { background: var(--warning-container); color: var(--warning); }
+.badge.info { background: var(--surface-muted); color: var(--text-muted); }
+.go { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; border: 0; background: transparent; color: var(--text-muted); cursor: pointer; }
+.task.is-hot .go { background: var(--primary); color: var(--on-primary); }
+.go svg { width: 16px; height: 16px; }
+
+/* Trạng thái */
+.state { flex: 1; display: grid; place-items: center; align-content: center; gap: 8px; text-align: center; color: var(--text-muted); padding: 16px; }
+.state .big { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-muted); color: var(--text-subtle); }
+.state.err .big { background: var(--danger-container); color: var(--danger); }
+.state p { margin: 0; max-width: 300px; }
+.state strong { color: var(--text); }
+.btn { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--border-strong);
+  background: var(--surface); cursor: pointer; font-weight: 500; }
+.sk { background: linear-gradient(90deg, var(--surface-muted), var(--surface-sunken), var(--surface-muted)); background-size: 200% 100%;
+  animation: sk 1.2s linear infinite; border-radius: 10px; }
+@keyframes sk { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .sk { animation: none; } .col-fill, .tg-bar { transition: none; } }
+
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 50;
+  background: var(--text); color: var(--surface); padding: 10px 16px; border-radius: 12px; font-size: 13px; max-width: calc(100vw - 32px); transition: .2s; }
+.toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+.bottom-nav { display: none; }
+.menu { position: fixed; z-index: 40; min-width: 220px; padding: 6px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 16px 40px rgba(16, 24, 40, .16); display: none; }
+.menu.on { display: block; }
+.menu .mh { padding: 6px 10px; font-size: 12px; font-weight: 600; color: var(--text-subtle); }
+.mi { display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 10px; border-radius: 8px; border: 0; background: none; text-align: left; cursor: pointer; }
+.mi svg { width: 16px; height: 16px; color: var(--text-subtle); }
+.mi:hover, .mi:focus { background: var(--surface-muted); outline: none; }
+.mi .k { margin-left: auto; font-size: 12px; color: var(--text-subtle); }
+.mi[aria-checked="true"], .mi[aria-checked="true"] svg { color: var(--primary); font-weight: 600; }
+
+/* Màn rộng vừa: KPI xuống dưới lời chào */
+@media (max-width: 1320px) {
+  .hero { grid-template-columns: minmax(0, 1fr); grid-template-areas: "greet" "favs" "kpis"; }
+  .kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 1120px) {
+  .row2 { grid-template-columns: minmax(0, 1fr); }
+  .tasks-card { height: auto; max-height: 560px; }
+}
+/* Máy tính bảng: sidebar chỉ icon */
+@media (max-width: 1023px) {
+  .app { grid-template-columns: 76px minmax(0, 1fr); }
+  .sidebar { padding: 14px 10px; }
+  .brand { justify-content: center; padding: 2px 0 12px; }
+  .brand div, .nav-label, .nav .txt, .nav .count { display: none; }
+  .nav a { justify-content: center; padding: 10px; }
+  .search kbd, .pill .muted { display: none; }
+}
+/* Điện thoại */
+@media (max-width: 767px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { display: none; }
+  .main { padding: 8px 16px 96px; }
+  .topbar { gap: 8px; }
+  .search { display: none; }
+  .topbar .m-brand { display: flex !important; }
+  .pill { height: 36px; padding: 0 12px; }
+  .pill.shift { display: none; }
+  .tools { padding: 3px; }
+  .tools .icon-btn.mail { display: none; }
+  .hero { margin: 8px 0 16px; gap: 14px; }
+  .greet h1 { display: block; font-size: 28px; }
+  .greet h1 .hello { display: block; font-size: 13px; font-weight: 500; color: var(--text-muted); line-height: 1.3; }
+  .greet h1 .name { color: var(--primary); }
+  .greet .sub { font-size: 13px; margin: 4px 0 0; }
+  .favs { margin: -4px 0 -4px -16px; padding: 4px 16px; }
+  .hero { grid-template-areas: "greet" "kpis" "favs"; }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .kpi { min-height: 96px; padding: 12px 14px; }
+  .kpi-value { font-size: 22px; }
+  .card { padding: 16px; border-radius: 18px; }
+  .chart-card { height: auto; }
+  .cc-head { flex-wrap: wrap; }
+  .cc-head .mod-pills { order: 3; flex-basis: 100%; margin: 0 -16px; padding: 2px 16px; }
+  .cc-sub { flex-wrap: wrap; }
+  .seg .long { display: none; }
+  .seg .short { display: inline; }
+  .cc-body { height: 280px; flex: none; }
+  .cols { gap: 8px; }
+  .col-name { font-size: 11px; line-height: 1.25; align-items: flex-start; min-height: 28px; }
+  .col-name .t { white-space: normal; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .col-name svg { width: 12px; height: 12px; margin-top: 1px; }
+  .col-val { font-size: 12px; padding: 1px 6px; }
+  .tscroll { overflow-x: auto; }
+  .tchart.wide { min-width: 640px; }
+  .tasks-card { max-height: none; }
+  .tasks { overflow: visible; }
+  .delta .vs { display: none; }
+  .bottom-nav { display: grid; grid-template-columns: repeat(5, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    background: var(--surface); box-shadow: 0 -4px 20px rgba(16, 24, 40, .08); border-radius: 20px 20px 0 0;
+    padding: 8px 8px max(8px, env(safe-area-inset-bottom)); }
+  .bottom-nav a { display: grid; justify-items: center; gap: 2px; font-size: 11px; text-decoration: none; color: var(--text-subtle); padding: 4px 0; position: relative; }
+  .bottom-nav a[aria-current="page"] { color: var(--primary); font-weight: 600; }
+  .bottom-nav .count { position: absolute; top: 0; left: calc(50% + 6px); font-size: 10px; font-weight: 600; background: var(--danger); color: #fff; border-radius: 999px; padding: 0 5px; }
+  .toast { bottom: 92px; }
+}
+.m-brand { display: none !important; align-items: center; gap: 8px; }
+.m-brand .brand-mark { width: 32px; height: 32px; border-radius: 10px; }
+.m-brand .brand-mark span { width: 12px; height: 12px; }
+</style>
+</head>
+<body>
+
+<div class="proto-bar" aria-label="Điều khiển bản thử">
+  <strong>Bản thử Trang chủ v2</strong>
+  <span>Dữ liệu mẫu, không phải giao diện thật.</span>
+  <div class="grp"><span>Vai trò</span><div class="pseg" data-ctl="role">
+    <button data-v="manager">Quản trị</button><button data-v="staff">Nhân viên</button><button data-v="none">Chưa giao phân hệ</button></div></div>
+  <div class="grp"><span>Trạng thái</span><div class="pseg" data-ctl="state">
+    <button data-v="normal">Có dữ liệu</button><button data-v="loading">Đang tải</button><button data-v="empty">Rỗng</button><button data-v="error">Lỗi</button></div></div>
+</div>
+
+<div class="app">
+  <aside class="sidebar" aria-label="Menu chính">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"><span></span></span><div><b>Tapetco ERP</b><small>Tra nạp hàng không</small></div></div>
+    <nav class="nav" id="nav"></nav>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="m-brand"><span class="brand-mark" aria-hidden="true"><span></span></span></div>
+      <div class="search" role="search"><svg class="i" data-i="search"></svg><span class="ph">Tìm nhanh chứng từ, chuyến bay, lô…</span><kbd>Ctrl K</kbd></div>
+      <span class="spacer"></span>
+      <button class="pill" data-toast="Đổi điểm vận hành: chỉ hiện các điểm trong phạm vi được giao."><svg class="i" data-i="pin"></svg>SGN <span class="muted">· Tân Sơn Nhất</span><svg class="i" data-i="down"></svg></button>
+      <button class="pill shift" data-toast="Ca hiện tại theo lịch ca của điểm."><svg class="i" data-i="clock"></svg>Ca sáng <span class="muted">06:00–14:00</span></button>
+      <div class="tools">
+        <button class="icon-btn mail" aria-label="Trao đổi" data-toast="Trao đổi và @nhắc tên (FR-80)."><svg class="i" data-i="msg"></svg></button>
+        <button class="icon-btn" id="theme-btn" aria-haspopup="menu" aria-expanded="false" aria-label="Chế độ hiển thị"><svg class="i" data-i="sun"></svg></button>
+        <button class="icon-btn" aria-label="Thông báo, có thông báo mới" data-toast="Thông báo theo người (FR-77)."><svg class="i" data-i="bell"></svg><span class="dot"></span></button>
+        <span class="avatar" id="avatar" aria-hidden="true">MA</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-label="Lời chào và chỉ số chính">
+        <div class="greet">
+          <h1><span class="hello">Chào </span><span class="name" id="g-name"></span></h1>
+          <p class="sub" id="g-sub"></p>
+        </div>
+        <div class="favs-row">
+          <div class="favs" id="favs" aria-label="Chức năng thường dùng"></div>
+          <button class="icon-btn" aria-label="Tuỳ chỉnh khối" title="Tuỳ chỉnh khối" data-toast="Tuỳ chỉnh khối: bật, tắt, kéo thả thứ tự các khối như bản hiện tại."><svg class="i" data-i="sliders"></svg></button>
+        </div>
+        <div class="kpis" id="kpis" aria-live="polite"></div>
+      </section>
+
+      <section class="row2">
+        <article class="card chart-card" aria-labelledby="cc-title">
+          <header class="cc-head">
+            <h2 id="cc-title">Tổng quan</h2>
+            <div class="mod-pills" id="mods" aria-label="Chọn phân hệ"></div>
+            <div class="cc-actions">
+              <button class="icon-btn" id="tbl-btn" aria-pressed="false" aria-label="Xem dạng bảng"><svg class="i" data-i="table"></svg></button>
+              <button class="icon-btn" id="open-src" aria-label="Mở danh sách nguồn"><svg class="i" data-i="arrow"></svg></button>
+            </div>
+          </header>
+          <div class="cc-sub">
+            <div class="cc-cap"><p class="cc-caption" id="cc-caption"></p><span class="delta" id="delta"></span></div>
+            <div class="seg" id="ranges" role="group" aria-label="Kỳ">
+              <button data-r="today"><span class="long">Hôm nay</span><span class="short">Hôm nay</span></button>
+              <button data-r="7d"><span class="long">7 ngày</span><span class="short">7N</span></button>
+              <button data-r="30d"><span class="long">30 ngày</span><span class="short">30N</span></button>
+              <button data-r="12m"><span class="long">12 tháng</span><span class="short">12T</span></button>
+            </div>
+          </div>
+          <div class="legend" id="legend"></div>
+          <div class="cc-body" id="chart"></div>
+        </article>
+
+        <article class="card tasks-card" aria-labelledby="tk-title">
+          <header class="tk-head">
+            <h2 id="tk-title">Việc cần làm</h2><span class="count num" id="tk-count"></span>
+            <button class="icon-btn" aria-label="Mở trang Việc cần làm" data-toast="Mở trang Việc cần làm (FR-77)."><svg class="i" data-i="more"></svg></button>
+          </header>
+          <div class="seg tk-filter" id="tk-filter" role="group" aria-label="Lọc việc"></div>
+          <ul class="tasks" id="tasks"></ul>
+        </article>
+      </section>
+    </main>
+  </div>
+</div>
+
+<nav class="bottom-nav" aria-label="Điều hướng nhanh">
+  <a href="#" aria-current="page"><svg class="i" data-i="home"></svg>Trang chủ</a>
+  <a href="#" data-toast="Mở Việc cần làm."><svg class="i" data-i="check"></svg>Việc<span class="count" id="bn-count"></span></a>
+  <a href="#" data-toast="Mở Điều độ và tra nạp."><svg class="i" data-i="fuel"></svg>Tra nạp</a>
+  <a href="#" data-toast="Mở Kho."><svg class="i" data-i="warehouse"></svg>Kho</a>
+  <a href="#" data-toast="Mở toàn bộ menu."><svg class="i" data-i="menu"></svg>Menu</a>
+</nav>
+
+<div class="menu" id="menu" role="menu"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const ICONS = {
+  home: '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>',
+  check: '<rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
+  fuel: '<path d="M3 22h12"/><path d="M4 9h10"/><path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18"/><path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0V9.83a2 2 0 0 0-.59-1.42L18 5"/>',
+  warehouse: '<path d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z"/><path d="M6 18h12"/><path d="M6 14h12"/><rect width="12" height="12" x="6" y="10"/>',
+  flask: '<path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/>',
+  receipt: '<path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/>',
+  cart: '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>',
+  wrench: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+  wallet: '<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',
+  users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  chart: '<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+  db: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/>',
+  shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+  bell: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+  msg: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+  search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  right: '<path d="m9 18 6-6-6-6"/>',
+  down: '<path d="m6 9 6 6 6-6"/>',
+  arrow: '<path d="M7 7h10v10"/><path d="M7 17 17 7"/>',
+  up: '<path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>',
+  dn: '<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
+  alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  lock: '<rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  more: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
+  plus: '<path d="M5 12h14"/><path d="M12 5v14"/>',
+  pencil: '<path d="M21.17 6.81a1 1 0 0 0-3.99-3.98L3.84 16.17a2 2 0 0 0-.5.83l-1.32 4.35a.5.5 0 0 0 .62.62l4.35-1.32a2 2 0 0 0 .83-.5z"/>',
+  table: '<path d="M12 3v18"/><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/>',
+  menu: '<path d="M4 12h16"/><path d="M4 6h16"/><path d="M4 18h16"/>',
+  pin: '<path d="M20 10c0 5-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 15 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>',
+  refresh: '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+  done: '<path d="M21.8 10A10 10 0 1 1 17 3.34"/><path d="m9 11 3 3L22 4"/>',
+  inbox: '<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
+  truck: '<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>',
+  calendar: '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>',
+  award: '<circle cx="12" cy="8" r="6"/><path d="M15.48 12.89 17 22l-5-3-5 3 1.52-9.11"/>',
+  user: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m16 11 2 2 4-4"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+  moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+  contrast: '<circle cx="12" cy="12" r="10"/><path d="M12 18a6 6 0 0 0 0-12v12z"/>',
+  monitor: '<rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/>',
+  sliders: '<path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M2 14h4"/><path d="M10 8h4"/><path d="M18 16h4"/>',
+  lockkey: '<rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>'
+};
+const ic = (name) => `<svg class="i" aria-hidden="true" viewBox="0 0 24 24">${ICONS[name] || ''}</svg>`;
+const fmt = new Intl.NumberFormat('vi-VN');
+const pct = new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 });
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+// Bản thử: hôm nay cố định 08/10/2026 để ảnh chụp giống nhau.
+const TODAY = new Date(2026, 9, 8);
+const WD = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+const dd = (d) => String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0');
+function rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+
+/** Sinh chuỗi theo ngày hoặc tháng; dài gấp đôi để có kỳ trước cho chip so sánh. */
+function series(seed, n, unit, gen) {
+  const r = rng(seed);
+  const out = [];
+  for (let i = 2 * n - 1; i >= 0; i--) {
+    const d = new Date(TODAY);
+    if (unit === 'm') { d.setDate(1); d.setMonth(d.getMonth() - i); } else d.setDate(d.getDate() - i);
+    out.push({ d, v: gen(r, d) });
+  }
+  return { prev: out.slice(0, n), cur: out.slice(n) };
+}
+const vary = (r, base, spread) => Math.max(0, Math.round(base + spread * (r() * 2 - 1)));
+const weekend = (d) => d.getDay() === 0 || d.getDay() === 6;
+
+const MODS = {
+  dispatch: {
+    name: 'Điều độ', icon: 'fuel', tint: '--mod-fueling', unit: 'lệnh',
+    today: { caption: 'Lệnh tra nạp hôm nay theo trạng thái · SGN', list: 'Lệnh tra nạp', field: 'Trạng thái', yesterday: 37,
+      bars: [{ k: 'Nháp', v: 4 }, { k: 'Được phép', v: 9 }, { k: 'Đang tra nạp', v: 3 }, { k: 'Hoàn thành', v: 21 }, { k: 'Cần xử lý', v: 2, attn: true }] },
+    trend: { caption: 'Số lệnh tra nạp theo ETA', list: 'Lệnh tra nạp', series: [{ name: 'Lệnh', day: (r) => vary(r, 38, 8), month: (r) => vary(r, 1150, 120) }] },
+    kpis: [
+      { label: 'Chuyến hôm nay', v: 39, icon: 'fuel', list: 'Lệnh tra nạp', filter: 'ETA = hôm nay' },
+      { label: 'Đang tra nạp', v: 3, icon: 'clock', list: 'Lệnh tra nạp', filter: 'Trạng thái = Đang tra nạp' },
+      { label: 'Quá ETA chưa có ghi nhận', v: 2, icon: 'alert', tone: 'danger', list: 'Lệnh tra nạp', filter: 'Xem lọc sẵn "Quá ETA chưa có ghi nhận"' },
+      { label: 'Ghi nhận chưa Hoàn thành', v: 5, icon: 'check', tone: 'warning', list: 'Ghi nhận tra nạp', filter: 'Trạng thái ∈ N, W, R' }
+    ]
+  },
+  inventory: {
+    name: 'Kho', icon: 'warehouse', tint: '--mod-inventory', unit: 'm³',
+    today: { caption: 'Tồn theo bồn so với sức chứa (m³) · giờ sự kiện 08/10 09:00', list: 'Tồn theo bồn', field: 'Bồn', capacity: true, yesterdayTotal: 4102,
+      bars: [{ k: 'T01', v: 812, cap: 1000, sub: 'Jet A-1' }, { k: 'T02', v: 645, cap: 1000, sub: 'Jet A-1' }, { k: 'T03', v: 920, cap: 1000, sub: 'Hold', attn: true, lock: true },
+        { k: 'T04', v: 388, cap: 800, sub: 'Jet A-1' }, { k: 'T05', v: 571, cap: 800, sub: 'Jet A-1' }, { k: 'T06', v: 540, cap: 600, sub: 'Jet A-1' }] },
+    trend: { caption: 'Nhập và xuất kho (m³)', list: 'Thẻ kho', series: [
+      { name: 'Xuất', cls: 's1', color: '--bar-strong', day: (r) => vary(r, 420, 60), month: (r) => vary(r, 12600, 900) },
+      { name: 'Nhập', cls: 's2', color: '--series-2', day: (r) => (r() < 0.4 ? vary(r, 700, 200) : 0), month: (r) => vary(r, 12500, 1500) }] },
+    kpis: [
+      { label: 'Tổng tồn Jet A-1', v: 3876, unit: 'm³', icon: 'warehouse', list: 'Tồn theo bồn', filter: 'Điểm = SGN' },
+      { label: 'Bồn đang Hold', v: 1, icon: 'lock', tone: 'danger', list: 'Tồn theo bồn', filter: 'Trạng thái QC = Hold' },
+      { label: 'Chờ xác nhận nhập kho', v: 2, icon: 'truck', list: 'Xác nhận nhập kho', filter: 'Chưa xác nhận' },
+      { label: 'Chờ xác nhận xuất kho', v: 3, icon: 'truck', list: 'Xác nhận xuất kho', filter: 'Chưa xác nhận' }
+    ]
+  },
+  qc: {
+    name: 'QC', icon: 'flask', tint: '--mod-quality', unit: 'lô',
+    today: { caption: 'Lô theo trạng thái QC · SGN', list: 'Lô hàng', field: 'Trạng thái QC', yesterday: 21,
+      bars: [{ k: 'Chờ kiểm', v: 3 }, { k: 'Hold', v: 2, attn: true, lock: true }, { k: 'Release', v: 14 }, { k: 'Không đạt', v: 1, attn: true }] },
+    trend: { caption: 'Số phiếu QC', list: 'Phiếu QC', series: [{ name: 'Phiếu QC', day: (r) => vary(r, 6, 3), month: (r) => vary(r, 175, 25) }] },
+    kpis: [
+      { label: 'Lô đang Hold', v: 2, icon: 'lock', tone: 'danger', list: 'Lô hàng', filter: 'Trạng thái QC = Hold' },
+      { label: 'Phiếu QC chờ duyệt', v: 3, icon: 'flask', list: 'Phiếu QC', filter: 'Chờ duyệt' },
+      { label: 'Mẫu chờ kết quả', v: 4, icon: 'clock', list: 'Phiếu QC', filter: 'Chưa có kết quả' },
+      { label: 'Release hôm nay', v: 5, icon: 'done', list: 'Phiếu QC Release/Hold', filter: 'Release, ngày = hôm nay' }
+    ]
+  },
+  sales: {
+    name: 'Bán hàng', icon: 'receipt', tint: '--mod-sales', unit: 'm³',
+    today: { caption: 'Sản lượng tra nạp hôm nay theo khách hàng (m³)', list: 'Ghi nhận tra nạp', field: 'Khách hàng', yesterday: 451,
+      bars: [{ k: 'VNA', v: 182 }, { k: 'VJC', v: 156 }, { k: 'BAV', v: 48 }, { k: 'PIC', v: 22 }, { k: 'VAG', v: 15 }, { k: 'Khác', v: 16 }] },
+    trend: { caption: 'Sản lượng tra nạp (m³)', list: 'Ghi nhận tra nạp', series: [{ name: 'Sản lượng', day: (r) => vary(r, 430, 50), month: (r) => vary(r, 12900, 900) }] },
+    kpis: [
+      { label: 'Sản lượng hôm nay', v: 439, unit: 'm³', icon: 'fuel', list: 'Ghi nhận tra nạp', filter: 'Ngày = hôm nay' },
+      { label: 'Khách hàng đã phục vụ', v: 9, icon: 'users', list: 'Ghi nhận tra nạp', filter: 'Nhóm theo khách hàng' },
+      { label: 'Ghi nhận chờ lập hoá đơn', v: 12, icon: 'receipt', list: 'Ghi nhận tra nạp', filter: 'Y, chưa xuất dữ liệu hoá đơn' },
+      { label: 'Hợp đồng sắp hết hạn', v: 2, icon: 'calendar', tone: 'warning', list: 'Hợp đồng bán', filter: 'Hết hạn trong 30 ngày' }
+    ]
+  },
+  admin: {
+    name: 'Hệ thống', icon: 'shield', tint: '--mod-system', unit: 'tài khoản',
+    today: { caption: 'Tài khoản theo trạng thái', list: 'Tài khoản', field: 'Trạng thái', yesterday: 93,
+      bars: [{ k: 'Hoạt động', v: 86 }, { k: 'Chờ kích hoạt', v: 4 }, { k: 'Bị khoá', v: 3, attn: true, lock: true }, { k: 'Hết hạn mật khẩu', v: 2 }] },
+    trend: { caption: 'Lượt đăng nhập', list: 'Nhật ký đăng nhập', series: [{ name: 'Lượt', day: (r, d) => vary(r, weekend(d) ? 24 : 58, 10), month: (r) => vary(r, 1400, 160) }] },
+    kpis: [
+      { label: 'Yêu cầu tài khoản chờ', v: 4, icon: 'user', list: 'Yêu cầu cấp tài khoản', filter: 'Đang mở' },
+      { label: 'Hàng đợi duyệt', v: 6, icon: 'check', list: 'Hàng đợi duyệt', filter: 'Chờ tôi duyệt' },
+      { label: 'Tài khoản cần chú ý', v: 3, icon: 'alert', tone: 'danger', list: 'Tài khoản', filter: 'Bị khoá' },
+      { label: 'Đăng nhập hôm nay', v: 58, icon: 'users', list: 'Nhật ký đăng nhập', filter: 'Ngày = hôm nay' }
+    ]
+  },
+  mine: {
+    name: 'Điều độ', icon: 'fuel', tint: '--mod-fueling', unit: 'lệnh',
+    today: { caption: 'Lệnh của tôi hôm nay theo trạng thái', list: 'Lệnh tra nạp', field: 'Trạng thái', yesterday: 10,
+      bars: [{ k: 'Được phép', v: 3 }, { k: 'Đang tra nạp', v: 1 }, { k: 'Hoàn thành', v: 6 }, { k: 'Cần xử lý', v: 1, attn: true }] },
+    trend: { caption: 'Chuyến của tôi', list: 'Ghi nhận tra nạp', series: [{ name: 'Chuyến', day: (r, d) => vary(r, weekend(d) ? 6 : 10, 3), month: (r) => vary(r, 240, 30) }] },
+    kpis: [
+      { label: 'Lệnh của tôi hôm nay', v: 11, icon: 'fuel', list: 'Lệnh tra nạp', filter: 'Được gán cho tôi, ETA = hôm nay' },
+      { label: 'Ghi nhận chưa Hoàn thành', v: 2, icon: 'check', tone: 'warning', list: 'Ghi nhận tra nạp', filter: 'Của tôi, N, W, R' },
+      { label: 'Việc quá hạn', v: 0, icon: 'clock', list: 'Việc cần làm', filter: 'Quá hạn' },
+      { label: 'Chứng chỉ sắp hết hạn', v: 1, icon: 'award', tone: 'warning', list: 'Hồ sơ nhân viên', filter: 'Chứng chỉ của tôi, hết hạn trong 30 ngày' }
+    ]
+  }
+};
+
+const ROLES = {
+  manager: {
+    name: 'Nguyễn Minh Anh', initials: 'MA', title: 'Trưởng ca', mods: ['dispatch', 'inventory', 'qc', 'sales', 'admin'],
+    favs: [['Kế hoạch tra nạp', 'calendar', '--mod-fueling'], ['Lệnh tra nạp', 'fuel', '--mod-fueling'], ['Ghi nhận tra nạp', 'check', '--mod-fueling'],
+      ['Tồn theo bồn', 'warehouse', '--mod-inventory'], ['Xác nhận xuất kho', 'truck', '--mod-inventory'], ['Phiếu QC', 'flask', '--mod-quality'],
+      ['Bảng giá bán', 'receipt', '--mod-sales'], ['Tài khoản', 'users', '--mod-system']],
+    tasks: [
+      { t: 'Duyệt release lô SGN-L2610-03', kind: 'Phiếu QC', due: 'Hạn 09:30', icon: 'flask', p: 100, st: 'overdue' },
+      { t: 'Xử lý ghi nhận Cần xử lý chuyến VJ123', kind: 'Ghi nhận tra nạp', due: 'Hạn 10:00', icon: 'fuel', p: 80, st: 'urgent' },
+      { t: 'Lệnh VN1203 quá ETA chưa có ghi nhận', kind: 'Lệnh tra nạp', due: 'ETA 08:45', icon: 'alert', p: 90, st: 'urgent' },
+      { t: 'Duyệt phiếu xuất kho PX-261008-004', kind: 'Xuất kho', due: 'Hạn 11:00', icon: 'truck', p: 55 },
+      { t: 'Xác nhận nhập kho PN-261008-002, 450 m³ Jet A-1 từ xe bồn 51C-123.45', kind: 'Nhập kho', due: 'Hạn 12:00', icon: 'warehouse', p: 40 },
+      { t: 'Yêu cầu cấp tài khoản cho Phạm Thu Hà', kind: 'Hệ thống', due: 'Hạn 14:00', icon: 'user', p: 20 },
+      { t: 'Chứng chỉ an toàn PCCC của Lê Văn Cường hết hạn ngày 12/10/2026, cần nhắc gia hạn trước khi xếp ca tối thứ Hai tuần sau', kind: 'Nhân sự', due: 'Hạn 12/10', icon: 'award', p: 10 }
+    ]
+  },
+  staff: {
+    name: 'Trần Văn Bình', initials: 'TB', title: 'Nhân viên tra nạp', mods: ['mine'],
+    favs: [['Ghi nhận tra nạp', 'check', '--mod-fueling'], ['Lệnh của tôi', 'fuel', '--mod-fueling'], ['Kế hoạch ca', 'calendar', '--mod-fueling'], ['Hồ sơ của tôi', 'award', '--mod-hr']],
+    tasks: [
+      { t: 'Bổ sung nhiệt độ cho ghi nhận VJ135 (bị trả lại)', kind: 'Ghi nhận tra nạp', due: 'Hạn 09:45', icon: 'fuel', p: 100, st: 'overdue' },
+      { t: 'Hoàn thành ghi nhận VN214, tàu VN-A321', kind: 'Ghi nhận tra nạp', due: 'Hạn 10:30', icon: 'check', p: 70, st: 'urgent' },
+      { t: 'Nhận lệnh VN1203, ETA 11:40, sân đỗ 12', kind: 'Lệnh tra nạp', due: 'ETA 11:40', icon: 'calendar', p: 35 },
+      { t: 'Gia hạn chứng chỉ vận hành xe tra nạp', kind: 'Hồ sơ', due: 'Hết hạn 20/10', icon: 'award', p: 15 }
+    ]
+  },
+  none: { name: 'Lê Hoàng Phúc', initials: 'HP', title: 'Nhân viên mới', mods: [], favs: [], tasks: [] }
+};
+
+const NAV = [
+  ['home', 'Trang chủ', 'cur'], ['check', 'Việc cần làm', 'count'], 'Phân hệ',
+  ['fuel', 'Điều độ và tra nạp'], ['warehouse', 'Kho'], ['flask', 'Chất lượng (QC)'], ['receipt', 'Bán hàng'],
+  ['cart', 'Mua hàng', 'dim'], ['wrench', 'Bảo trì', 'dim'], ['wallet', 'Tài chính', 'dim'], ['users', 'Nhân sự'], ['chart', 'Báo cáo'],
+  'Cấu hình', ['db', 'Danh mục'], ['shield', 'Hệ thống']
+];
+
+const S = { role: 'manager', state: 'normal', theme: null, mod: null, range: 'today', filter: 'all', table: false };
+const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch { /* bỏ qua */ } } };
+const $ = (id) => document.getElementById(id);
+
+function toast(msg) {
+  const t = $('toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 2800);
+}
+
+function renderNav() {
+  const role = ROLES[S.role];
+  $('nav').innerHTML = NAV.map((n) => typeof n === 'string' ? `<div class="nav-label">${n}</div>`
+    : `<a href="#" ${n[2] === 'cur' ? 'aria-current="page"' : ''} class="${n[2] === 'dim' ? 'dim' : ''}" title="${n[1]}">${ic(n[0])}<span class="txt">${n[1]}</span>${n[2] === 'count' && role.tasks.length ? `<span class="count num">${role.tasks.length}</span>` : ''}</a>`).join('');
+  $('bn-count').textContent = role.tasks.length || '';
+  $('bn-count').style.display = role.tasks.length ? '' : 'none';
+}
+
+function renderHero() {
+  const role = ROLES[S.role];
+  $('g-name').textContent = role.name;
+  $('avatar').textContent = role.initials;
+  $('g-sub').textContent = `${role.title} · SGN · Ca sáng 06:00–14:00 · Thứ Năm, 08/10/2026`;
+  $('favs').innerHTML = role.favs.map(([n, i, t]) => `<button class="fav" style="--tint: var(${t})" data-toast="Mở ${n}."><span class="ico">${ic(i)}</span>${n}</button>`).join('')
+    + (role.favs.length < 8 ? `<button class="fav ghost" data-toast="Sửa chức năng thường dùng (tối đa 8).">${ic('plus')}Thêm</button>` : `<button class="fav ghost" data-toast="Sửa chức năng thường dùng (tối đa 8).">${ic('pencil')}Sửa</button>`);
+}
+
+// Chế độ hiển thị ở thanh đầu: Sáng, Sáng chói, Tối, Theo máy (bản thật lưu theo người dùng).
+const THEMES = [['light', 'Sáng', 'sun'], ['hc', 'Sáng chói', 'contrast'], ['dark', 'Tối', 'moon'], ['system', 'Theo máy', 'monitor']];
+function applyTheme() {
+  if (S.theme === 'system') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = S.theme;
+  const t = THEMES.find((x) => x[0] === S.theme) || THEMES[0];
+  $('theme-btn').querySelector('svg').innerHTML = ICONS[t[2]];
+  $('theme-btn').setAttribute('aria-label', `Chế độ hiển thị: ${t[1]}`);
+}
+function themeMenu(open) {
+  const m = $('menu'), b = $('theme-btn');
+  if (!open) { m.classList.remove('on'); b.setAttribute('aria-expanded', 'false'); return; }
+  m.innerHTML = '<div class="mh">Chế độ hiển thị</div>' + THEMES.map(([v, n, i]) => `<button class="mi" role="menuitemradio" aria-checked="${S.theme === v}" data-theme-v="${v}">${ic(i)}${n}${v === 'hc' ? '<span class="k">ngoài trời</span>' : ''}</button>`).join('');
+  m.classList.add('on'); b.setAttribute('aria-expanded', 'true');
+  const r = b.getBoundingClientRect();
+  m.style.top = r.bottom + 6 + 'px'; m.style.left = Math.max(8, Math.min(r.right - m.offsetWidth, innerWidth - m.offsetWidth - 8)) + 'px';
+  m.querySelector('[aria-checked="true"]')?.focus();
+}
+function fadeFavs() {
+  const f = $('favs');
+  f.classList.toggle('more', f.scrollWidth - f.clientWidth - f.scrollLeft > 4);
+}
+function renderKpis() {
+  const el = $('kpis');
+  const mod = MODS[S.mod];
+  if (!mod) { el.innerHTML = ''; return; }
+  if (S.state === 'loading') { el.innerHTML = Array.from({ length: 4 }, () => `<div class="kpi" aria-hidden="true"><div class="sk" style="height:14px;width:70%"></div><div class="sk" style="height:24px;width:45%"></div></div>`).join(''); return; }
+  el.innerHTML = mod.kpis.map((k) => {
+    const v = S.state === 'error' ? '—' : S.state === 'empty' ? 0 : k.v;
+    const tone = typeof v === 'number' && v > 0 && k.tone ? `is-${k.tone}` : '';
+    return `<button class="kpi ${tone}" style="--tint: var(${mod.tint})" data-toast="Mở «${k.list}», lọc: ${k.filter}." title="${S.state === 'error' ? 'Không tải được số liệu' : ''}">
+      <span class="kpi-top"><span class="kpi-label">${k.label}</span><span class="kpi-ico">${ic(k.icon)}</span></span>
+      <span class="kpi-bottom"><span class="kpi-value num">${typeof v === 'number' ? fmt.format(v) : v}${k.unit && typeof v === 'number' ? `<small>${k.unit}</small>` : ''}</span><span class="kpi-link">Chi tiết</span></span></button>`;
+  }).join('');
+}
+
+function renderMods() {
+  const role = ROLES[S.role];
+  const el = $('mods');
+  if (role.mods.length === 0) { el.innerHTML = ''; return; }
+  if (role.mods.length === 1) { const m = MODS[role.mods[0]]; el.innerHTML = `<span class="mod-single" style="--tint: var(${m.tint})">${ic(m.icon)}${m.name}</span>`; return; }
+  el.innerHTML = role.mods.map((k) => { const m = MODS[k]; return `<button class="mod-pill" data-mod="${k}" aria-pressed="${k === S.mod}" style="--tint: var(${m.tint})">${ic(m.icon)}${m.name}</button>`; }).join('');
+}
+
+function niceMax(v) {
+  if (v <= 0) return 1;
+  const p = 10 ** Math.floor(Math.log10(v));
+  for (const m of [1, 2, 2.5, 5, 10]) if (m * p >= v) return m * p;
+  return 10 * p;
+}
+
+function trendData(mod) {
+  const n = S.range === '7d' ? 7 : S.range === '30d' ? 30 : 12;
+  const unit = S.range === '12m' ? 'm' : 'd';
+  const seedBase = { dispatch: 11, inventory: 23, qc: 37, sales: 41, admin: 53, mine: 67 }[S.mod] * 100 + n;
+  return mod.trend.series.map((s, i) => ({ ...s, ...series(seedBase + i * 7, n, unit, (r, d) => (unit === 'm' ? s.month(r, d) : s.day(r, d))) }));
+}
+function labelOf(d, i, n) {
+  if (S.range === '12m') return 'T' + (d.getMonth() + 1);
+  if (S.range === '7d') return WD[d.getDay()];
+  return (i % 5 === 4 || i === n - 1) ? dd(d) : '';
+}
+function fullLabel(d) {
+  if (S.range === '12m') return `Tháng ${d.getMonth() + 1}/${d.getFullYear()}`;
+  return `${WD[d.getDay()]}, ${dd(d)}/${d.getFullYear()}`;
+}
+const PREV = { today: 'hôm qua', '7d': '7 ngày trước', '30d': '30 ngày trước', '12m': '12 tháng trước' };
+
+function setDelta(cur, prev) {
+  const el = $('delta');
+  if (S.state !== 'normal' || !MODS[S.mod] || !prev) { el.style.display = 'none'; return; }
+  el.style.display = '';
+  const d = (cur - prev) / prev * 100;
+  el.innerHTML = `${ic(d >= 0 ? 'up' : 'dn')}<b class="num">${d >= 0 ? '+' : '−'}${pct.format(Math.abs(d))}%</b><span class="vs">so với ${PREV[S.range]}</span>`;
+}
+
+function stateBox(kind) {
+  if (kind === 'loading') return `<div class="cols" aria-busy="true" aria-label="Đang tải">${Array.from({ length: 5 }, (_, i) => `<div class="col"><div class="col-track sk" style="background-image:none"></div><div class="sk" style="height:12px;width:60%;margin:0 auto"></div></div>`).join('')}</div>`;
+  if (kind === 'error') return `<div class="state err" role="alert"><span class="big">${ic('alert')}</span><p><strong>Không tải được số liệu.</strong><br>Số liệu khác trên trang vẫn dùng được.</p><button class="btn" data-retry>${ic('refresh')}Thử lại</button></div>`;
+  if (kind === 'empty') return `<div class="state"><span class="big">${ic('chart')}</span><p><strong>Chưa có số liệu cho kỳ này.</strong><br>Khi có chứng từ trong phạm vi của bạn, biểu đồ sẽ hiện ở đây.</p></div>`;
+  return `<div class="state"><span class="big">${ic('lock')}</span><p><strong>Bạn chưa được giao phân hệ nào có biểu đồ.</strong><br>Liên hệ quản trị viên để được cấp quyền xem.</p></div>`;
+}
+
+function renderChart() {
+  const mod = MODS[S.mod];
+  const body = $('chart');
+  const legend = $('legend');
+  legend.innerHTML = '';
+  document.querySelectorAll('#ranges button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.r === S.range));
+  $('tbl-btn').setAttribute('aria-pressed', S.table);
+  if (!mod) { $('cc-caption').textContent = ''; setDelta(0, 0); body.innerHTML = stateBox('none'); return; }
+  const today = S.range === 'today';
+  $('cc-caption').textContent = today ? mod.today.caption : mod.trend.caption;
+  if (S.state !== 'normal') { setDelta(0, 0); body.innerHTML = stateBox(S.state); return; }
+
+  if (today) {
+    const t = mod.today;
+    const total = t.bars.reduce((a, b) => a + b.v, 0);
+    setDelta(total, t.capacity ? t.yesterdayTotal : t.yesterday);
+    if (S.table) {
+      body.innerHTML = `<div class="tablewrap"><table class="dtable"><thead><tr><th>${t.field}</th><th class="r">Giá trị (${mod.unit})</th>${t.capacity ? '<th class="r">Sức chứa</th><th class="r">Tỉ lệ</th>' : ''}</tr></thead><tbody>${t.bars.map((b) => `<tr><td>${b.k}${b.sub && t.capacity ? ' · ' + b.sub : ''}</td><td class="r num">${fmt.format(b.v)}</td>${t.capacity ? `<td class="r num">${fmt.format(b.cap)}</td><td class="r num">${pct.format(b.v / b.cap * 100)}%</td>` : ''}</tr>`).join('')}</tbody></table></div>`;
+      return;
+    }
+    const max = t.capacity ? 1 : niceMax(Math.max(...t.bars.map((b) => b.v)));
+    body.innerHTML = `<div class="cols" role="list">${t.bars.map((b, i) => {
+      const p = Math.max(2, (t.capacity ? b.v / b.cap : b.v / max) * 100);
+      const label = t.capacity ? `${fmt.format(b.v)} / ${fmt.format(b.cap)}` : fmt.format(b.v);
+      const inside = p > 82;
+      const aria = `${b.k}${b.sub ? ', ' + b.sub : ''}: ${t.capacity ? `${fmt.format(b.v)} trên ${fmt.format(b.cap)} m³` : `${fmt.format(b.v)} ${mod.unit}`}${b.attn ? ', cần chú ý' : ''}`;
+      return `<button class="col ${b.attn ? 'is-attn' : ''}" role="listitem" data-i="${i}" aria-label="${esc(aria)}">
+        <span class="col-track"><span class="col-fill" style="height:${p}%"></span><span class="col-val num" style="bottom:${inside ? `calc(${p}% - 30px)` : `calc(${p}% + 6px)`}">${t.capacity ? fmt.format(b.v) : label}</span></span>
+        <span class="col-name">${b.attn ? ic(b.lock ? 'lock' : 'alert') : ''}<span class="t">${b.k}</span></span>${b.sub ? `<span class="col-sub">${b.attn && t.capacity ? '' : ''}${b.sub}${t.capacity ? ' · ' + pct.format(b.v / b.cap * 100) + '%' : ''}</span>` : ''}
+      </button>`;
+    }).join('')}</div><div class="tip" id="tip"></div>`;
+    body.querySelectorAll('.col').forEach((el) => {
+      const b = t.bars[el.dataset.i];
+      const html = `<b>${b.k}${b.sub ? ' · ' + b.sub : ''}</b><br>${t.capacity ? `Tồn ${fmt.format(b.v)} m³ / sức chứa ${fmt.format(b.cap)} m³` : `${fmt.format(b.v)} ${mod.unit}`}${b.attn ? '<br>Cần chú ý' : ''}<br><span style="opacity:.7">Bấm để mở danh sách</span>`;
+      bindTip(el, html, () => el.querySelector('.col-fill'));
+      el.onclick = () => toast(`Mở «${t.list}», lọc ${t.field} = ${b.k}.`);
+    });
+    return;
+  }
+
+  const data = trendData(mod);
+  const n = data[0].cur.length;
+  const sums = data.map((s) => [s.cur.reduce((a, x) => a + x.v, 0), s.prev.reduce((a, x) => a + x.v, 0)]);
+  setDelta(sums[0][0], sums[0][1]);
+  const two = data.length > 1;
+  if (two) legend.innerHTML = data.map((s) => `<span><i style="background: var(${s.color})"></i>${s.name}</span>`).join('');
+  if (S.table) {
+    body.innerHTML = `<div class="tablewrap"><table class="dtable"><thead><tr><th>${S.range === '12m' ? 'Tháng' : 'Ngày'}</th>${data.map((s) => `<th class="r">${s.name} (${mod.unit})</th>`).join('')}</tr></thead><tbody>${data[0].cur.map((x, i) => `<tr><td>${fullLabel(x.d)}</td>${data.map((s) => `<td class="r num">${fmt.format(s.cur[i].v)}</td>`).join('')}</tr>`).reverse().join('')}</tbody></table></div>`;
+    return;
+  }
+  const max = niceMax(Math.max(1, ...data.flatMap((s) => s.cur.map((x) => x.v))));
+  const ticks = [0, 0.5, 1];
+  body.innerHTML = `<div class="tscroll"><div class="tchart ${S.range === '30d' ? 'wide' : ''}">
+    <div class="yaxis">${ticks.map((f) => `<span class="num" style="bottom:calc(${f * 100}% * 1)">${fmt.format(max * f)}</span>`).join('')}</div>
+    <div class="plot">
+      <div class="gridlines">${ticks.map((f) => `<i class="${f === 0 ? 'base' : ''}" style="bottom:${f * 100}%"></i>`).join('')}</div>
+      <div class="tbars" style="--n:${n}" role="list">${data[0].cur.map((x, i) => {
+        const now = i === n - 1;
+        const vals = data.map((s) => s.cur[i].v);
+        const aria = `${fullLabel(x.d)}: ${data.map((s, j) => `${s.name} ${fmt.format(vals[j])} ${mod.unit}`).join(', ')}`;
+        return `<button class="tg ${two ? 'two' : ''} ${now && !two ? 'is-now' : ''}" role="listitem" data-i="${i}" aria-label="${esc(aria)}">
+          <span class="tg-bars">${data.map((s, j) => `<span class="tg-bar ${two ? s.cls : ''}" style="height:${vals[j] / max * 100}%"></span>`).join('')}
+          ${now && !two ? `<span class="tg-val num" style="bottom:calc(${vals[0] / max * 100}% + 4px)">${fmt.format(vals[0])}</span>` : ''}</span>
+          <span class="tg-lab">${labelOf(x.d, i, n)}</span></button>`;
+      }).join('')}</div>
+    </div></div></div><div class="tip" id="tip"></div>`;
+  body.querySelectorAll('.tg').forEach((el) => {
+    const i = +el.dataset.i;
+    const html = `<b>${fullLabel(data[0].cur[i].d)}</b>${data.map((s) => `<br>${two ? `<i style="background: var(${s.color})"></i>` : ''}${s.name}: <b class="num">${fmt.format(s.cur[i].v)}</b> ${mod.unit}`).join('')}`;
+    bindTip(el, html, () => el.querySelector('.tg-bars'));
+    el.onclick = () => toast(`Mở «${mod.trend.list}», lọc ${S.range === '12m' ? 'tháng' : 'ngày'} = ${fullLabel(data[0].cur[i].d)}.`);
+  });
+}
+
+function bindTip(el, html, anchor) {
+  const show = () => {
+    const tip = $('tip'); if (!tip) return;
+    const host = $('chart').getBoundingClientRect();
+    const a = anchor().getBoundingClientRect();
+    const bars = [...el.querySelectorAll('.col-fill, .tg-bar')].map((x) => x.getBoundingClientRect().top);
+    const top = Math.min(...bars, a.bottom);
+    tip.innerHTML = html;
+    const half = tip.offsetWidth / 2;
+    const x = Math.min(Math.max(a.left + a.width / 2 - host.left, half), host.width - half);
+    tip.style.left = x + 'px';
+    tip.style.top = Math.max(top - host.top, tip.offsetHeight + 8) + 'px';
+    tip.classList.add('on');
+  };
+  const hide = () => $('tip')?.classList.remove('on');
+  el.addEventListener('pointerenter', show); el.addEventListener('focus', show);
+  el.addEventListener('pointerleave', hide); el.addEventListener('blur', hide);
+}
+
+function renderTasks() {
+  const role = ROLES[S.role];
+  const all = role.tasks;
+  const counts = { all: all.length, urgent: all.filter((t) => t.st === 'urgent').length, overdue: all.filter((t) => t.st === 'overdue').length };
+  $('tk-count').textContent = S.state === 'normal' ? all.length : '';
+  $('tk-filter').innerHTML = [['all', 'Tất cả'], ['urgent', 'Khẩn'], ['overdue', 'Quá hạn']].map(([k, n]) =>
+    `<button data-f="${k}" aria-pressed="${S.filter === k}">${n}${S.state === 'normal' ? ` <span class="num">${counts[k]}</span>` : ''}</button>`).join('');
+  const el = $('tasks');
+  if (S.state === 'loading') { el.innerHTML = Array.from({ length: 4 }, () => `<li class="task" aria-hidden="true"><span class="sk" style="width:40px;height:40px;border-radius:50%"></span><span><span class="sk" style="display:block;height:13px;width:80%"></span><span class="sk" style="display:block;height:10px;width:50%;margin-top:6px"></span></span><span></span></li>`).join(''); return; }
+  if (S.state === 'error') { el.innerHTML = `<li class="state err" role="alert"><span class="big">${ic('alert')}</span><p><strong>Không tải được việc cần làm.</strong></p><button class="btn" data-retry>${ic('refresh')}Thử lại</button></li>`; return; }
+  const list = S.state === 'empty' ? [] : all.filter((t) => S.filter === 'all' || t.st === S.filter);
+  if (list.length === 0) { el.innerHTML = `<li class="state"><span class="big">${ic('done')}</span><p><strong>Không còn việc nào${S.filter === 'all' ? '' : ' ở mục này'}.</strong><br>Việc mới được giao sẽ hiện ở đây.</p></li>`; return; }
+  const hot = list.findIndex((t) => t.st);
+  el.innerHTML = list.map((t, i) => {
+    const c = t.st === 'overdue' ? 'var(--danger)' : t.st === 'urgent' ? 'var(--warning)' : 'var(--primary)';
+    const badge = t.st === 'overdue' ? `<span class="badge danger">${ic('clock')}Quá hạn</span>` : t.st === 'urgent' ? `<span class="badge warning">${ic('alert')}Khẩn</span>` : '';
+    return `<li class="task ${i === hot ? 'is-hot' : ''}" tabindex="0" data-toast="Mở ${t.kind}: ${esc(t.t)}.">
+      <span class="ring" style="--c:${c};--p:${t.p}" aria-hidden="true">${ic(t.icon)}</span>
+      <div><p class="t-title">${esc(t.t)}</p><p class="t-meta">${t.kind} · ${t.due} ${badge}</p></div>
+      <button class="go" aria-label="Mở việc">${ic('right')}</button></li>`;
+  }).join('');
+}
+
+function renderAll() {
+  const role = ROLES[S.role];
+  if (!role.mods.includes(S.mod)) {
+    const saved = store.get('tapetco.home.mod.' + S.role);
+    S.mod = role.mods.includes(saved) ? saved : role.mods[0] ?? null;
+  }
+  document.querySelectorAll('.pseg').forEach((g) => g.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', S[g.dataset.ctl] === b.dataset.v)));
+  renderNav(); renderHero(); renderMods(); renderKpis(); renderChart(); renderTasks(); fadeFavs();
+}
+
+document.addEventListener('click', (e) => {
+  const c = e.target.closest('.pseg button');
+  if (c) {
+    const k = c.closest('.pseg').dataset.ctl; S[k] = c.dataset.v;
+    if (k === 'theme') applyTheme();
+    if (k === 'role') S.filter = 'all';
+    renderAll(); return;
+  }
+  const m = e.target.closest('[data-mod]');
+  if (m) { S.mod = m.dataset.mod; store.set('tapetco.home.mod.' + S.role, S.mod); renderMods(); renderKpis(); renderChart(); return; }
+  const r = e.target.closest('#ranges button');
+  if (r) { S.range = r.dataset.r; renderChart(); return; }
+  const f = e.target.closest('#tk-filter button');
+  if (f) { S.filter = f.dataset.f; renderTasks(); return; }
+  if (e.target.closest('[data-retry]')) { S.state = 'normal'; renderAll(); return; }
+  if (e.target.closest('#theme-btn')) { themeMenu(!$('menu').classList.contains('on')); return; }
+  const tv = e.target.closest('[data-theme-v]');
+  if (tv) { S.theme = tv.dataset.themeV; applyTheme(); themeMenu(false); $('theme-btn').focus(); renderAll(); return; }
+  if (!e.target.closest('#menu')) themeMenu(false);
+  if (e.target.closest('#tbl-btn')) { S.table = !S.table; renderChart(); return; }
+  if (e.target.closest('#open-src')) { const mod = MODS[S.mod]; if (mod) toast(`Mở «${S.range === 'today' ? mod.today.list : mod.trend.list}» với bộ lọc của biểu đồ.`); return; }
+  const t = e.target.closest('[data-toast]');
+  if (t) { e.preventDefault(); toast(t.dataset.toast); }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && $('menu').classList.contains('on')) { themeMenu(false); $('theme-btn').focus(); return; }
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.task')) { e.preventDefault(); toast(e.target.dataset.toast); }
+});
+
+// Icon tĩnh trong HTML
+document.querySelectorAll('svg[data-i]').forEach((s) => { s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('aria-hidden', 'true'); s.innerHTML = ICONS[s.dataset.i]; });
+S.theme = 'system';
+applyTheme();
+renderAll();
+$('favs').addEventListener('scroll', fadeFavs);
+addEventListener('resize', fadeFavs);
+</script>
+</body>
+</html>

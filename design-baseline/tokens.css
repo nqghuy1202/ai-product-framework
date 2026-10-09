@@ -1,11 +1,16 @@
 /* ai-product-framework — token nền [MẶC ĐỊNH].
    Ba chế độ: không data-theme = Sáng · data-theme="hc" = Sáng chói · data-theme="dark" = Tối.
    Đổi màu thương hiệu: chỉ thay nhóm --ds-color-primary* (đủ 3 chế độ). Không viết mã màu ở nơi khác.
-   Dùng với Tailwind v4: @import "tailwindcss"; @import "./tokens.css"; */
+   Dùng với Tailwind v4: @import "tailwindcss"; @import "./tokens.css";
+   v2 (0.1.4, đúc kết Tapetco giao diện v2, 08–09/10/2026) [MẶC ĐỊNH]: nền trang ngả xanh nhạt, thẻ trắng bo 20 px không viền nổi bằng
+   --elevation-card; Sáng chói giữ nền trắng, thẻ có viền, không bóng. Dự án muốn giữ kiểu "nền trắng, thẻ viền" thì đặt lại
+   --ds-color-background bằng surface, --elevation-card: none và cho .ui-card viền border. */
 
 :root {
   /* Màu — Sáng */
-  --ds-color-background: #FFFFFF;
+  --ds-color-background: #EEF2F7;  /* v2: nền trang ngả xanh nhạt để thẻ trắng nổi lên */
+  --ds-color-bg-glow: #DCE7F5;     /* v2: quầng nhạt góc trên phải của nền (tuỳ chọn) */
+  --ds-color-shadow-card: #101828; /* v2: màu nét bóng thẻ, chỉ dùng pha trong suốt */
   --ds-color-surface: #FFFFFF;
   --ds-color-surface-muted: #F4F5F7;
   --ds-color-surface-sunken: #E9EBEE;
@@ -42,7 +47,7 @@
   --ds-rounded-md: 6px;   /* ô nhập, ô chọn, nút icon thanh đầu */
   --ds-rounded-lg: 8px;   /* nút, mục menu, chip lọc */
   --ds-rounded-xl: 12px;  /* hộp thoại, popover, khung danh sách */
-  --ds-rounded-card: 16px;/* thẻ, KPI */
+  --ds-rounded-card: 20px;/* v2: thẻ, KPI, khung danh sách, khối trang chủ (cũ 16) */
   --ds-rounded-full: 9999px;
 
   /* Khoảng cách: thang 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 */
@@ -96,6 +101,8 @@
   --elevation-1: 0 1px 2px color-mix(in srgb, var(--ds-color-text) 6%, transparent);
   --elevation-2: 0 8px 24px color-mix(in srgb, var(--ds-color-text) 16%, transparent);
   --soft-shadow: 0 6px 22px color-mix(in srgb, var(--ds-color-primary) 15%, transparent);
+  /* v2: bóng thẻ nhẹ hai lớp (máy tính và điện thoại), thay cho viền thẻ */
+  --elevation-card: 0 1px 2px color-mix(in srgb, var(--ds-color-shadow-card) 4%, transparent), 0 6px 20px color-mix(in srgb, var(--ds-color-shadow-card) 5%, transparent);
   --control-h: var(--ds-size-control-height-desktop);
   --primary-h: var(--ds-size-control-height-desktop);
   --body-size: var(--ds-type-body-size);
@@ -104,6 +111,7 @@
 }
 
 [data-theme="hc"] {
+  --ds-color-background: #FFFFFF;
   --ds-color-surface-muted: #F1F5F9;
   --ds-color-surface-sunken: #E2E8F0;
   --ds-color-border: #0F172A;
@@ -127,6 +135,7 @@
   --elevation-1: none;
   --elevation-2: none;
   --soft-shadow: none;
+  --elevation-card: none;
   --body-size: var(--ds-type-body-touch-size);
   --label-size: var(--ds-type-label-touch-size);
 }
@@ -163,6 +172,8 @@
   --ds-color-chart-2: #D95926;
   --ds-color-chart-3: #199E70;
   --ds-color-chart-4: #C98500;
+  --ds-color-bg-glow: #12233F;
+  --elevation-card: 0 1px 2px color-mix(in srgb, var(--ds-color-shadow-card) 30%, transparent), 0 6px 20px color-mix(in srgb, var(--ds-color-shadow-card) 25%, transparent);
   color-scheme: dark;
 }
 
@@ -230,6 +241,7 @@
   --shadow-level-1: var(--elevation-1);
   --shadow-level-2: var(--elevation-2);
   --shadow-soft: var(--soft-shadow);
+  --shadow-card: var(--elevation-card);
 }
 
 /* Nền chung */
@@ -248,3 +260,8 @@ body { font-family: var(--ds-font-sans); font-size: var(--body-size); line-heigh
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
+
+/* v2: thẻ chuẩn. Sáng chói: viền thay bóng. */
+.ui-card { background: var(--ds-color-surface); border: 0; border-radius: var(--ds-rounded-card); box-shadow: var(--elevation-card); padding: 20px; }
+[data-theme="hc"] .ui-card { border: var(--border-w) solid var(--ds-color-border); }
+@media (max-width: 767px) { .ui-card { padding: 16px; } }

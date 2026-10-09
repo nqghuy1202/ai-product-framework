@@ -1,6 +1,6 @@
 # Bộ quy tắc thiết kế nền (design baseline)
 
-Đúc kết từ các vòng "xem, chê, sửa" thật trên dự án Tapetco ERP (01–06/10/2026). Ở chỗ code và spec lệch nhau, bộ này theo code, vì code mới hơn spec.
+Đúc kết từ các vòng "xem, chê, sửa" thật trên dự án Tapetco ERP (01–06/10/2026), cập nhật **giao diện v2** (08–09/10/2026, bản 0.1.4: nền ngả xanh, thẻ không viền có bóng, danh sách và biểu mẫu v2, trang chủ v2.1, đăng nhập v2). Ở chỗ code và spec lệch nhau, bộ này theo code, vì code mới hơn spec.
 
 ## Ba loại quy tắc
 | Nhãn | Nghĩa | Đổi được không |
@@ -23,6 +23,7 @@
 | `pitfalls.md` | Các bẫy kỹ thuật đã gặp (CSS toàn cục, Radix, tràn lưới, SSR...) |
 | `checklist.md` | Danh sách kiểm một màn hình trước khi báo xong |
 | `screens/`, `capture-screens.mjs` | Ảnh tham chiếu 3 cỡ của các màn chuẩn, và script chụp bằng Playwright |
+| `mockups-v2/` | 5 bản thử HTML v2 đã duyệt (danh sách, biểu mẫu, trang chủ v2 và v2.1, đăng nhập), chỉ để tham chiếu cách làm |
 
 ## Cách dùng trong dự án
 1. `/apf:ux` đọc bộ này, hỏi người dùng phần bản sắc, rồi viết `docs/ux/DESIGN.md` và `docs/ux/EXPERIENCE.md` của dự án. Hai file đó chỉ ghi **phần khác** so với nền và trỏ về nền cho phần còn lại.

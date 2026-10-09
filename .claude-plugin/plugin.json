@@ -1,7 +1,7 @@
 {
   "name": "apf",
   "displayName": "ai-product-framework",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Quy trình làm sản phẩm với Claude Code: khai thác nghiệp vụ → PRD → kiến trúc + UX → story → Opus dựng khung + test đỏ → Sonnet code → review theo rủi ro. Kèm cổng commit, đồng bộ doc↔code, bảo mật, vận hành, chạy song song — bật theo cấu hình từng dự án.",
   "author": {
     "name": "nqghuy1202"

@@ -9,6 +9,16 @@ Ghi rõ dòng nào **đã thử trên trình duyệt** và ở cỡ nào; dòng 
 - [ ] Danh sách tràn mép (máy tính, tablet), cao hết màn nếu trang chỉ có danh sách.
 - [ ] Hàng trường phủ đủ 12 cột; không khoảng trống trong hàng công cụ.
 - [ ] Không lồng khung trong khung; không đệm gấp đôi.
+- [ ] v2: thẻ, khung danh sách, khối dùng thẻ chuẩn (bo 20, không viền, bóng thẻ); không còn `rounded-lg border border-border` tự viết.
+- [ ] v2: nút dùng lớp nút chung (`lv2-btn` / `lv2-btn primary`), ô nhập dùng chuẩn ô chung; không còn `rounded-md bg-primary px-3…` hay `h-9 border-border-strong`.
+- [ ] v2: không có bảng HTML trần trong trang chi tiết (dùng bảng tĩnh v2 hoặc lưới chỉ xem).
+- [ ] v2: danh sách có ô tìm mọi cột, hàng ô lọc thu gọn được, dòng chú thích phím tắt ở chân cách viền.
+- [ ] v2: lưới nhập — khung ô chỉ khi sửa, bấm trong ô không thoát, ô đổi chỉ chấm, Lưu hiện ngay khi gõ, F2 con trỏ cuối.
+- [ ] v2: biểu mẫu — thanh đầu dính (⋮ · Bỏ thay đổi · Lưu · Hoàn thành), dải Tình trạng, nhóm đầu luôn mở, lỗi chỉ khi Lưu.
+- [ ] v2: ngăn kéo — ✕ ở đầu, chân Khôi phục · Đóng · Xong, Đóng huỷ thay đổi, xem trước ngay.
+
+## Rà soát toàn hệ thống (khi đổi phiên bản giao diện)
+- [ ] Quét code tìm kiểu cũ: `<table` trần, `rounded-(md|lg) border border-border`, lớp nút tự viết, hằng `INPUT` kiểu cũ; xem trực tiếp các trang nghi vấn ở máy tính và điện thoại; báo danh sách đã sửa và đã giữ nguyên kèm lý do.
 
 ## Trạng thái (`states.md`)
 - [ ] Đang tải (skeleton) · rỗng · rỗng do lọc · lỗi tải tại khối · lỗi lưu giữ dữ liệu · không quyền (ẩn) · đã khoá · có thay đổi chưa lưu (hỏi khi rời trang) · xung đột đồng thời.
